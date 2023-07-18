@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using API.AUTH.Dto.user.Token;
 using API.AUTH.Interface;
+using System.Security.Cryptography;
 
 namespace API.AUTH.Controllers
 {
@@ -28,6 +29,16 @@ namespace API.AUTH.Controllers
             {
 
                 return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("generate-key")]
+        public string GenerateKey()
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var keyBytes = new byte[256 / 8];
+                rng.GetBytes(keyBytes);
+                return Convert.ToBase64String(keyBytes);
             }
         }
 
