@@ -36,8 +36,11 @@ namespace API.AUTH.Service.ClaimsType
             _context.TyepClaimsModel.Add(obj);
             await _context.SaveChangesAsync();
 
+            var result = await GetById(obj.Id);
 
-            return _mapper.Map<TypeClaimsModel, ReturnTypeClaimsDto>(obj);
+
+
+            return _mapper.Map<ReturnTypeClaimsDto, ReturnTypeClaimsDto>(result);
 
         }
         public async Task<List<ReturnTypeClaimsDto>> GetAll()
@@ -67,7 +70,10 @@ namespace API.AUTH.Service.ClaimsType
         public async Task<ReturnTypeClaimsDto> GetById(Guid id)
         {
             var claim = await _context.TyepClaimsModel
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
                 .FirstOrDefaultAsync(x => x.Id == id) ??
+
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
             return _mapper.Map<TypeClaimsModel, ReturnTypeClaimsDto>(claim);
@@ -76,6 +82,8 @@ namespace API.AUTH.Service.ClaimsType
         public async Task<ReturnTypeClaimsDto> GetByName(string ClaimName)
         {
             var claim = await _context.TyepClaimsModel
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
                 .FirstOrDefaultAsync(x => x.Name == ClaimName.ToUpper()) ??
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
@@ -85,6 +93,8 @@ namespace API.AUTH.Service.ClaimsType
         public async Task<ReturnTypeClaimsDto> GetByValue(string ClaimValue)
         {
             var claim = await _context.TyepClaimsModel
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
                 .FirstOrDefaultAsync(x => x.Value == ClaimValue.ToUpper()) ??
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
@@ -94,6 +104,8 @@ namespace API.AUTH.Service.ClaimsType
         public async Task<ReturnTypeClaimsDto> GetByValueAndName(string ClaimValue, string ClaimName)
         {
             var claim = await _context.TyepClaimsModel
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
                 .FirstOrDefaultAsync(x => x.Value == ClaimValue.ToUpper() && x.Name == ClaimName) ??
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
