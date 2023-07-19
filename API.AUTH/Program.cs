@@ -1,5 +1,6 @@
 using API.AUTH.ContextBase;
 using API.AUTH.Interface;
+using API.AUTH.Service.ClaimsType;
 using API.AUTH.Service.JWT;
 using API.AUTH.Service.Mapper.Claims;
 using API.AUTH.Service.Mapper.Login;
@@ -35,6 +36,8 @@ builder.Services.AddEntityFrameworkNpgsql()
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICreateTokenService, CreateToken>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+
+builder.Services.AddScoped<IClaimsTypeService, ClaimsTypeService>();
 
 
 //mapping

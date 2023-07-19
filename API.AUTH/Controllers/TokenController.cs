@@ -34,7 +34,7 @@ namespace API.AUTH.Controllers
         [HttpGet("generate-key")]
         public string GenerateKey()
         {
-            using (var rng = new RNGCryptoServiceProvider())
+            using (var rng =  RandomNumberGenerator.Create())
             {
                 var keyBytes = new byte[256 / 8];
                 rng.GetBytes(keyBytes);

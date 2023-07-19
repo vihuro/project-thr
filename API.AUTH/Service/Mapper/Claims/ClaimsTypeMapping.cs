@@ -11,8 +11,8 @@ namespace API.AUTH.Service.Mapper.Claims
         {
             //DTO para Model
             CreateMap<RegisterClaimDto, TypeClaimsModel>()
-                .ForMember(x => x.Name, map => map.MapFrom(src => src.Name))
-                .ForMember(x => x.Value, map => map.MapFrom(src => src.Value))
+                .ForMember(x => x.Name, map => map.MapFrom(src => src.Name.ToUpper()))
+                .ForMember(x => x.Value, map => map.MapFrom(src => src.Value.ToUpper()))
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UsuarioId))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UsuarioId))
                 .ForMember(x => x.DataHoraCadatro, map => map.MapFrom(src => DateTime.UtcNow))

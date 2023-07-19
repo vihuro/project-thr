@@ -1,5 +1,7 @@
-﻿using API.AUTH.Dto.user;
+﻿using API.AUTH.Dto.Link;
+using API.AUTH.Dto.user;
 using API.AUTH.Dto.user.ReturnWithLink;
+using API.AUTH.Dto.user.Token;
 using API.AUTH.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +35,7 @@ namespace API.AUTH.Controllers
                     listOfUser.DataUsers.Add(new DataListUsersDto
                     {
                         User = item,
-                        Link = CreateSelfLinkGetAll(item.UsuarioId)
+                        Link = new List<LinkDto> { CreateSelfLinkId(item.UsuarioId) }
                     });
                 }
 
@@ -47,25 +49,20 @@ namespace API.AUTH.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ReturnUserDto>> GetById(Guid id)
+        public async Task<ActionResult<DataListUsersDto>> GetById(Guid id)
         {
             try
             {
-                var user = await _userService.GetById(id);
-                if (user == null)
-                    return NotFound();
+                var response = await _userService.GetById(id);
+                var listLisk = CreateLinks(response.UsuarioId, response.Apelido);
 
-                var response = new
+                var data = new DataListUsersDto
                 {
-                    user,
-                    links = new List<LinkDto>
-                    {
-                        CreateSelfLinkApelido(user.Apelido),
-                        CreateUpdatePasswordLink(id),
-                        CreateDeleteLink(id)
-                    }
+                    Link = listLisk,
+                    User = response
                 };
-                return Ok(response);
+
+                return Ok(data);
             }
             catch (Exception ex)
             {
@@ -74,23 +71,20 @@ namespace API.AUTH.Controllers
         }
 
         [HttpGet("apelido/{apelido}")]
-        public async Task<ActionResult<ReturnUserDto>> GetByNome(string apelido)
+        public async Task<ActionResult<DataListUsersDto>> GetByNome(string apelido)
         {
             try
             {
-                var user = await _userService.GetByUserName(apelido);
-                var response = new
+                var response = await _userService.GetByUserName(apelido);
+                var listLisk = CreateLinks(response.UsuarioId, response.Apelido);
+
+                var data = new DataListUsersDto
                 {
-                    user,
-                    links = new List<LinkDto>
-                    {
-                        CreateSelfLinkId(user.UsuarioId),
-                        CreateUpdatePasswordLink(user.UsuarioId),
-                        CreateUpdatePasswordOrActiveLink(user.UsuarioId),
-                        CreateDeleteLink(user.UsuarioId)
-                    }
+                    Link = listLisk,
+                    User = response
                 };
-                return Ok(response);
+
+                return Ok(data);
 
             }
             catch (Exception ex)
@@ -102,7 +96,7 @@ namespace API.AUTH.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Login(LoginDto dto)
+        public async Task<ActionResult<TokenDto>> Login(LoginDto dto)
         {
             try
             {
@@ -110,29 +104,26 @@ namespace API.AUTH.Controllers
             }
             catch (Exception ex)
             {
+                if(ex.HResult == 401) return Unauthorized(ex.Message);
 
                 return BadRequest(ex.Message);
             }
         }
         [HttpPost("created")]
-        public async Task<ActionResult<ReturnUserDto>> Insert(RegisterUserDto dto)
+        public async Task<ActionResult<DataListUsersDto>> Insert(RegisterUserDto dto)
         {
             try
             {
-                var obj = await _userService.Insert(dto);
-                var response = new
-                {
-                    obj,
-                    links = new List<LinkDto>
-                    {
-                        CreateSelfLinkId(obj.UsuarioId),
-                        CreateUpdatePasswordLink(obj.UsuarioId),
-                        CreateUpdatePasswordOrActiveLink(obj.UsuarioId),
-                        CreateDeleteLink(obj.UsuarioId)
-                    }
+                var response = await _userService.Insert(dto);
+                var listLisk = CreateLinks(response.UsuarioId, response.Apelido);
 
+                var data = new DataListUsersDto
+                {
+                    Link = listLisk,
+                    User = response
                 };
-                return Ok(response);
+
+                return Ok(data);
             }
             catch (Exception ex)
             {
@@ -142,11 +133,20 @@ namespace API.AUTH.Controllers
         }
 
         [HttpPut("changePassword")]
-        public async Task<ActionResult<ReturnUserDto>> ChangePassword(ChangePassword dto)
+        public async Task<ActionResult<DataListUsersDto>> ChangePassword(ChangePassword dto)
         {
             try
             {
-                return Ok(await _userService.ChangePassword(dto));
+                var response = await _userService.ChangePassword(dto);
+                var listLisk = CreateLinks(response.UsuarioId, response.Apelido);
+
+                var data = new DataListUsersDto
+                {
+                    Link = listLisk,
+                    User = response
+                };
+
+                return Ok(data);
             }
             catch (Exception ex)
             {
@@ -156,11 +156,20 @@ namespace API.AUTH.Controllers
             }
         }
         [HttpPut("changePasswordOrActive")]
-        public async Task<ActionResult<ReturnUserDto>> ChangePasswordOrActive(ChangePasswordOrActive dto)
+        public async Task<ActionResult<DataListUsersDto>> ChangePasswordOrActive(ChangePasswordOrActive dto)
         {
             try
             {
-                return Ok(await _userService.ChangePasswordOrActive(dto));
+                var response = await _userService.ChangePasswordOrActive(dto);
+                var listLisk = CreateLinks(response.UsuarioId, response.Apelido);
+
+                var data = new DataListUsersDto
+                {
+                    Link = listLisk,
+                    User = response
+                };
+
+                return Ok(data);
             }
             catch (Exception ex)
             {
@@ -198,6 +207,22 @@ namespace API.AUTH.Controllers
             }
         }
 
+        private List<LinkDto> CreateLinks(Guid id, string apelido)
+        {
+            var list = new List<LinkDto>
+            {
+                CreateGetAllLink(),
+                CreateSelfLinkApelido(apelido),
+                CreateSelfLinkId(id),
+                CreateUpdatePasswordLink(id),
+                CreateUpdatePasswordOrActiveLink(id),
+                CreateDeleteLink(id)
+            };
+
+
+            return list;
+        }
+
         private LinkDto CreateSelfLinkGetAll(Guid id)
         {
             var link = new LinkDto
@@ -209,12 +234,12 @@ namespace API.AUTH.Controllers
             return link;
         }
 
-        private LinkDto CreateSelfLinkApelido(string id)
+        private LinkDto CreateSelfLinkApelido(string apelido)
         {
             var link = new LinkDto
             {
                 Rel = "self",
-                Href = Url.Action(nameof(GetById), new { id }),
+                Href = Url.Action(nameof(GetByNome), new { apelido }),
                 Method = HttpMethod.Get.Method
             };
             return link;
@@ -258,6 +283,16 @@ namespace API.AUTH.Controllers
                 Href = Url.Action(nameof(DeleteUser), new { id }),
                 Method = HttpMethod.Delete.Method
             };
+        }
+        private LinkDto CreateGetAllLink()
+        {
+            var link = new LinkDto
+            {
+                Rel = "self",
+                Href = Url.Action(nameof(GetAll)),
+                Method = HttpMethod.Get.Method
+            };
+            return link;
         }
 
     }
