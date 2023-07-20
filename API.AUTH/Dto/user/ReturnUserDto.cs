@@ -1,8 +1,9 @@
 ﻿using API.AUTH.Dto.Claims;
+using AuthUser.MessageBus;
 
 namespace API.AUTH.Dto.user
 {
-    public class ReturnUserDto
+    public class ReturnUserDto : BaseMessage
     {
         public Guid UsuarioId { get; set; }
         public string Nome { get; set; }

@@ -2,6 +2,7 @@
 using API.AUTH.Dto.user;
 using API.AUTH.Models.Claims;
 using API.AUTH.Models.User;
+using AuthUser.MessageBus;
 using AutoMapper;
 using static BCrypt.Net.BCrypt;
 
@@ -27,9 +28,9 @@ namespace API.AUTH.Service.Mapper.Login
 
             //De Model para DTO
             CreateMap<UserModel, ReturnUserDto>()
+                .ForMember(x => x.UsuarioId, map => map.MapFrom(src => src.Id))
                 .ForMember(x => x.Nome, map => map.MapFrom(src => src.Nome))
                 .ForMember(x => x.Apelido, map => map.MapFrom(src => src.Apelido))
-                .ForMember(x => x.UsuarioId, map => map.MapFrom(src => src.Id))
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => src.DataHoraCadastro))
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => src.DataHoraAlteracao))
                 .ForPath(x => x.Claims, map => map.MapFrom(src => src.ClaimsForUser.Select(c => new ReturnClaimsForUser()
@@ -42,8 +43,9 @@ namespace API.AUTH.Service.Mapper.Login
 
             CreateMap<ReturnUserDto, UserModel>()
                 .ForMember(x => x.Nome, map => map.MapFrom(src => src.Nome))
-                .ForMember(x => x.Apelido, map => map.MapFrom(src => src.Apelido))
-                .ForMember(x => x.Id, map => map.MapFrom(src => src.UsuarioId));
+                .ForMember(x => x.Apelido, map => map.MapFrom(src => src.Apelido));
+
+
         }
     }
 }

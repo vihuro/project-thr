@@ -1,5 +1,6 @@
 using API.AUTH.ContextBase;
 using API.AUTH.Interface;
+using API.AUTH.RabbitMQSender;
 using API.AUTH.Service;
 using API.AUTH.Service.ClaimsType;
 using API.AUTH.Service.JWT;
@@ -41,6 +42,8 @@ builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
 builder.Services.AddScoped<IClaimsTypeService, ClaimsTypeService>();
 builder.Services.AddScoped<IClaimsForUserService, ClaimsForUserService>();
+
+builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 
 
 //mapping

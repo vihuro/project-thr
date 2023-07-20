@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7pF/Sg1vLUxiICL0bgDe0tdLtqbdLoilC++tNLjW3+Zp2cTcui+GHt0/oYlga9zFCtrLP17c3R155YqUiq6h3Q==",
+  "dgSpecHash": "oZGAnF5dDJ8hyc5sKdB5fIl59CTUfWh6NF0rium892BErrpwPNZVN/mPm+9BoUyMVQnmzTOFh5YiMAsj4WsFeQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thr\\Desktop\\.NET\\ThrApi\\api.estoque_grm_matriz\\API.ESTOQUE_GRM_MATRIZ.csproj",
+  "projectFilePath": "C:\\Users\\thr\\Desktop\\.NET\\ThrApi\\API.ESTOQUE_GRM_MATRIZ\\API.ESTOQUE_GRM_MATRIZ.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thr\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\thr\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

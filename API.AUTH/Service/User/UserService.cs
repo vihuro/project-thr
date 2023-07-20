@@ -3,6 +3,7 @@ using API.AUTH.Dto.user;
 using API.AUTH.Dto.user.Token;
 using API.AUTH.Interface;
 using API.AUTH.Models.User;
+using API.AUTH.RabbitMQSender;
 using AutoMapper;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,17 @@ namespace API.AUTH.Service.User
         private readonly Context _context;
         private readonly IMapper _mapper;
         private readonly ICreateTokenService _createTokenService;
+        private readonly IRabbitMQMessageSender _sender;
 
         public UserService(Context context,
                             IMapper mapper,
-                            ICreateTokenService createTokenService)
+                            ICreateTokenService createTokenService,
+                            IRabbitMQMessageSender sender)
         {
             _context = context;
             _mapper = mapper;
             _createTokenService = createTokenService;
+            _sender = sender;
         }
 
         public async Task<ReturnUserDto> ChangePassword(ChangePassword dto)
@@ -140,7 +144,11 @@ namespace API.AUTH.Service.User
             _context.UserModels.Add(obj);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<UserModel, ReturnUserDto>(obj);
+            var user = _mapper.Map<UserModel, ReturnUserDto>(obj);
+
+            _sender.SendMessage(user, "ckeckoutQueue");
+
+            return user;
         }
 
         public async Task<TokenDto> Login(LoginDto dto)
