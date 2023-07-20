@@ -13,7 +13,7 @@ namespace API.AUTH.Models.User
         public bool Ativo { get; set; }
         public DateTime DataHoraCadastro { get; set; }
         public DateTime DataHoraAlteracao { get; set; }
-        public List<ClaimsForUserModel> ClaimsForUser { get; set; }
+        public virtual List<ClaimsForUserModel> ClaimsForUser { get; set; }
 
     }
 }

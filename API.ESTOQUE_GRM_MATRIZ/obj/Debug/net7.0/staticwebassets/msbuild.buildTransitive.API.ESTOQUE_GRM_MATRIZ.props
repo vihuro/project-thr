@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\API.ESTOQUE_GRM_MATRIZ.props" />
+</Project>
