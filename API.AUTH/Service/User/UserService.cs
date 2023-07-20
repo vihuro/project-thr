@@ -55,6 +55,17 @@ namespace API.AUTH.Service.User
 
             return _mapper.Map<UserModel, ReturnUserDto>(user);
         }
+        public async Task<ReturnUserDto> ChangeDateTimeChange(Guid id)
+        {
+            var obj = await _context.UserModels
+                .FirstOrDefaultAsync(x => x.Id == id) ??
+                throw new CustomException("Usuário não encontrado") { HResult = 404};
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            _context.UserModels.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
 
         public async Task<bool> DeleteAll()
         {
@@ -98,6 +109,7 @@ namespace API.AUTH.Service.User
                 .FirstOrDefaultAsync(x => x.Id == id) ??
 
             throw new CustomException("Usuário não econtrado") { HResult = 404 };
+
 
             return _mapper.Map<UserModel, ReturnUserDto>(obj);
         }

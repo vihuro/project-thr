@@ -1,5 +1,6 @@
 ﻿using API.AUTH.Dto.user;
 using API.AUTH.Dto.user.Token;
+using System.Threading.Tasks;
 
 namespace API.AUTH.Interface
 {
@@ -12,6 +13,7 @@ namespace API.AUTH.Interface
         Task<TokenDto> Login(LoginDto dto);
         Task<ReturnUserDto> ChangePassword(ChangePassword dto);
         Task<ReturnUserDto> ChangePasswordOrActive(ChangePasswordOrActive dto);
+        Task<ReturnUserDto> ChangeDateTimeChange(Guid id);
         Task<bool> DeleteUser(Guid id);
         Task<bool> DeleteAll();
         

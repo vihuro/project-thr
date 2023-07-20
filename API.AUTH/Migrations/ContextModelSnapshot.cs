@@ -28,23 +28,27 @@ namespace API.AUTH.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClaimsId")
+                    b.Property<Guid>("TypeClaimsId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("TypeClaimsId")
+                    b.Property<Guid>("UserChangeId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserClaimId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserClaimsId")
+                    b.Property<Guid>("UserRegisterId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TypeClaimsId");
 
-                    b.HasIndex("UserClaimsId");
+                    b.HasIndex("UserChangeId");
+
+                    b.HasIndex("UserClaimId");
+
+                    b.HasIndex("UserRegisterId");
 
                     b.ToTable("tab_claimsForUser");
                 });
@@ -115,15 +119,35 @@ namespace API.AUTH.Migrations
                 {
                     b.HasOne("API.AUTH.Models.Claims.TypeClaimsModel", "TypeClaims")
                         .WithMany()
-                        .HasForeignKey("TypeClaimsId");
+                        .HasForeignKey("TypeClaimsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("API.AUTH.Models.User.UserModel", "UserClaims")
+                    b.HasOne("API.AUTH.Models.User.UserModel", "UserChange")
+                        .WithMany()
+                        .HasForeignKey("UserChangeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.AUTH.Models.User.UserModel", "UserClaim")
                         .WithMany("ClaimsForUser")
-                        .HasForeignKey("UserClaimsId");
+                        .HasForeignKey("UserClaimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.AUTH.Models.User.UserModel", "UserRegister")
+                        .WithMany()
+                        .HasForeignKey("UserRegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TypeClaims");
 
-                    b.Navigation("UserClaims");
+                    b.Navigation("UserChange");
+
+                    b.Navigation("UserClaim");
+
+                    b.Navigation("UserRegister");
                 });
 
             modelBuilder.Entity("API.AUTH.Models.Claims.TypeClaimsModel", b =>

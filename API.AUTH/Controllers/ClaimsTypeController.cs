@@ -1,9 +1,6 @@
 ﻿using API.AUTH.Dto.Claims;
 using API.AUTH.Dto.Claims.ReturnWithLink;
-using API.AUTH.Dto.Link;
-using API.AUTH.Dto.user;
 using API.AUTH.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.AUTH.Controllers
@@ -20,29 +17,23 @@ namespace API.AUTH.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ReturnTypeClaimsLinkDto>> GetAll()
+        public async Task<ActionResult<ReturnTypeListClaimsDto>> GetAll()
         {
             try
             {
                 var result = await _service.GetAll();
-                var link = new ReturnTypeClaimsLinkDto()
+                var response = new ReturnTypeListClaimsDto()
                 {
-                    TotalClaims = result.Count
+                    TotalClaims = result.Count,
+                    DataClaims = new List<ReturnTypeClaimsDto>()
                 };
 
-                foreach(var item in result)
+                foreach (var item in result)
                 {
-                    link.DataClaims.Add(new DataListClaimsTypeDto()
-                    {
-                        Claim = item,
-                        Links = new List<LinkDto>()
-                        {
-                            CreateSelfLinkClaimId(item.ClaimId)
-                        }
-                    });
+                    response.DataClaims.Add(item);
                 }
 
-                return Ok(link);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -51,11 +42,12 @@ namespace API.AUTH.Controllers
             }
         }
         [HttpGet("id/{id}")]
-        public async Task<ActionResult<ReturnTypeClaimsLinkDto>> GetById(Guid id)
+        public async Task<ActionResult<ReturnTypeClaimsDto>> GetById(Guid id)
         {
             try
             {
                 var result = await _service.GetById(id);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -65,11 +57,20 @@ namespace API.AUTH.Controllers
             }
         }
         [HttpGet("name/{claimName}")]
-        public async Task<ActionResult<ReturnTypeClaimsLinkDto>> GetByName(string claimName)
+        public async Task<ActionResult<ReturnTypeListClaimsDto>> GetByName(string claimName)
         {
             try
             {
                 var result = await _service.GetByName(claimName);
+                var links = new ReturnTypeListClaimsDto
+                {
+                    TotalClaims = result.Count,
+                    DataClaims = new List<ReturnTypeClaimsDto>()
+                };
+                foreach (var item in result)
+                {
+                    links.DataClaims.Add(item);
+                }
 
                 return Ok(result);
             }
@@ -80,13 +81,22 @@ namespace API.AUTH.Controllers
             }
         }
         [HttpGet("value/{claimValue}")]
-        public async Task<ActionResult<ReturnTypeClaimsLinkDto>> GetByValue(string claimValue)
+        public async Task<ActionResult<ReturnTypeListClaimsDto>> GetByValue(string claimValue)
         {
             try
             {
                 var result = await _service.GetByValue(claimValue);
+                var response = new ReturnTypeListClaimsDto
+                {
+                    TotalClaims = result.Count,
+                    DataClaims = new List<ReturnTypeClaimsDto>()
+                };
+                foreach (var item in result)
+                {
+                    response.DataClaims.Add(item);
+                }
 
-                return Ok(result);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -95,7 +105,7 @@ namespace API.AUTH.Controllers
             }
         }
         [HttpGet("value-name/{claimValue},{claimName}")]
-        public async Task<ActionResult<ReturnTypeClaimsLinkDto>> GetByValueAndName(string claimValue, string claimName)
+        public async Task<ActionResult<ReturnTypeClaimsDto>> GetByValueAndName(string claimValue, string claimName)
         {
             try
             {
@@ -106,21 +116,15 @@ namespace API.AUTH.Controllers
             catch (Exception ex)
             {
                 if (ex.HResult == 404) return NotFound(ex.Message);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
         [HttpPost]
-        public async Task<ActionResult<DataListClaimsTypeDto>> Insert(RegisterClaimDto dto)
+        public async Task<ActionResult<ReturnTypeClaimsDto>> Insert(RegisterClaimDto dto)
         {
             try
             {
                 var result = await _service.Insert(dto);
-
-                var links = new DataListClaimsTypeDto
-                {
-                    Claim = result,
-                    Links = CreateLinks(result.ClaimId,result.ClaimName,result.ClaimValue)
-                };
 
                 return Ok(result);
             }
@@ -131,103 +135,47 @@ namespace API.AUTH.Controllers
             }
         }
         [HttpPut]
-        public async Task<ActionResult<ReturnTypeClaimsLinkDto>> Update()
+        public async Task<ActionResult<ReturnTypeListClaimsDto>> Update(RegisterClaimDto dto)
         {
             try
             {
-                return Ok(new ReturnTypeClaimsLinkDto());
+                return Ok(await _service.Update(dto));
             }
             catch (Exception ex)
             {
 
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
-        private List<LinkDto> CreateLinks(Guid id, string name, string value)
+        [HttpDelete]
+        public async Task<ActionResult<bool>> DeleteAll()
         {
-            var list = new List<LinkDto>
+            try
             {
-                CreateGetAllLink(),
-                CreateSelfLinkClaimName(name),
-                CreateSelfLinkClaimValue(value),
-                CreateSelfLinkClaimValueAndName(name, value),
-                CreateSelfLinkClaimId(id),
-                CreateUpdateLinkClaim(id),
-            };
+                var result = await _service.DeleteAll();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
 
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> DeleteById(Guid id)
+        {
+            try
+            {
+                var restul = await _service.DeleteById(id);
 
-            return list;
-        }
+                return Ok(restul);
+            }
+            catch (Exception ex)
+            {
 
-        private LinkDto CreateSelfLinkGetAll()
-        {
-            var link = new LinkDto
-            {
-                Rel = "self",
-                Href = Url.Action(nameof(GetAll)),
-                Method = HttpMethod.Get.Method
-            };
-            return link;
+                return BadRequest(ex);
+            }
         }
-        private LinkDto CreateSelfLinkClaimName(string name)
-        {
-            var link = new LinkDto
-            {
-                Rel = "self",
-                Href = Url.Action(nameof(GetByName), new { name }),
-                Method = HttpMethod.Get.Method
-            };
-            return link;
-        }
-        private LinkDto CreateSelfLinkClaimValue(string value)
-        {
-            var link = new LinkDto
-            {
-                Rel = "self",
-                Href = Url.Action(nameof(GetByValue), new { value }),
-                Method = HttpMethod.Get.Method
-            };
-            return link;
-        }
-        private LinkDto CreateSelfLinkClaimValueAndName(string value, string name)
-        {
-            var link = new LinkDto
-            {
-                Rel = "self",
-                Href = Url.Action(nameof(GetByValueAndName), new { value,name }),
-                Method = HttpMethod.Get.Method
-            };
-            return link;
-        }
-        private LinkDto CreateSelfLinkClaimId(Guid id)
-        {
-            var link = new LinkDto
-            {
-                Rel = "self",
-                Href = Url.Action(nameof(GetAll), new { id}),
-                Method = HttpMethod.Get.Method
-            };
-            return link;
-        }
-        private LinkDto CreateUpdateLinkClaim(Guid id)
-        {
-            return new LinkDto
-            {
-                Rel = "update",
-                Href = Url.Action(nameof(Update)),
-                Method = HttpMethod.Put.Method
-            };
-        }
-
-        private LinkDto CreateGetAllLink()
-        {
-            var link = new LinkDto
-            {
-                Rel = "self",
-                Href = Url.Action(nameof(GetAll)),
-                Method = HttpMethod.Get.Method
-            };
-            return link;
-        }
+       
     }
 }

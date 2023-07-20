@@ -62,10 +62,10 @@ namespace API.AUTH.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClaimsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TypeClaimsId = table.Column<Guid>(type: "uuid", nullable: true),
+                    TypeClaimsId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserClaimId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserClaimsId = table.Column<Guid>(type: "uuid", nullable: true)
+                    UserRegisterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserChangeId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,12 +74,26 @@ namespace API.AUTH.Migrations
                         name: "FK_tab_claimsForUser_tab_typeClaims_TypeClaimsId",
                         column: x => x.TypeClaimsId,
                         principalTable: "tab_typeClaims",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tab_claimsForUser_tab_user_UserClaimsId",
-                        column: x => x.UserClaimsId,
+                        name: "FK_tab_claimsForUser_tab_user_UserChangeId",
+                        column: x => x.UserChangeId,
                         principalTable: "tab_user",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_claimsForUser_tab_user_UserClaimId",
+                        column: x => x.UserClaimId,
+                        principalTable: "tab_user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_claimsForUser_tab_user_UserRegisterId",
+                        column: x => x.UserRegisterId,
+                        principalTable: "tab_user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -88,9 +102,19 @@ namespace API.AUTH.Migrations
                 column: "TypeClaimsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tab_claimsForUser_UserClaimsId",
+                name: "IX_tab_claimsForUser_UserChangeId",
                 table: "tab_claimsForUser",
-                column: "UserClaimsId");
+                column: "UserChangeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_claimsForUser_UserClaimId",
+                table: "tab_claimsForUser",
+                column: "UserClaimId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_claimsForUser_UserRegisterId",
+                table: "tab_claimsForUser",
+                column: "UserRegisterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_typeClaims_UsuarioAlteracaoId",

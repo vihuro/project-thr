@@ -56,7 +56,7 @@ namespace API.AUTH.Service.ClaimsType
 
         public Task<ReturnTypeClaimsDto> Update(RegisterClaimDto dto)
         {
-            throw new NotImplementedException();
+            return null;
         }
         private async Task<bool> VerifyClaim(string ClaimValue, string ClaimName)
         {
@@ -79,26 +79,28 @@ namespace API.AUTH.Service.ClaimsType
             return _mapper.Map<TypeClaimsModel, ReturnTypeClaimsDto>(claim);
         }
 
-        public async Task<ReturnTypeClaimsDto> GetByName(string ClaimName)
+        public async Task<List<ReturnTypeClaimsDto>> GetByName(string ClaimName)
         {
             var claim = await _context.TyepClaimsModel
                 .Include(u => u.UsuarioAlteracao)
                 .Include(u => u.UsuarioCadastro)
-                .FirstOrDefaultAsync(x => x.Name == ClaimName.ToUpper()) ??
+                .Where(x => x.Name == ClaimName.ToUpper())
+                .ToListAsync() ??
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
-            return _mapper.Map<TypeClaimsModel, ReturnTypeClaimsDto>(claim);
+            return _mapper.Map<List<TypeClaimsModel>, List<ReturnTypeClaimsDto>>(claim);
         }
 
-        public async Task<ReturnTypeClaimsDto> GetByValue(string ClaimValue)
+        public async Task<List<ReturnTypeClaimsDto>> GetByValue(string ClaimValue)
         {
             var claim = await _context.TyepClaimsModel
                 .Include(u => u.UsuarioAlteracao)
                 .Include(u => u.UsuarioCadastro)
-                .FirstOrDefaultAsync(x => x.Value == ClaimValue.ToUpper()) ??
+                .Where(x => x.Value == ClaimValue.ToUpper())
+                .ToListAsync() ??
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
-            return _mapper.Map<TypeClaimsModel, ReturnTypeClaimsDto>(claim);
+            return _mapper.Map<List<TypeClaimsModel>, List<ReturnTypeClaimsDto>>(claim);
         }
 
         public async Task<ReturnTypeClaimsDto> GetByValueAndName(string ClaimValue, string ClaimName)
@@ -110,6 +112,25 @@ namespace API.AUTH.Service.ClaimsType
             throw new CustomException("Regra não encontrada!") { HResult = 404 };
 
             return _mapper.Map<TypeClaimsModel, ReturnTypeClaimsDto>(claim);
+        }
+        public async Task<bool> DeleteAll()
+        {
+            var list = await _context.TyepClaimsModel
+                .ToListAsync();
+            _context.TyepClaimsModel.RemoveRange(list);
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+        public async Task<bool> DeleteById(Guid id)
+        {
+            var obj = await _context.TyepClaimsModel
+                                    .FirstOrDefaultAsync(x => x.Id == id);
+
+            _context.TyepClaimsModel.Remove(obj);
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

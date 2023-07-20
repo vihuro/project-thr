@@ -19,7 +19,7 @@ namespace API.AUTH.Service.Mapper.Login
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => true))
                 .ForPath(x => x.ClaimsForUser, map => map.MapFrom(src => src.Claims.Select(c => new ClaimsForUserModel()
                 {
-                    ClaimsId = c.ClaimId
+                    TypeClaimsId = c.ClaimId
 
                 })))
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
@@ -34,10 +34,16 @@ namespace API.AUTH.Service.Mapper.Login
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => src.DataHoraAlteracao))
                 .ForPath(x => x.Claims, map => map.MapFrom(src => src.ClaimsForUser.Select(c => new ReturnClaimsForUser()
                 {
-                    ClaimId = c.ClaimsId,
+                    id = c.Id,
+                    ClaimId = c.TypeClaimsId,
                     ClaimName = c.TypeClaims.Name,
                     ClaimValue = c.TypeClaims.Value,
                 })));
+
+            CreateMap<ReturnUserDto, UserModel>()
+                .ForMember(x => x.Nome, map => map.MapFrom(src => src.Nome))
+                .ForMember(x => x.Apelido, map => map.MapFrom(src => src.Apelido))
+                .ForMember(x => x.Id, map => map.MapFrom(src => src.UsuarioId));
         }
     }
 }

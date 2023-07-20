@@ -1,8 +1,10 @@
 using API.AUTH.ContextBase;
 using API.AUTH.Interface;
+using API.AUTH.Service;
 using API.AUTH.Service.ClaimsType;
 using API.AUTH.Service.JWT;
 using API.AUTH.Service.Mapper.Claims;
+using API.AUTH.Service.Mapper.ClaimsForUser;
 using API.AUTH.Service.Mapper.Login;
 using API.AUTH.Service.User;
 using API.AUTH.Utils;
@@ -38,6 +40,7 @@ builder.Services.AddScoped<ICreateTokenService, CreateToken>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
 builder.Services.AddScoped<IClaimsTypeService, ClaimsTypeService>();
+builder.Services.AddScoped<IClaimsForUserService, ClaimsForUserService>();
 
 
 //mapping
@@ -45,6 +48,7 @@ builder.Services.AddAutoMapper(x =>
 {
     x.AddProfile(typeof(UserMapping));
     x.AddProfile(typeof(ClaimsTypeMapping));
+    x.AddProfile(typeof(ClaimsForUserMapping));
 });
 
 //JWT
