@@ -40,7 +40,7 @@ namespace API.AUTH.RabbitMQSender
  
         }
 
-        private byte[] GetMessageAsByteArray(BaseMessage baseMessage)
+        private static byte[] GetMessageAsByteArray(BaseMessage baseMessage)
         {
             var option = new JsonSerializerOptions
             {

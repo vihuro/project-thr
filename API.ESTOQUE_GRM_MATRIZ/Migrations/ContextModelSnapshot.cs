@@ -148,6 +148,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Apelido")
                         .HasColumnType("text");
 
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Nome")
                         .HasColumnType("text");
 

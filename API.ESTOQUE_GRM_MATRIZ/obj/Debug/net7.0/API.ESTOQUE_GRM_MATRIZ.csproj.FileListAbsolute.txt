@@ -51,3 +51,4 @@ C:\Users\thr\Desktop\.NET\ThrApi\api.estoque_grm_matriz\obj\Debug\net7.0\refint\
 C:\Users\thr\Desktop\.NET\ThrApi\api.estoque_grm_matriz\obj\Debug\net7.0\API.ESTOQUE_GRM_MATRIZ.pdb
 C:\Users\thr\Desktop\.NET\ThrApi\api.estoque_grm_matriz\obj\Debug\net7.0\API.ESTOQUE_GRM_MATRIZ.genruntimeconfig.cache
 C:\Users\thr\Desktop\.NET\ThrApi\api.estoque_grm_matriz\obj\Debug\net7.0\ref\API.ESTOQUE_GRM_MATRIZ.dll
+C:\Users\thr\Desktop\.NET\ThrApi\API.ESTOQUE_GRM_MATRIZ\bin\Debug\net7.0\RabbitMQ.Client.dll

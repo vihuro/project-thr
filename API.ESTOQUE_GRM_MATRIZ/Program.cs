@@ -1,5 +1,7 @@
-using API.ESTOQUE_GRM_MATRIZ;
 using API.ESTOQUE_GRM_MATRIZ.ContextBase;
+using API.ESTOQUE_GRM_MATRIZ.Interface;
+using API.ESTOQUE_GRM_MATRIZ.MessageConsumer;
+using API.ESTOQUE_GRM_MATRIZ.Service.User;
 using API.ESTOQUE_GRM_MATRIZ.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+
 //Context
 var connectionString = builder.Configuration.GetConnectionString("estoque_grm_matriz");
 builder.Services.AddEntityFrameworkNpgsql()
@@ -22,6 +27,16 @@ builder.Services.AddEntityFrameworkNpgsql()
     {
         op.UseNpgsql(connectionString);
     });
+
+var postgres = new DbContextOptionsBuilder<Context>().UseNpgsql(connectionString);
+
+
+
+builder.Services.AddHostedService<RabbitMQMessageConsumerTeste>();
+//builder.Services.AddHostedService<RabbitMQMessageConsumerInsertUser>();
+//builder.Services.AddHostedService<RabbitMQMessageConsumerUpdateUser>();
+
+builder.Services.AddSingleton(new UserService(postgres.Options));
 
 //JWT
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");

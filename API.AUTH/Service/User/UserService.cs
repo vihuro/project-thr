@@ -5,9 +5,7 @@ using API.AUTH.Interface;
 using API.AUTH.Models.User;
 using API.AUTH.RabbitMQSender;
 using AutoMapper;
-using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using THR.auth.Service.ExceptionService;
 using static BCrypt.Net.BCrypt;
 
@@ -47,17 +45,26 @@ namespace API.AUTH.Service.User
 
         public async Task<ReturnUserDto> ChangePasswordOrActive(ChangePasswordOrActive dto)
         {
-            var user = await _context.UserModels
+            var obj = await _context.UserModels
                                     .FirstOrDefaultAsync(x => x.Id == dto.UserId) ??
                                     throw new CustomException("Usuário inválido!") { HResult = 404 };
 
-            user.DataHoraAlteracao = DateTime.UtcNow;
-            user.Ativo = dto.Ativo ?? user.Ativo;
-            user.Senha = HashPassword(dto.Senha) ?? user.Senha;
-            _context.UserModels.Update(user);
+            if (obj.Ativo != dto.Ativo) 
+            {
+                var user = _mapper.Map<UserModel, ReturnUserDto>(obj);
+                user.Ativo = (bool)dto.Ativo;
+                _sender.SendMessage(user, "update-user-active-estoque-grm-matriz");
+
+            } 
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.Ativo = dto.Ativo ?? obj.Ativo;
+            obj.Senha = HashPassword(dto.Senha) ?? obj.Senha;
+            _context.UserModels.Update(obj);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<UserModel, ReturnUserDto>(user);
+
+            return _mapper.Map<UserModel, ReturnUserDto>(obj);
         }
         public async Task<ReturnUserDto> ChangeDateTimeChange(Guid id)
         {
@@ -146,7 +153,7 @@ namespace API.AUTH.Service.User
 
             var user = _mapper.Map<UserModel, ReturnUserDto>(obj);
 
-            _sender.SendMessage(user, "ckeckoutQueue");
+            _sender.SendMessage(user, "insert-user-estoque-grm-matriz");
 
             return user;
         }

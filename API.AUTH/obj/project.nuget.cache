@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7aZXZvIkwl7bzCbExwUj+cR7cbAsCNfVc8S/jU9uY2qcxtDCOnTRElPQyVl2bIHazn1j19KslplFyMWUMxZslQ==",
+  "dgSpecHash": "VkKLVnuXtolz48HdlSCxo/JI+coMdW1ZH8eBcD78dxgH1kY+3j8DUeK9S4CF03uwpISJBeI/PCUYF0BEBH75ew==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thr\\Desktop\\.NET\\ThrApi\\API.AUTH\\API.AUTH.csproj",
+  "projectFilePath": "C:\\Users\\thr\\Desktop\\.NET\\ThrApi\\api.auth\\API.AUTH.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thr\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\thr\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
