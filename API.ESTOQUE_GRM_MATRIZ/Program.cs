@@ -1,6 +1,7 @@
 using API.ESTOQUE_GRM_MATRIZ.ContextBase;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using API.ESTOQUE_GRM_MATRIZ.MessageConsumer;
+using API.ESTOQUE_GRM_MATRIZ.Service.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.User;
 using API.ESTOQUE_GRM_MATRIZ.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,7 +31,12 @@ builder.Services.AddEntityFrameworkNpgsql()
 
 var postgres = new DbContextOptionsBuilder<Context>().UseNpgsql(connectionString);
 
+//service
 
+builder.Services.AddScoped<ILocaleService, LocaleService>();
+builder.Services.AddScoped<IEstoqueService, EstoqueService>();
+
+//
 
 builder.Services.AddHostedService<RabbitMQMessageConsumerTeste>();
 //builder.Services.AddHostedService<RabbitMQMessageConsumerInsertUser>();

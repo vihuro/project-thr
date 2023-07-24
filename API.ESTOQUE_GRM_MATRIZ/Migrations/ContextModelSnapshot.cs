@@ -40,14 +40,11 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("text");
 
-                    b.Property<string>("LocalArmazenagem")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("LocalArmazenagemId")
+                        .HasColumnType("uuid");
 
                     b.Property<double>("Quantidade")
                         .HasColumnType("double precision");
-
-                    b.Property<string>("Tipo")
-                        .HasColumnType("text");
 
                     b.Property<Guid?>("TipoMaterialId")
                         .HasColumnType("uuid");
@@ -63,6 +60,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LocalArmazenagemId");
+
                     b.HasIndex("TipoMaterialId");
 
                     b.HasIndex("UsuarioAlteracaoId");
@@ -70,6 +69,39 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.HasIndex("UsuarioCadastroId");
 
                     b.ToTable("tab_estoque");
+                });
+
+            modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.LocalArmazenagemModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("DataHoraAlteracao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataHoraCadastro")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Local")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("UsuarioAlteracaoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsuarioCadastroId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioAlteracaoId");
+
+                    b.HasIndex("UsuarioCadastroId");
+
+                    b.ToTable("Local");
                 });
 
             modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Substituto.SubstitutoModel", b =>
@@ -161,6 +193,10 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
             modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.EstoqueModel", b =>
                 {
+                    b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.LocalArmazenagemModel", "LocalArmazenagem")
+                        .WithMany()
+                        .HasForeignKey("LocalArmazenagemId");
+
                     b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.TipoMaterial.TipoMaterialModel", "TipoMaterial")
                         .WithMany()
                         .HasForeignKey("TipoMaterialId");
@@ -177,7 +213,26 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("LocalArmazenagem");
+
                     b.Navigation("TipoMaterial");
+
+                    b.Navigation("UsuarioAlteracao");
+
+                    b.Navigation("UsuarioCadastro");
+                });
+
+            modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.LocalArmazenagemModel", b =>
+                {
+                    b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.User.UserAuthModel", "UsuarioAlteracao")
+                        .WithMany()
+                        .HasForeignKey("UsuarioAlteracaoId");
+
+                    b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.User.UserAuthModel", "UsuarioCadastro")
+                        .WithMany()
+                        .HasForeignKey("UsuarioCadastroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UsuarioAlteracao");
 

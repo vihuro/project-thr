@@ -10,3 +10,15 @@ C:\Users\thr\Desktop\.NET\ThrApi\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.M
 C:\Users\thr\Desktop\.NET\ThrApi\AuthUser.MessageBus\obj\Debug\net7.0\refint\AuthUser.MessageBus.dll
 C:\Users\thr\Desktop\.NET\ThrApi\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.pdb
 C:\Users\thr\Desktop\.NET\ThrApi\AuthUser.MessageBus\obj\Debug\net7.0\ref\AuthUser.MessageBus.dll
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\bin\Debug\net7.0\AuthUser.MessageBus.deps.json
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\bin\Debug\net7.0\AuthUser.MessageBus.dll
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\bin\Debug\net7.0\AuthUser.MessageBus.pdb
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.csproj.AssemblyReference.cache
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.AssemblyInfoInputs.cache
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.AssemblyInfo.cs
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.csproj.CoreCompileInputs.cache
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.dll
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\refint\AuthUser.MessageBus.dll
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.pdb
+C:\Users\vitor\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\ref\AuthUser.MessageBus.dll
