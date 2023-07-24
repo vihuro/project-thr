@@ -1,4 +1,7 @@
-﻿using API.ESTOQUE_GRM_MATRIZ.Dto.UserAuth;
+﻿using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.Local;
+using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.Substituto;
+using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.TipoMaterial;
+using API.ESTOQUE_GRM_MATRIZ.Dto.UserAuth;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
 {
@@ -8,6 +11,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
         public string Codigo { get; set; }
         public string Descricao { get; set; }
         public double Quantidade { get; set; }
+        public string Unidade { get; set; }
         public UsertDateTime Cadastro { get; set; }
         public UsertDateTime Alteracao { get; set; }
         public ReturnLocaleStorageResume LocalEstocagem { get; set; }

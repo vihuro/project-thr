@@ -9,7 +9,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.MessageConsumer
 {
     public class RabbitMQMessageConsumerUpdateUser : BackgroundService
     {
-        private readonly UserDto _userDto;
         private IModel _channel;
         private IConnection _connection;
         private readonly UserService _service;

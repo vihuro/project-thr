@@ -5,7 +5,6 @@ using API.ESTOQUE_GRM_MATRIZ.Models.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.ExceptionBase;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 {
@@ -58,6 +57,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             if (string.IsNullOrWhiteSpace(dto.Local) ||
                 string.IsNullOrWhiteSpace(dto.UsuarioId.ToString()))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
+            var verify = await _context.Local.FirstOrDefaultAsync(x => x.Local == dto.Local);
+
+            if (verify != null) throw new CustomException("Local já cadastrado!");
 
             var obj = _mapper.Map<LocalArmazenagemModel>(dto);
             _context.Local.Add(obj);

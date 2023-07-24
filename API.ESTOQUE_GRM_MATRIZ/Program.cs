@@ -2,6 +2,9 @@ using API.ESTOQUE_GRM_MATRIZ.ContextBase;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using API.ESTOQUE_GRM_MATRIZ.MessageConsumer;
 using API.ESTOQUE_GRM_MATRIZ.Service.Estoque;
+using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque;
+using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Locale;
+using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Tipo;
 using API.ESTOQUE_GRM_MATRIZ.Service.User;
 using API.ESTOQUE_GRM_MATRIZ.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,6 +38,15 @@ var postgres = new DbContextOptionsBuilder<Context>().UseNpgsql(connectionString
 
 builder.Services.AddScoped<ILocaleService, LocaleService>();
 builder.Services.AddScoped<IEstoqueService, EstoqueService>();
+builder.Services.AddScoped<ITipoService, TipoService>();
+
+//mapping
+builder.Services.AddAutoMapper(x =>
+{
+    x.AddProfile(typeof(EstoqueMapping));
+    x.AddProfile(typeof(LocaleMapping));
+    x.AddProfile(typeof(TipoMapping));
+});
 
 //
 

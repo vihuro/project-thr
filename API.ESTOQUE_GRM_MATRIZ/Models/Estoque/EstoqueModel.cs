@@ -13,14 +13,11 @@ namespace API.ESTOQUE_GRM_MATRIZ.Models.Estoque
         public string Descricao { get; set; }
         public double Quantidade { get; set; }
         public Guid? TipoMaterialId { get; set; }
-        public virtual TipoMaterialModel? TipoMaterial { get; set; }
+        public virtual TipoMaterialModel TipoMaterial { get; set; }
         public string Unidade { get; set; }
         public virtual List<SubstitutoModel> Substituos { get; set; }
         public Guid? LocalArmazenagemId { get; set; }
-        public virtual LocalArmazenagemModel? LocalArmazenagem { get; set; }
-        
-        
-        
+        public virtual LocalArmazenagemModel LocalArmazenagem { get; set; }
 
         public Guid UsuarioCadastroId { get; set; }
         public virtual UserAuthModel UsuarioCadastro { get; set; }

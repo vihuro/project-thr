@@ -23,6 +23,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
         {
             var list = await _context.Estoque.ToListAsync();
             _context.Estoque.RemoveRange(list);
+            await _context.SaveChangesAsync();
 
             return true;
         }
@@ -33,11 +34,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 .Include(u => u.UsuarioCadastro)
                 .Include(u => u.UsuarioAlteracao)
                 .Include(s => s.Substituos)
-                    .ThenInclude(e => e.Substituto)
+                //    .ThenInclude(s => s.Substituto)
                 .Include(l => l.LocalArmazenagem)
                 .Include(t => t.TipoMaterial)
+                .AsNoTracking()
                 .ToListAsync();
-            var dto = _mapper.Map<List<EstoqueModel>, List<ReturnEstoqueDto>>(list);
+            var dto = _mapper.Map<List<ReturnEstoqueDto>>(list);
 
             return dto;
         }
@@ -48,13 +50,13 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 .Include(u => u.UsuarioCadastro)
                 .Include(u => u.UsuarioAlteracao)
                 .Include(s => s.Substituos)
-                    .ThenInclude(e => e.Substituto)
                 .Include(l => l.LocalArmazenagem)
                 .Include(t => t.TipoMaterial)
                 .FirstOrDefaultAsync(x => x.Id == id) ??
-                throw new CustomException("Usuário não encontrado!") { HResult = 404 };
 
-            var dto = _mapper.Map<EstoqueModel, ReturnEstoqueDto>(obj);
+                throw new CustomException("Material não encontrado!") { HResult = 404 };
+
+            var dto = _mapper.Map<ReturnEstoqueDto>(obj);
 
             return dto;
         }
@@ -70,7 +72,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 string.IsNullOrWhiteSpace(dto.TipoMaterialId.ToString()))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
 
-            var obj =  _mapper.Map<InsertEstoqueDto, EstoqueModel>(dto);
+            var obj =  _mapper.Map<EstoqueModel>(dto);
+
             _context.Estoque.Add(obj);
             await _context.SaveChangesAsync();
 

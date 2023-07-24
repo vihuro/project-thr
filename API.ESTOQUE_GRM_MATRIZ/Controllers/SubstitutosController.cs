@@ -7,7 +7,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
     [ApiController]
     public class SubstitutosController : ControllerBase
     {
-        [HttpGet]
-        public async Task<string> Get() => "Aqui";
+
     }
 }
