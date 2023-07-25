@@ -8,13 +8,20 @@ namespace API.ESTOQUE_GRM_MATRIZ.ContextBase
 {
     public class Context : DbContext
     {
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EstoqueModel>()
-                .HasMany(c => c.Substituos)
-                .WithOne(u => u.Substituto)
-                .HasForeignKey(u => u.SubstitutoId);
+            modelBuilder.Entity<SubstitutoModel>()
+                .HasOne(s => s.MaterialEstoque)
+                .WithMany(e => e.Substituos)
+                .HasForeignKey(s => s.MaterialEstoqueId)
+                .OnDelete(DeleteBehavior.Restrict); // Defina o comportamento de exclusão de acordo com o que você precisa
+
+            modelBuilder.Entity<SubstitutoModel>()
+                .HasOne(s => s.Substituto)
+                .WithMany()
+                .HasForeignKey(s => s.SubstitutoId)
+                .OnDelete(DeleteBehavior.Restrict); // Defina o comportamento de exclusão de acordo com o que você precisa
         }
         public Context(DbContextOptions<Context> options) : base(options) { }
 

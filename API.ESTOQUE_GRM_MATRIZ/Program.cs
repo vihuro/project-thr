@@ -4,6 +4,7 @@ using API.ESTOQUE_GRM_MATRIZ.MessageConsumer;
 using API.ESTOQUE_GRM_MATRIZ.Service.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Locale;
+using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Substituto;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Tipo;
 using API.ESTOQUE_GRM_MATRIZ.Service.User;
 using API.ESTOQUE_GRM_MATRIZ.Utils;
@@ -39,6 +40,7 @@ var postgres = new DbContextOptionsBuilder<Context>().UseNpgsql(connectionString
 builder.Services.AddScoped<ILocaleService, LocaleService>();
 builder.Services.AddScoped<IEstoqueService, EstoqueService>();
 builder.Services.AddScoped<ITipoService, TipoService>();
+builder.Services.AddScoped<ISubstitutosService, SubstitutosService>();
 
 //mapping
 builder.Services.AddAutoMapper(x =>
@@ -46,6 +48,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(EstoqueMapping));
     x.AddProfile(typeof(LocaleMapping));
     x.AddProfile(typeof(TipoMapping));
+    x.AddProfile(typeof(SubstitutoMapping));
 });
 
 //

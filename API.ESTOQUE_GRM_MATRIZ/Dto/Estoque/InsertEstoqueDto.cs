@@ -9,7 +9,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
         public Guid TipoMaterialId { get; set; }
         public string Unidade { get; set; }
 #nullable enable
-        public List<InsertEstoqueSubstitutoDto>? SubstitutoDto { get; set; }
+        public List<InsertEstoqueSubstitutoDto>? Substitutos { get; set; }
         public Guid LocalEstoqueId { get; set; }
         public decimal Quantidade { get; set; }
         public Guid UsuarioId { get; set; }

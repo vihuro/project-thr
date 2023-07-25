@@ -1,4 +1,5 @@
 ﻿using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
+using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.Substituto;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex);
             }
         }
+
         [HttpGet]
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetAll()
         {

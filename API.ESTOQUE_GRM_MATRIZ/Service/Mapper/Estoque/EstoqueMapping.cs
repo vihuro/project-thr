@@ -29,7 +29,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao))
                 .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade))
                 .ForMember(x => x.Quantidade, map => map.MapFrom(src => src.Quantidade))
-                .ForPath(x => x.LocalEstocagem, map => map.MapFrom(src =>new ReturnLocaleStorageResume
+                .ForPath(x => x.LocalEstocagem, map => map.MapFrom(src => new ReturnLocaleStorageResume
                 {
                     Guid = src.LocalArmazenagem.Id,
                     LocalEstocagem = src.LocalArmazenagem.Local
@@ -53,14 +53,16 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                     Id = src.UsuarioAlteracao.Id,
                     DataHora = src.DataHoraAlteracao
                 }))
-                .ForPath(x => x.Substitutos, map => map.MapFrom(src => src.Substituos.Select(c => new ReturnSubstitutosResumeDto()
+                .ForPath(x => x.Substitutos, map => map.MapFrom(src => src.Substituos.Select(c => new ReturnSubstitutosResumeDto
                 {
                     Id = c.Substituto.Id,
                     Codigo = c.Substituto.Codigo,
                     Descricao = c.Substituto.Descricao,
                     Unidade = c.Substituto.Unidade,
-                    Quantidade = c.Substituto.Quantidade
-                })));
+                    Quantidade = c.Substituto.Quantidade,
+                    LocalEstocagem = c.Substituto.LocalArmazenagem.Local,
+                    TipoMaterial = c.Substituto.TipoMaterial.TipoMaterial
+                }))) ;
 
         }
     }

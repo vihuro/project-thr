@@ -1,4 +1,5 @@
 ﻿using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
+using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.Substituto;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Interface
 {
