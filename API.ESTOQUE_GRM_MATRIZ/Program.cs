@@ -4,6 +4,7 @@ using API.ESTOQUE_GRM_MATRIZ.MessageConsumer;
 using API.ESTOQUE_GRM_MATRIZ.Service.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Locale;
+using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Movimentacao;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Substituto;
 using API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Tipo;
 using API.ESTOQUE_GRM_MATRIZ.Service.User;
@@ -21,6 +22,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(x => x.AddPolicy("corsPolicy", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 
 
@@ -41,6 +46,7 @@ builder.Services.AddScoped<ILocaleService, LocaleService>();
 builder.Services.AddScoped<IEstoqueService, EstoqueService>();
 builder.Services.AddScoped<ITipoService, TipoService>();
 builder.Services.AddScoped<ISubstitutosService, SubstitutosService>();
+builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
 
 //mapping
 builder.Services.AddAutoMapper(x =>
@@ -49,6 +55,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(LocaleMapping));
     x.AddProfile(typeof(TipoMapping));
     x.AddProfile(typeof(SubstitutoMapping));
+    x.AddProfile(typeof(MovimentacaoMapping));
 });
 
 //
@@ -95,6 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("corsPolicy");
 
 app.UseHttpsRedirection();
 

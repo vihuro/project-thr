@@ -3,6 +3,7 @@ using System;
 using API.ESTOQUE_GRM_MATRIZ.ContextBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230725143937_AdicionandoTabelaMovimentacao")]
+    partial class AdicionandoTabelaMovimentacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,10 +122,13 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<Guid>("MaterialId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("QuantidadeDestino")
+                    b.Property<Guid?>("MatetialId")
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("NovaQuantidade")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("QuantidadeMovimentada")
+                    b.Property<double>("QuantidadeDestino")
                         .HasColumnType("double precision");
 
                     b.Property<double>("QuantidadeOrigem")
@@ -136,7 +142,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialId");
+                    b.HasIndex("MatetialId");
 
                     b.HasIndex("UsuarioMovimentacaoId");
 
@@ -282,11 +288,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
             modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.MovimentacaoModel", b =>
                 {
-                    b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.EstoqueModel", "Material")
+                    b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.EstoqueModel", "Matetial")
                         .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MatetialId");
 
                     b.HasOne("API.ESTOQUE_GRM_MATRIZ.Models.User.UserAuthModel", "UsuarioMovimentacao")
                         .WithMany()
@@ -294,7 +298,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Material");
+                    b.Navigation("Matetial");
 
                     b.Navigation("UsuarioMovimentacao");
                 });

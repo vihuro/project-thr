@@ -1,5 +1,4 @@
 ﻿using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
-using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.Substituto;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using Microsoft.AspNetCore.Mvc;
 

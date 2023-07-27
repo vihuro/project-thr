@@ -56,6 +56,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 .Include(u => u.UsuarioCadastro)
                 .Include(u => u.UsuarioAlteracao)
                 .Include(s => s.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(l => l.LocalArmazenagem)
+                .Include(t => t.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(t => t.TipoMaterial)
+
                 .Include(l => l.LocalArmazenagem)
                 .Include(t => t.TipoMaterial)
                 .AsNoTracking()
@@ -86,14 +92,14 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                                     x.Descricao == dto.Descricao)
                 .ToListAsync();
 
-           
+
             var objExisting = verify.SelectMany(c => c.Substituos.Select(x => x.SubstitutoId));
             var substitutos = dto.Substitutos?.Select(x => x.SubstitutoId);
 
             if (objExisting.Intersect(substitutos).Any())
                 throw new CustomException("Código já cadastrado!");
 
-            var obj =  _mapper.Map<EstoqueModel>(dto);
+            var obj = _mapper.Map<EstoqueModel>(dto);
 
             _context.Estoque.Add(obj);
             await _context.SaveChangesAsync();
@@ -101,5 +107,37 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             return await GetById(obj.Id);
         }
 
+        public async Task<ReturnEstoqueDto> UpdateQuantidade(UpdateQuantidadeDto dto)
+        {
+            var obj = await _context.Estoque
+
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == dto.MaterialId) ??
+                throw new CustomException("Material não encontrado!") { HResult = 404 };
+
+            var novaQuantidade = obj.Quantidade += dto.Quantidade;
+            if (novaQuantidade < 0)
+                throw new CustomException("Não é possivel fazer uma movimentação com saldo menor que zero!");
+            obj.Quantidade = novaQuantidade;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+
+            _context.Estoque.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
+        public async Task<List<ReturnEstoqueDto>> UpdateQuantidadeZero()
+        {
+            var objList = await _context.Estoque.ToListAsync();
+            foreach (var item in objList)
+            {
+                item.Quantidade = 0;
+            }
+            _context.Estoque.UpdateRange(objList);
+            await _context.SaveChangesAsync();
+
+            return await GetAll();
+        }
     }
 }

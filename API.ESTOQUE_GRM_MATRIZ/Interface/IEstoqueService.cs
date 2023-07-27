@@ -9,5 +9,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
         Task<List<ReturnEstoqueDto>> GetAll();
         Task<ReturnEstoqueDto> GetById(Guid id);
         Task<bool> DeleteAll();
+        Task<ReturnEstoqueDto> UpdateQuantidade(UpdateQuantidadeDto dto);
+        Task<List<ReturnEstoqueDto>> UpdateQuantidadeZero();
     }
 }

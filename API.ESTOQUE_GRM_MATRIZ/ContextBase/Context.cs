@@ -30,5 +30,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.ContextBase
         public DbSet<SubstitutoModel> Substituto { get; set; }
         public DbSet<TipoMaterialModel> TipoMaterial { get; set; }
         public DbSet<LocalArmazenagemModel> Local { get; set; }
+        public DbSet<MovimentacaoModel> Movimentacao { get; set; }
     }
 }
