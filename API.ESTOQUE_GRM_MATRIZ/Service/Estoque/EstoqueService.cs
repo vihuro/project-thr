@@ -91,9 +91,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 .Where(x => x.Codigo == dto.Codigo &&
                                     x.Descricao == dto.Descricao)
                 .ToListAsync();
-            var verifyLocale = verify.Select(l => l.Equals(dto.LocalEstoqueId));
+            var verifyLocale = verify.Any(x => x.LocalArmazenagemId == dto.LocalEstoqueId);
 
-            if(verifyLocale.Any())
+            if(verifyLocale)
                 throw new CustomException("Código já cadastrado!") { HResult = 400 };
 
 
