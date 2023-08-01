@@ -25,7 +25,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
             catch (Exception ex)
             {
-
+                if(ex.HResult == 400) return BadRequest(ex.Message);
                 return BadRequest(ex);
             }
         }
@@ -54,7 +54,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
             catch (Exception ex)
             {
-
+                if(ex.HResult == 404) return NotFound(ex.Message);
+                if (ex.HResult == 404) return BadRequest(ex.Message);
                 return BadRequest(ex);
             }
         }

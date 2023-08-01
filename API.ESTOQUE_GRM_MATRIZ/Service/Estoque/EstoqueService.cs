@@ -84,20 +84,18 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 string.IsNullOrWhiteSpace(dto.UsuarioId.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.TipoMaterialId.ToString()))
 
-                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
+                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
 
             var verify = await _context.Estoque
                 .AsNoTracking()
                 .Where(x => x.Codigo == dto.Codigo &&
                                     x.Descricao == dto.Descricao)
                 .ToListAsync();
+            var verifyLocale = verify.Select(l => l.Equals(dto.LocalEstoqueId));
 
+            if(verifyLocale.Any())
+                throw new CustomException("Código já cadastrado!") { HResult = 400 };
 
-            var objExisting = verify.SelectMany(c => c.Substituos.Select(x => x.SubstitutoId));
-            var substitutos = dto.Substitutos?.Select(x => x.SubstitutoId);
-
-            if (objExisting.Intersect(substitutos).Any())
-                throw new CustomException("Código já cadastrado!");
 
             var obj = _mapper.Map<EstoqueModel>(dto);
 
@@ -117,7 +115,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             var novaQuantidade = obj.Quantidade += dto.Quantidade;
             if (novaQuantidade < 0)
-                throw new CustomException("Não é possivel fazer uma movimentação com saldo menor que zero!");
+                throw new CustomException("Não é possivel fazer uma movimentação com saldo menor que zero!") { HResult = 400 };
             obj.Quantidade = novaQuantidade;
             obj.UsuarioAlteracaoId = dto.UsuarioId;
             obj.DataHoraAlteracao = DateTime.UtcNow;
