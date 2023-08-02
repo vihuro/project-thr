@@ -11,6 +11,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
         public string Descricao { get; set; }
         public string Unidade { get; set; }
         public double Quantidade { get; set; }
+        public bool Ativo { get; set; }
         public ReturnLocaleStorageResume LocalEstocagem { get; set; }
         public ReturnTypeMaterialResumeDto Tipo {  get; set; }
     }

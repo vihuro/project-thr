@@ -6,6 +6,7 @@ using API.ESTOQUE_GRM_MATRIZ.Models.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.ExceptionBase;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 {
@@ -93,7 +94,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 .ToListAsync();
             var verifyLocale = verify.Any(x => x.LocalArmazenagemId == dto.LocalEstoqueId);
 
-            if(verifyLocale)
+            if (verifyLocale)
                 throw new CustomException("Código já cadastrado!") { HResult = 400 };
 
 
@@ -103,6 +104,47 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             await _context.SaveChangesAsync();
 
             return await GetById(obj.Id);
+        }
+        public async Task<List<ReturnEstoqueDto>> GetWithoutSubstituto(Guid id)
+        {
+            var obj = await _context.Estoque
+                .Include(u => u.UsuarioCadastro)
+                .Include(u => u.UsuarioAlteracao)
+                .Include(s => s.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(l => l.LocalArmazenagem)
+                .Include(t => t.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(t => t.TipoMaterial)
+
+                .Include(l => l.LocalArmazenagem)
+                .Include(t => t.TipoMaterial)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var objList = await _context.Estoque
+                .Include(u => u.UsuarioCadastro)
+                .Include(u => u.UsuarioAlteracao)
+                .Include(s => s.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(l => l.LocalArmazenagem)
+                .Include(t => t.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(t => t.TipoMaterial)
+                .Include(l => l.LocalArmazenagem)
+                .Include(t => t.TipoMaterial)
+                .AsNoTracking()
+                .Where(x => x.Id != id)
+                .ToListAsync();
+
+            var dto = _mapper.Map<List<ReturnEstoqueDto>>(objList);
+
+            var list = dto
+                .Where(item => item.Id != id)
+                .Where(item => obj.Substituos.All(s => s.SubstitutoId != item.Id))
+                .ToList();
+
+            return list;
         }
 
         public async Task<ReturnEstoqueDto> UpdateQuantidade(UpdateQuantidadeDto dto)

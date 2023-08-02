@@ -59,6 +59,21 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpGet("withou-substituto/{id}")]
+        public async Task<ActionResult<List<ReturnEstoqueDto>>> GetWithoutSubstituto(Guid id)
+        {
+            try
+            {
+                var result = await _service.GetWithoutSubstituto(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                if (ex.HResult == 404) return BadRequest(ex.Message);
+                return BadRequest(ex);
+            }
+        }
         [HttpDelete]
         public async Task<ActionResult<bool>> DeteleAll()
         {
