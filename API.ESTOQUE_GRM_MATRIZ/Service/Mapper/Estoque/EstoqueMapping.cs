@@ -13,9 +13,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
         public EstoqueMapping() 
         {
             CreateMap<InsertEstoqueDto, EstoqueModel>()
-                .ForMember(x => x.Codigo, map => map.MapFrom(src => src.Codigo))
-                .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao))
-                .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade))
+                .ForMember(x => x.Codigo, map => map.MapFrom(src => src.Codigo.ToUpper()))
+                .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao.ToUpper()))
+                .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade.ToUpper()))
                 .ForMember(x => x.Quantidade, map => map.MapFrom(src => src.Quantidade))
                 .ForMember(x => x.LocalArmazenagemId, map => map.MapFrom(src => src.LocalEstoqueId))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UsuarioId))

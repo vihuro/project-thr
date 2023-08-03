@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\API.ESTOQUE_GRM_MATRIZ\\API.ESTOQUE_GRM_MATRIZ.csproj": {}
+    "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\api.estoque_grm_matriz\\API.ESTOQUE_GRM_MATRIZ.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\API.ESTOQUE_GRM_MATRIZ\\API.ESTOQUE_GRM_MATRIZ.csproj": {
+    "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\api.estoque_grm_matriz\\API.ESTOQUE_GRM_MATRIZ.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\API.ESTOQUE_GRM_MATRIZ\\API.ESTOQUE_GRM_MATRIZ.csproj",
+        "projectUniqueName": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\api.estoque_grm_matriz\\API.ESTOQUE_GRM_MATRIZ.csproj",
         "projectName": "API.ESTOQUE_GRM_MATRIZ",
-        "projectPath": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\API.ESTOQUE_GRM_MATRIZ\\API.ESTOQUE_GRM_MATRIZ.csproj",
-        "packagesPath": "C:\\Users\\thr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\API.ESTOQUE_GRM_MATRIZ\\obj\\",
+        "projectPath": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\api.estoque_grm_matriz\\API.ESTOQUE_GRM_MATRIZ.csproj",
+        "packagesPath": "C:\\Users\\vitor\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\api.estoque_grm_matriz\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\thr\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\vitor\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
