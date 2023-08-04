@@ -8,6 +8,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
         Task<List<ReturnSubstitutoDto>> GetAll();
         Task<ReturnSubstitutoDto> GetById(Guid id);
         Task<bool> DeleteAll();
-        Task<bool> DeleteById(Guid id);
+        Task<bool> DeleteById(DeleteSubstitutoById dto);
     }
 }

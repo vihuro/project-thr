@@ -57,14 +57,16 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 }))
                 .ForPath(x => x.Substitutos, map => map.MapFrom(src => src.Substituos.Select(c => new ReturnSubstitutosResumeDto
                 {
-                    Id = c.Substituto.Id,
+                    SubstitutoId = c.SubstitutoId,
+                    ProdutoId = c.MaterialEstoqueId,
                     Codigo = c.Substituto.Codigo,
                     Descricao = c.Substituto.Descricao,
                     Unidade = c.Substituto.Unidade,
                     Quantidade = c.Substituto.Quantidade,
                     LocalEstocagem = c.Substituto.LocalArmazenagem.Local,
                     TipoMaterial = c.Substituto.TipoMaterial.TipoMaterial
-                }))) ;
+                })));
+
 
         }
     }

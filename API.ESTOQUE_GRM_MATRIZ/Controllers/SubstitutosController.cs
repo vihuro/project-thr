@@ -74,12 +74,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> DeleteById(Guid id)
+        [HttpDelete("unico")]
+        public async Task<ActionResult<bool>> DeleteById(DeleteSubstitutoById dto)
         {
             try
             {
-                var result = await _service.DeleteById(id);
+                var result = await _service.DeleteById(dto);
                 return Ok(result);
             }
             catch (Exception ex)

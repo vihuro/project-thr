@@ -179,5 +179,18 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             return await GetAll();
         }
+        public async Task<ReturnEstoqueDto> UpdateDateTimeChange(Guid produtoId, Guid usuarioId)
+        {
+            var obj = await _context.Estoque
+                .FirstOrDefaultAsync(x => x.Id == produtoId);
+            if (obj == null)
+                throw new CustomException("Produto não encontrado!") { HResult = 404 };
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = usuarioId;
+            _context.Estoque.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
     }
 }

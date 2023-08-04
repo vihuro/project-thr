@@ -12,13 +12,16 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
     {
         private readonly IMapper _mapper;
         private readonly Context _context;
+        private readonly IEstoqueService _estoqueService;
 
 
         public SubstitutosService(IMapper mapper, 
-                                    Context context)
+                                    Context context,
+                                    IEstoqueService estoqueService)
         {
             _mapper = mapper;
             _context = context;
+            _estoqueService = estoqueService;
         }
 
         public async Task<bool> DeleteAll()
@@ -31,14 +34,15 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             return true;
         }
 
-        public async Task<bool> DeleteById(Guid id)
+        public async Task<bool> DeleteById(DeleteSubstitutoById dto)
         {
             var obj = await _context.Substituto
-                .FirstOrDefaultAsync(x => x.Id == id) ??
+                .FirstOrDefaultAsync(x => x.SubstitutoId == dto.SubstitutoId && x.MaterialEstoqueId == dto.ProdutoId) ??
                 throw new CustomException("Substituto não encontrado!") { HResult = 404 };
 
             _context.Substituto.Remove(obj);
             await _context.SaveChangesAsync();
+            await _estoqueService.UpdateDateTimeChange(obj.MaterialEstoqueId,dto.UsuarioId);
 
             return true;
 
@@ -110,6 +114,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             _context.Substituto.Add(obj);
             await _context.SaveChangesAsync();
+
+            await _estoqueService.UpdateDateTimeChange(dto.ProdutoId, dto.UsuarioId);
 
             return await GetById(obj.Id);
         }

@@ -2,7 +2,8 @@
 {
     public class ReturnSubstitutosResumeDto
     {
-        public Guid Id { get; set; }
+        public Guid ProdutoId { get; set; }
+        public Guid SubstitutoId { get; set; }
         public string Codigo { get; set; }
         public string Descricao { get; set; }
         public string Unidade { get; set; }
