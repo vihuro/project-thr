@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.AUTH.Dto.user.Token;
 using API.AUTH.Interface;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.AUTH.Controllers
 {
@@ -40,6 +41,12 @@ namespace API.AUTH.Controllers
                 rng.GetBytes(keyBytes);
                 return Convert.ToBase64String(keyBytes);
             }
+        }
+        [Authorize]
+        [HttpGet("validate-token")]
+        public void Authorize()
+        {
+
         }
 
     }
