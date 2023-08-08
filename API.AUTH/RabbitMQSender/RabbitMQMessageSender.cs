@@ -15,7 +15,7 @@ namespace API.AUTH.RabbitMQSender
 
         public RabbitMQMessageSender()
         {
-            _hostName = "localhost";
+            _hostName = "some-rabbit";
             _password = "guest";
             _username = "guest";
         }

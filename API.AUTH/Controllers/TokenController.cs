@@ -18,7 +18,8 @@ namespace API.AUTH.Controllers
             _service = service;
         }
 
-        [HttpPost("refresh-token")]
+        [Authorize]
+        [HttpPost("refresh-token/{id}")]
         public async Task<ActionResult<TokenDto>> RefreshToken(Guid id)
         {
             try
