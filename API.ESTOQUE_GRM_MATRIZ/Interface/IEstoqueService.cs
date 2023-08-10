@@ -13,5 +13,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
         Task<List<ReturnEstoqueDto>> GetWithoutSubstituto(Guid id);
         Task<List<ReturnEstoqueDto>> UpdateQuantidadeZero();
         Task<ReturnEstoqueDto> UpdateDateTimeChange(Guid produtoId, Guid usuarioId);
+        Task<ReturnEstoqueDto> UpdateQuantidadeOrUnidade(UpdateQuantidadeOrUnidadeDto dto);
     }
 }

@@ -44,6 +44,24 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpPut]
+        public async Task<ActionResult<ReturnEstoqueDto>> UpdateUnidadeOrTipo(UpdateQuantidadeOrUnidadeDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateQuantidadeOrUnidade(dto);
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                if(ex.HResult == 404) return NotFound(ex.Message);
+                if (ex.HResult == 400) return BadRequest(ex.Message);
+
+                return BadRequest(ex);
+            }
+
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetById(Guid id)
         {
@@ -55,7 +73,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             catch (Exception ex)
             {
                 if(ex.HResult == 404) return NotFound(ex.Message);
-                if (ex.HResult == 404) return BadRequest(ex.Message);
+                if (ex.HResult == 400) return BadRequest(ex.Message);
                 return BadRequest(ex);
             }
         }
@@ -70,7 +88,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             catch (Exception ex)
             {
                 if (ex.HResult == 404) return NotFound(ex.Message);
-                if (ex.HResult == 404) return BadRequest(ex.Message);
+                if (ex.HResult == 400) return BadRequest(ex.Message);
                 return BadRequest(ex);
             }
         }

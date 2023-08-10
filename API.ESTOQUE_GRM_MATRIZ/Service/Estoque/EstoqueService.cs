@@ -1,12 +1,10 @@
 ﻿using API.ESTOQUE_GRM_MATRIZ.ContextBase;
 using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
-using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque.Substituto;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using API.ESTOQUE_GRM_MATRIZ.Models.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Service.ExceptionBase;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 {
@@ -188,6 +186,22 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             obj.DataHoraAlteracao = DateTime.UtcNow;
             obj.UsuarioAlteracaoId = usuarioId;
             _context.Estoque.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
+        public async Task<ReturnEstoqueDto> UpdateQuantidadeOrUnidade(UpdateQuantidadeOrUnidadeDto dto)
+        {
+            var obj = await _context.Estoque
+                .FirstOrDefaultAsync(x => x.Id == dto.ProdutoId);
+            if (obj == null)
+                throw new CustomException("Produto não encontrado!") { HResult = 404 };
+            obj.Unidade = dto.Unidade;
+            obj.TipoMaterialId = dto.TipoId;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            _context.Update(obj);
             await _context.SaveChangesAsync();
 
             return await GetById(obj.Id);
