@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Controllers
 {
-    [Route("api/estoque/tipo-material")]
+    [Route("api/v1/estoque/tipo-material")]
     [ApiController]
     public class TipoMaterialController : ControllerBase
     {

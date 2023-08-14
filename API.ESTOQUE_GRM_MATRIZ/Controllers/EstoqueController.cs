@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class EstoqueController : ControllerBase
     {
@@ -77,7 +77,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("withou-substituto/{id}")]
+        [HttpGet("without-substituto/{id}")]
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetWithoutSubstituto(Guid id)
         {
             try
