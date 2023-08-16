@@ -58,7 +58,6 @@ namespace API.AUTH.Service
         public async Task<List<ReturnClaimsForUserDto>> GetAll()
         {
             var obj = await _context.ClaimsForUserModel
-                .Include(u => u.UserChange)
                 .Include(u => u.UserClaim)
                 .Include(c => c.TypeClaims)
                 .ToListAsync();
@@ -69,7 +68,6 @@ namespace API.AUTH.Service
         public async Task<ReturnClaimsForUserDto> GetById(Guid id)
         {
             var obj = await _context.ClaimsForUserModel
-                .Include(u => u.UserChange)
                 .Include(u => u.UserClaim)
                 .Include(c => c.TypeClaims)
                 .FirstOrDefaultAsync(x => x.Id == id) ??
@@ -80,7 +78,6 @@ namespace API.AUTH.Service
         public async Task<List<ReturnClaimsForUserDto>> GetByClaimId(Guid id)
         {
             var obj = await _context.ClaimsForUserModel
-                .Include(u => u.UserChange)
                 .Include(u => u.UserClaim)
                 .Include(c => c.TypeClaims)
                 .Where(x => x.TypeClaimsId == id)
@@ -92,7 +89,6 @@ namespace API.AUTH.Service
         public async Task<List<ReturnClaimsForUserDto>> GetByUserId(Guid id)
         {
             var obj = await _context.ClaimsForUserModel
-                .Include(u => u.UserChange)
                 .Include(u => u.UserClaim)
                 .Include(c => c.TypeClaims)
                 .Where(x => x.UserClaimId == id)

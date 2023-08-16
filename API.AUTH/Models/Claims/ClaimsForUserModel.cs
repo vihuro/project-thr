@@ -13,9 +13,5 @@ namespace API.AUTH.Models.Claims
         public virtual TypeClaimsModel TypeClaims { get; set; }
         public Guid UserClaimId { get; set; }
         public virtual UserModel UserClaim { get; set; }
-        public Guid UserRegisterId { get; set; }
-        public virtual UserModel UserRegister { get; set; }
-        public Guid UserChangeId { get; set; }
-        public virtual UserModel UserChange { get; set; }
     }
 }

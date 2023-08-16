@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.AUTH.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class firsMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,9 +63,7 @@ namespace API.AUTH.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     TypeClaimsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserClaimId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserRegisterId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserChangeId = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserClaimId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,20 +75,8 @@ namespace API.AUTH.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tab_claimsForUser_tab_user_UserChangeId",
-                        column: x => x.UserChangeId,
-                        principalTable: "tab_user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_tab_claimsForUser_tab_user_UserClaimId",
                         column: x => x.UserClaimId,
-                        principalTable: "tab_user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tab_claimsForUser_tab_user_UserRegisterId",
-                        column: x => x.UserRegisterId,
                         principalTable: "tab_user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -102,19 +88,9 @@ namespace API.AUTH.Migrations
                 column: "TypeClaimsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tab_claimsForUser_UserChangeId",
-                table: "tab_claimsForUser",
-                column: "UserChangeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tab_claimsForUser_UserClaimId",
                 table: "tab_claimsForUser",
                 column: "UserClaimId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tab_claimsForUser_UserRegisterId",
-                table: "tab_claimsForUser",
-                column: "UserRegisterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_typeClaims_UsuarioAlteracaoId",

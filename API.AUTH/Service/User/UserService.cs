@@ -49,13 +49,13 @@ namespace API.AUTH.Service.User
                                     .FirstOrDefaultAsync(x => x.Id == dto.UserId) ??
                                     throw new CustomException("Usuário inválido!") { HResult = 404 };
 
-            if (obj.Ativo != dto.Ativo) 
+            if (obj.Ativo != dto.Ativo)
             {
                 var user = _mapper.Map<UserModel, ReturnUserDto>(obj);
                 user.Ativo = (bool)dto.Ativo;
                 _sender.SendMessage(user, "update-user-active-estoque-grm-matriz");
 
-            } 
+            }
 
             obj.DataHoraAlteracao = DateTime.UtcNow;
             obj.Ativo = dto.Ativo ?? obj.Ativo;
@@ -70,7 +70,7 @@ namespace API.AUTH.Service.User
         {
             var obj = await _context.UserModels
                 .FirstOrDefaultAsync(x => x.Id == id) ??
-                throw new CustomException("Usuário não encontrado") { HResult = 404};
+                throw new CustomException("Usuário não encontrado") { HResult = 404 };
             obj.DataHoraAlteracao = DateTime.UtcNow;
             _context.UserModels.Update(obj);
             await _context.SaveChangesAsync();
@@ -145,13 +145,17 @@ namespace API.AUTH.Service.User
                 string.IsNullOrEmpty(dto.Apelido) ||
                 string.IsNullOrEmpty(dto.Nome))
             {
-                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
+                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
             }
+            var validApelido = await _context.UserModels
+                .Where(x => x.Apelido.ToUpper() == dto.Apelido.ToUpper())
+                .FirstOrDefaultAsync();
+            if (validApelido != null) throw new CustomException("Já existe um usuário com esse apelido!") { HResult = 400 };
             var obj = _mapper.Map<RegisterUserDto, UserModel>(dto);
             _context.UserModels.Add(obj);
             await _context.SaveChangesAsync();
 
-            var user = _mapper.Map<UserModel, ReturnUserDto>(obj);
+            var user = await GetById(obj.Id);
 
             _sender.SendMessage(user, "insert-user-estoque-grm-matriz");
 
