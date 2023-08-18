@@ -17,7 +17,7 @@ namespace API.AUTH.Service
         private readonly IUserService _userService;
         private readonly IClaimsTypeService _claimsTypeService;
 
-        public ClaimsForUserService(Context context, 
+        public ClaimsForUserService(Context context,
                                     IMapper mapper,
                                     IUserService userService,
                                     IClaimsTypeService claimsTypeService)
@@ -35,7 +35,7 @@ namespace API.AUTH.Service
                 string.IsNullOrWhiteSpace(dto.ClaimId.ToString()))
 
                 throw new CustomException("Campo(s) obrigatótio(s) vazio(s)!");
-            
+
 
             var obj = _mapper.Map<InsertClaimsForUserDto, ClaimsForUserModel>(dto);
             var userClaim = await _userService.ChangeDateTimeChange(dto.UserClaimsId);
@@ -103,6 +103,19 @@ namespace API.AUTH.Service
                 .ToListAsync();
             _context.ClaimsForUserModel.RemoveRange(obj);
             await _context.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> DeleteById(InsertClaimsForUserDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.UserClaimsId.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.UserRegisterId.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.ClaimId.ToString()))
+                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
+            var obj = await _context.ClaimsForUserModel.FirstOrDefaultAsync(x => x.Id == dto.ClaimId) ?? 
+                throw new CustomException("Regra não encontrada para esse usuário!") { HResult = 404 };
+            _context.ClaimsForUserModel.Remove(obj);
+            await _context.SaveChangesAsync();
+
             return true;
         }
 

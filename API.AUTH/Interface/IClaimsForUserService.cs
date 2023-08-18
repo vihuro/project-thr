@@ -11,6 +11,7 @@ namespace API.AUTH.Interface
         Task<List<ReturnClaimsForUserDto>> GetByClaimId(Guid id);
         Task<List<ReturnClaimsForUserDto>> GetByUserId(Guid id);
         Task<bool> DeleteAll();
+        Task<bool> DeleteById(InsertClaimsForUserDto dto);
 
     }
 }

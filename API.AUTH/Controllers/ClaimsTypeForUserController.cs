@@ -100,6 +100,21 @@ namespace API.AUTH.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpDelete]
+        public async Task<ActionResult<bool>> DeleteById(InsertClaimsForUserDto dto)
+        {
+            try
+            {
+                var result = await _claimsForUserService.DeleteById(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 400) return BadRequest(ex.Message);
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex);
+            }
+        }
 
     }
 }
