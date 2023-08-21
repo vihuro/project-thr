@@ -59,7 +59,11 @@ namespace API.AUTH.Service.User
 
             obj.DataHoraAlteracao = DateTime.UtcNow;
             obj.Ativo = dto.Ativo ?? obj.Ativo;
-            obj.Senha = HashPassword(dto.Senha) ?? obj.Senha;
+            if(dto.Senha != null)
+            {
+                obj.Senha = HashPassword(dto.Senha) ?? obj.Senha;
+            }
+
             _context.UserModels.Update(obj);
             await _context.SaveChangesAsync();
 
