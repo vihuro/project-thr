@@ -176,9 +176,10 @@ namespace API.AUTH.Service.User
                     .ThenInclude(c => c.TypeClaims)
                  .AsNoTracking()
                  .FirstOrDefaultAsync(x => x.Apelido.ToLower() == dto.Apelido.ToLower());
+            if (obj == null) throw new CustomException("Usuário ou senha inválidos") { HResult = 401 };
+
             if (!obj.Ativo) throw new CustomException("Usuário bloqueado") { HResult = 401 };
 
-            if (obj == null) throw new CustomException("Usuário ou senha inváildos") { HResult = 401 };
             var valid = Verify(dto.Senha, obj.Senha);
 
             if (!valid) throw new CustomException("Usuário ou senha inváildos") { HResult = 401 };
