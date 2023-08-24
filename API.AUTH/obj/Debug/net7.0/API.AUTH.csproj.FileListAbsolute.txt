@@ -166,3 +166,5 @@ C:\Users\thr\Desktop\.NET\project-thr\api.auth\obj\Debug\net7.0\refint\API.AUTH.
 C:\Users\thr\Desktop\.NET\project-thr\api.auth\obj\Debug\net7.0\API.AUTH.pdb
 C:\Users\thr\Desktop\.NET\project-thr\api.auth\obj\Debug\net7.0\API.AUTH.genruntimeconfig.cache
 C:\Users\thr\Desktop\.NET\project-thr\api.auth\obj\Debug\net7.0\ref\API.AUTH.dll
+C:\Users\thr\Desktop\.NET\project-thr\API.AUTH\obj\Debug\net7.0\API.AUTH.Properties.Resources.resources
+C:\Users\thr\Desktop\.NET\project-thr\API.AUTH\obj\Debug\net7.0\API.AUTH.csproj.GenerateResource.cache

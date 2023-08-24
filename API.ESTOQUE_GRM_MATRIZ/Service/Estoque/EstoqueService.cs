@@ -21,7 +21,16 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
         public async Task<bool> DeleteAll()
         {
-            var list = await _context.Estoque.ToListAsync();
+            var substis = await _context.Substituto.ToListAsync();
+            _context.RemoveRange(substis);
+            await _context.SaveChangesAsync();
+
+            var list = await _context.Estoque
+                .Include(s => s.Substituos)
+
+                .AsNoTracking()
+                .ToListAsync();
+
             _context.Estoque.RemoveRange(list);
             await _context.SaveChangesAsync();
 

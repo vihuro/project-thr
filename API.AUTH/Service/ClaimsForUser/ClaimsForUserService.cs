@@ -42,18 +42,28 @@ namespace API.AUTH.Service
 
             var listClaims = await _claimsTypeService.GetAll();
 
-            var existingClaim = userClaim.Claims.FirstOrDefault(c => listClaims.Any(x => x.ClaimName == c.ClaimName));
+            var claimName = listClaims.FirstOrDefault(x => x.ClaimId == dto.ClaimId);
+
+            var existingClaim = userClaim.Claims.FirstOrDefault(x => x.ClaimName == claimName.ClaimName);
 
             if (existingClaim != null)
             {
                 obj.Id = existingClaim.id;
                 obj.TypeClaimsId = dto.ClaimId;
             }
-
+            else
+            {
+                obj = new ClaimsForUserModel
+                {
+                    TypeClaimsId = dto.ClaimId,
+                    UserClaimId = dto.UserClaimsId,
+                };
+            }
             _context.ClaimsForUserModel.Update(obj);
             await _context.SaveChangesAsync();
-
             return await GetById(obj.Id);
+
+
         }
         public async Task<List<ReturnClaimsForUserDto>> GetAll()
         {
