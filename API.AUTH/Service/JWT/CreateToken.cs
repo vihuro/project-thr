@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using THR.auth.Service.ExceptionService;
 
 namespace API.AUTH.Service.JWT
 {
@@ -45,7 +44,6 @@ namespace API.AUTH.Service.JWT
             var name = new Claim("Nome", dto.Nome);
             var identityName = new Claim("idUser", dto.UsuarioId.ToString());
             var active = new Claim("active", dto.Ativo.ToString());
-            var role = new Claim("", "");
             var claims = new List<Claim>();
 
             foreach (var item in dto.Claims)
@@ -56,10 +54,9 @@ namespace API.AUTH.Service.JWT
             claims.Add(name);
             claims.Add(active);
             claims.Add(identityName);
-            claims.Add(role);
             tokenDescriptor.Subject = new ClaimsIdentity(claims);
-            var test = DateTime.UtcNow.AddMinutes(1);
-            tokenDescriptor.Expires = test;
+            var expiration = DateTime.UtcNow.AddMinutes(1);
+            tokenDescriptor.Expires = expiration;
             tokenDescriptor.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
             var token = tokenHeader.CreateToken(tokenDescriptor);
 
