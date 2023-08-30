@@ -90,6 +90,10 @@
               "target": "Package",
               "version": "[6.5.0, )"
             },
+            "SharpCifs.Std": {
+              "target": "Package",
+              "version": "[0.2.13, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"

@@ -1,6 +1,9 @@
 using API.ASSISTENCIA_TECNICA_OS.ContextBase;
+using API.ASSISTENCIA_TECNICA_OS.Service.Mapper;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.OrdemServico;
+using API.ASSISTENCIA_TECNICA_OS.Utils;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +28,13 @@ builder.Services.AddEntityFrameworkNpgsql()
 builder.Services.AddAutoMapper(x =>
 {
     x.AddProfile(typeof(OrdemServicoMapping));
+    x.AddProfile(typeof(MaquinaMapping));
 });
+
+var environment = builder.Environment.EnvironmentName;
+
+var filePath = builder.Configuration.Get<FilePath>();
+filePath.Caminho = builder.Configuration.GetSection("variables:FileNOTA")[environment];
 
 var app = builder.Build();
 

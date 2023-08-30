@@ -1,5 +1,6 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
-using API.ASSISTENCIA_TECNICA_OS.Model;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
+using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 {
     [ApiController]
     [Route("api/v1/maquina")]
-    public class MaquinaController: ControllerBase
+    public class MaquinaController : ControllerBase
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
@@ -20,18 +21,27 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Insert(MaquinaModel dto)
+        public async Task<ActionResult> Insert(InsertMaquinaDto dto)
         {
             try
             {
-                var obj = new MaquinaModel
-                {
-                    Ativo = true,
-                    TipoMaquina = dto.TipoMaquina,
-                };
+                var obj = _mapper.Map<MaquinaModel>(dto);
+
                 _context.Maquina.Add(obj);
                 await _context.SaveChangesAsync();
-                return Created("", obj);
+
+                var result = await _context.Maquina
+                    .Include(p => p.Pecas)
+                        .ThenInclude(p => p.Peca)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == obj.Id);
+                //VERIFICAR
+
+                var mapper = _mapper.Map<ReturnMaquinaComPecasDto>(result);
+
+
+
+                return Created("", mapper);
             }
             catch (Exception ex)
             {
@@ -44,9 +54,15 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
         {
             try
             {
-                var list = await _context.Maquina.ToListAsync();
+                var list = await _context.Maquina
+                    .Include(p => p.Pecas)
+                        .ThenInclude(p => p.Peca)
+                    .AsNoTracking()
+                    .ToListAsync();
 
-                return Ok(list);
+                var result = _mapper.Map<List<ReturnMaquinaComPecasDto>>(list);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
