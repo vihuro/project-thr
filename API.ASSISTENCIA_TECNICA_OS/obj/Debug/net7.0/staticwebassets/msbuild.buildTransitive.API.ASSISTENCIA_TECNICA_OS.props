@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\API.ASSISTENCIA_TECNICA_OS.props" />
+</Project>
