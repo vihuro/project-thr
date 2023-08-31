@@ -3,6 +3,9 @@ using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
+using SharpCifs.Smb;
+using SharpCifs.Util.Sharpen;
+using System.Runtime.InteropServices;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 {
@@ -26,7 +29,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 
                 var teste = new List<PecasModel>();
 
-                foreach(var item in obj)
+                foreach (var item in obj)
                 {
                     var newItem = new PecasModel()
                     {
@@ -34,11 +37,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                         Preco = item.Preco,
                         Id = item.Id,
                     };
- 
-                    if(item.EnderecoImagem.Count > 0)
+
+                    if (item.EnderecoImagem.Count > 0)
                     {
                         newItem.EnderecoImagem = new List<string>();
-                        foreach(var imagem in item.EnderecoImagem)
+                        foreach (var imagem in item.EnderecoImagem)
                         {
                             //listImagem.Add($"http://{item}");
                             newItem.EnderecoImagem.Add($"{imagem}");
@@ -65,27 +68,41 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("image/{caminho}")]
-        public ActionResult GetImage(string caminho)
+        public async Task<ActionResult> GetImage(string caminho)
         {
             try
             {
+                var isRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+                string mimeType = "image/jpg";
 
-                var path = Path.Combine(caminho);
+                string path = caminho;
+                if (!isRunningOnWindows)
+                {
+                    string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
+
+                    NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
+
+                    var sbmFile = await new SmbFile(smbPath, auth).GetInputStreamAsync();
+
+                    return File(sbmFile, mimeType);
+
+                }
+
                 if (!System.IO.File.Exists(path))
                 {
                     return NotFound();
                 }
-                string mimeType = "image/jpg";
+
                 return File(System.IO.File.OpenRead(path), mimeType, Path.GetFileName(path));
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpPost]
