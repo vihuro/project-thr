@@ -107,3 +107,4 @@ C:\Users\thr\Desktop\.NET\project-thr\api.assistencia_tecnica_os\obj\Debug\net7.
 C:\Users\thr\Desktop\.NET\project-thr\api.assistencia_tecnica_os\obj\Debug\net7.0\API.ASSISTENCIA_TECNICA_OS.genruntimeconfig.cache
 C:\Users\thr\Desktop\.NET\project-thr\api.assistencia_tecnica_os\obj\Debug\net7.0\ref\API.ASSISTENCIA_TECNICA_OS.dll
 C:\Users\thr\Desktop\.NET\project-thr\api.assistencia_tecnica_os\bin\Debug\net7.0\SharpCifs.Std.dll
+C:\Users\vitor\Desktop\.NET\project-thr\api.assistencia_tecnica_os\bin\Debug\net7.0\SharpCifs.Std.dll
