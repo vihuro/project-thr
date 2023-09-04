@@ -1,1 +1,6 @@
-/.vs
+/.vs\*
+API.ASSITENCIA_TECNICA_OS\obj\*
+API.AUTH\obj\*
+API.ESTOQUE_GRM_MATRIZ\obj\*
+API.GATEWAY\obj\*
+ThrApi\obj\*
