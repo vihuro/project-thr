@@ -1,20 +1,20 @@
+# Ignorar a pasta .vs e todos os seus conteúdos
 /.vs
-/.vs/ProjectEvaluation
-/.vs/ProjectEvaluation
-/.vs/ThrApi/v17/.futdcache.v2
-/.vs/ThrApi/v17/.suo
+
+# Ignorar arquivos específicos dentro de .vs/ProjectEvaluation
 /.vs/ProjectEvaluation/thrapi.metadata.v7.bin
 /.vs/ProjectEvaluation/thrapi.projects.v7.bin
-/.vs/ThrApi/v17/.suo
-/.vs/ThrApi/DesignTimeBuild
+
+# Ignorar arquivos específicos dentro de .vs/ThrApi/DesignTimeBuild
 /.vs/ThrApi/DesignTimeBuild/.dtbcache.v2
-/API.ASSITENCIA_TECNICA_OS\obj
-/API.AUTH\obj
-/API.ESTOQUE_GRM_MATRIZ\obj
-/API.GATEWAY\obj
-/ThrApi\obj
-/API.ASSISTENCIA_TECNICA_OS/obj/*
-/API.AUTH/obj/*
-/API.ESTOQUE_GRM_MATRIZ/obj/*
-/API.GATEWAY/obj/*
-/ThrApi/obj/*
+
+# Ignorar arquivos específicos dentro de .vs/ThrApi/v17
+/.vs/ThrApi/v17/.futdcache.v2
+/.vs/ThrApi/v17/.suo
+
+# Ignorar pastas obj em outros diretórios (caso ainda não tenha essas entradas)
+/API.ASSISTENCIA_TECNICA_OS/obj/
+/API.AUTH/obj/
+/API.ESTOQUE_GRM_MATRIZ/obj/
+/API.GATEWAY/obj/
+/ThrApi/obj/
