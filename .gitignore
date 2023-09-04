@@ -3,6 +3,9 @@
 /.vs/ProjectEvaluation
 /.vs/ThrApi/v17/.futdcache.v2
 /.vs/ThrApi/v17/.suo
+/.vs/ProjectEvaluation/thrapi.metadata.v7.bin
+/.vs/ProjectEvaluation/thrapi.projects.v7.bin
+/.vs/ThrApi/v17/.suo
 /.vs/ThrApi/DesignTimeBuild
 /.vs/ThrApi/DesignTimeBuild/.dtbcache.v2
 /API.ASSITENCIA_TECNICA_OS\obj
@@ -10,3 +13,8 @@
 /API.ESTOQUE_GRM_MATRIZ\obj
 /API.GATEWAY\obj
 /ThrApi\obj
+/API.ASSISTENCIA_TECNICA_OS/obj/*
+/API.AUTH/obj/*
+/API.ESTOQUE_GRM_MATRIZ/obj/*
+/API.GATEWAY/obj/*
+/ThrApi/obj/*
