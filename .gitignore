@@ -18,3 +18,8 @@
 /API.ESTOQUE_GRM_MATRIZ/obj/
 /API.GATEWAY/obj/
 /ThrApi/obj/
+
+/API.ASSISTENCIA_TECNICA_OS/bin/Debug/*
+/API.AUTH/bin/Debug/*
+/API.GATEWAY/bin/Debug/*
+/API.ESTOQUE_GRM_MATRIZ/bin/Debug/*
