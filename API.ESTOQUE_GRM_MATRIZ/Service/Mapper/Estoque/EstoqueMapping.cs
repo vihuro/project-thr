@@ -20,9 +20,11 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 .ForMember(x => x.LocalArmazenagemId, map => map.MapFrom(src => src.LocalEstoqueId))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UsuarioId))
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UsuarioId))
-                .ForMember(x => x.DataHoraCadstro, map => map.MapFrom(src => DateTime.UtcNow))
-                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow)) 
-                .ForMember(x => x.Ativo, map => map.MapFrom(src => true));
+                .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
+                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
+                .ForMember(x => x.Ativo, map => map.MapFrom(src => true))
+                .ForMember(x => x.DataFabricao, map => map.MapFrom(src => src.DataFabricao))
+                .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco));
 
             CreateMap<EstoqueModel, ReturnEstoqueDto>()
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))
@@ -31,6 +33,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade))
                 .ForMember(x => x.Quantidade, map => map.MapFrom(src => src.Quantidade))
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => src.Ativo))
+                .ForMember(x => x.DataFabricao, map => map.MapFrom(src => src.DataFabricao))
+                .ForMember(x => x.Preço, map => map.MapFrom(src => src.Preco))
                 .ForPath(x => x.LocalEstocagem, map => map.MapFrom(src => new ReturnLocaleStorageResume
                 {
                     Guid = src.LocalArmazenagem.Id,
@@ -46,7 +50,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                     Apelido = src.UsuarioCadastro.Apelido,
                     Nome = src.UsuarioCadastro.Nome,
                     Id = src.UsuarioCadastro.Id,
-                    DataHora = src.DataHoraCadstro
+                    DataHora = src.DataHoraCadastro
                 }))
                 .ForPath(x => x.Alteracao, map => map.MapFrom(src => new UsertDateTime
                 {

@@ -26,7 +26,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LocalArmazenagemModel",
+                name: "tab_local_armazenagem",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -35,18 +35,19 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: true)
+                    UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocalArmazenagemModel", x => x.Id);
+                    table.PrimaryKey("PK_tab_local_armazenagem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LocalArmazenagemModel_tab_user_auth_UsuarioAlteracaoId",
+                        name: "FK_tab_local_armazenagem_tab_user_auth_UsuarioAlteracaoId",
                         column: x => x.UsuarioAlteracaoId,
                         principalTable: "tab_user_auth",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LocalArmazenagemModel_tab_user_auth_UsuarioCadastroId",
+                        name: "FK_tab_local_armazenagem_tab_user_auth_UsuarioCadastroId",
                         column: x => x.UsuarioCadastroId,
                         principalTable: "tab_user_auth",
                         principalColumn: "Id",
@@ -90,10 +91,13 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     Descricao = table.Column<string>(type: "text", nullable: true),
                     Quantidade = table.Column<double>(type: "double precision", nullable: false),
                     TipoMaterialId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Preco = table.Column<double>(type: "double precision", nullable: false),
+                    DataFabricao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false),
                     Unidade = table.Column<string>(type: "text", nullable: true),
                     LocalArmazenagemId = table.Column<Guid>(type: "uuid", nullable: true),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DataHoraCadstro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -101,9 +105,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                 {
                     table.PrimaryKey("PK_tab_estoque", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tab_estoque_LocalArmazenagemModel_LocalArmazenagemId",
+                        name: "FK_tab_estoque_tab_local_armazenagem_LocalArmazenagemId",
                         column: x => x.LocalArmazenagemId,
-                        principalTable: "LocalArmazenagemModel",
+                        principalTable: "tab_local_armazenagem",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tab_estoque_tab_tipo_matetial_TipoMaterialId",
@@ -119,6 +123,37 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     table.ForeignKey(
                         name: "FK_tab_estoque_tab_user_auth_UsuarioCadastroId",
                         column: x => x.UsuarioCadastroId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_movimentacao",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TipoMovimentacao = table.Column<string>(type: "text", nullable: true),
+                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    QuantidadeOrigem = table.Column<double>(type: "double precision", nullable: false),
+                    QuantidadeDestino = table.Column<double>(type: "double precision", nullable: false),
+                    QuantidadeMovimentada = table.Column<double>(type: "double precision", nullable: false),
+                    Destino = table.Column<string>(type: "text", nullable: true),
+                    DataHoraMovimentacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UsuarioMovimentacaoId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_movimentacao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_movimentacao_tab_estoque_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "tab_estoque",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_movimentacao_tab_user_auth_UsuarioMovimentacaoId",
+                        column: x => x.UsuarioMovimentacaoId,
                         principalTable: "tab_user_auth",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -144,13 +179,13 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                         column: x => x.MaterialEstoqueId,
                         principalTable: "tab_estoque",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_tab_substitutos_tab_estoque_SubstitutoId",
                         column: x => x.SubstitutoId,
                         principalTable: "tab_estoque",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_tab_substitutos_tab_user_auth_UsuarioAlteracaoId",
                         column: x => x.UsuarioAlteracaoId,
@@ -164,16 +199,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LocalArmazenagemModel_UsuarioAlteracaoId",
-                table: "LocalArmazenagemModel",
-                column: "UsuarioAlteracaoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LocalArmazenagemModel_UsuarioCadastroId",
-                table: "LocalArmazenagemModel",
-                column: "UsuarioCadastroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_estoque_LocalArmazenagemId",
@@ -194,6 +219,26 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                 name: "IX_tab_estoque_UsuarioCadastroId",
                 table: "tab_estoque",
                 column: "UsuarioCadastroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_local_armazenagem_UsuarioAlteracaoId",
+                table: "tab_local_armazenagem",
+                column: "UsuarioAlteracaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_local_armazenagem_UsuarioCadastroId",
+                table: "tab_local_armazenagem",
+                column: "UsuarioCadastroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_movimentacao_MaterialId",
+                table: "tab_movimentacao",
+                column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_movimentacao_UsuarioMovimentacaoId",
+                table: "tab_movimentacao",
+                column: "UsuarioMovimentacaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_substitutos_MaterialEstoqueId",
@@ -230,13 +275,16 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "tab_movimentacao");
+
+            migrationBuilder.DropTable(
                 name: "tab_substitutos");
 
             migrationBuilder.DropTable(
                 name: "tab_estoque");
 
             migrationBuilder.DropTable(
-                name: "LocalArmazenagemModel");
+                name: "tab_local_armazenagem");
 
             migrationBuilder.DropTable(
                 name: "tab_tipo_matetial");

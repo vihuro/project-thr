@@ -12,6 +12,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
         public List<InsertEstoqueSubstitutoDto>? Substitutos { get; set; }
         public Guid LocalEstoqueId { get; set; }
         public decimal Quantidade { get; set; }
+        public double Preco { get; set; }
+        public DateTime DataFabricao { get; set; }
         public Guid UsuarioId { get; set; }
 
     }

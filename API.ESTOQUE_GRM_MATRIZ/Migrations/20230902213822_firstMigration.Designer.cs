@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230802141437_ColunaAtivoTabelaEstoque")]
-    partial class ColunaAtivoTabelaEstoque
+    [Migration("20230902213822_firstMigration")]
+    partial class firstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,10 +37,13 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("DataFabricao")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("DataHoraAlteracao")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DataHoraCadstro")
+                    b.Property<DateTime>("DataHoraCadastro")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descricao")
@@ -48,6 +51,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
                     b.Property<Guid?>("LocalArmazenagemId")
                         .HasColumnType("uuid");
+
+                    b.Property<double>("Preco")
+                        .HasColumnType("double precision");
 
                     b.Property<double>("Quantidade")
                         .HasColumnType("double precision");

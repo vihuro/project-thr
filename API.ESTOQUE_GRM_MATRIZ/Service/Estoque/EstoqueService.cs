@@ -97,7 +97,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             var verify = await _context.Estoque
                 .AsNoTracking()
                 .Where(x => x.Codigo == dto.Codigo &&
-                                    x.Descricao == dto.Descricao)
+                            x.Descricao == dto.Descricao)
                 .ToListAsync();
             var verifyLocale = verify.Any(x => x.LocalArmazenagemId == dto.LocalEstoqueId);
 

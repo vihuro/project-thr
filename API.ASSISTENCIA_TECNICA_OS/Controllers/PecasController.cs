@@ -84,9 +84,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 {
                     string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
 
-                    NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
+                    NtlmPasswordAuthentication auth = new(null, "VitorHugo", "25249882");
 
-                    var sbmFile = await new SmbFile(smbPath, auth).GetInputStreamAsync();
+                    var sbmFile = await new SmbFile(smbPath).GetInputStreamAsync();
 
                     return File(sbmFile, mimeType);
 

@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace API.ESTOQUE_GRM_MATRIZ.Migrations
+namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class testeMigrations2 : Migration
+    public partial class firsMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

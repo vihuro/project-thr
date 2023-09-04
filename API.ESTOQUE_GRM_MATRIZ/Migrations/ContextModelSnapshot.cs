@@ -34,10 +34,13 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("DataFabricao")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("DataHoraAlteracao")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DataHoraCadstro")
+                    b.Property<DateTime>("DataHoraCadastro")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descricao")
@@ -45,6 +48,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
                     b.Property<Guid?>("LocalArmazenagemId")
                         .HasColumnType("uuid");
+
+                    b.Property<double>("Preco")
+                        .HasColumnType("double precision");
 
                     b.Property<double>("Quantidade")
                         .HasColumnType("double precision");
