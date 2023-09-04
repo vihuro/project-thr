@@ -1,6 +1,10 @@
-/.vs\*
-API.ASSITENCIA_TECNICA_OS\obj\*
-API.AUTH\obj\*
-API.ESTOQUE_GRM_MATRIZ\obj\*
-API.GATEWAY\obj\*
-ThrApi\obj\*
+/.vs/*
+/.vs/ProjectEvaluation/thrapi.metadata.v7.bin
+/.vs/ProjectEvaluation/thrapi.projects.v7.bin
+/.vs/ThrApi/v17/.futdcache.v2
+/.vs/ThrApi/v17/.suo
+/API.ASSITENCIA_TECNICA_OS\obj\*
+/API.AUTH\obj\*
+/API.ESTOQUE_GRM_MATRIZ\obj\*
+/API.GATEWAY\obj\*
+/ThrApi\obj\*
