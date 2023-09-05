@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class firsMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -92,7 +92,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     Quantidade = table.Column<double>(type: "double precision", nullable: false),
                     TipoMaterialId = table.Column<Guid>(type: "uuid", nullable: true),
                     Preco = table.Column<double>(type: "double precision", nullable: false),
-                    DataFabricao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DataFabricacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Ativo = table.Column<bool>(type: "boolean", nullable: false),
                     Unidade = table.Column<string>(type: "text", nullable: true),
                     LocalArmazenagemId = table.Column<Guid>(type: "uuid", nullable: true),

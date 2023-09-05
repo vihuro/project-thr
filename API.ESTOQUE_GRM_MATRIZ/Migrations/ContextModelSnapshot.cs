@@ -34,7 +34,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("DataFabricao")
+                    b.Property<DateTime>("DataFabricacao")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DataHoraAlteracao")

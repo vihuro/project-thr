@@ -13,7 +13,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
         public double Quantidade { get; set; }
         public string Unidade { get; set; }
         public bool Ativo { get; set; }
-        public double Preço { get; set; }
+        public double Preco { get; set; }
         public DateTime DataFabricao { get; set; }
         public UsertDateTime Cadastro { get; set; }
         public UsertDateTime Alteracao { get; set; }

@@ -23,7 +23,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => true))
-                .ForMember(x => x.DataFabricao, map => map.MapFrom(src => src.DataFabricao))
+                .ForMember(x => x.DataFabricacao, map => map.MapFrom(src => src.DataFabricacao))
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco));
 
             CreateMap<EstoqueModel, ReturnEstoqueDto>()
@@ -33,8 +33,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade))
                 .ForMember(x => x.Quantidade, map => map.MapFrom(src => src.Quantidade))
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => src.Ativo))
-                .ForMember(x => x.DataFabricao, map => map.MapFrom(src => src.DataFabricao))
-                .ForMember(x => x.Preço, map => map.MapFrom(src => src.Preco))
+                .ForMember(x => x.DataFabricao, map => map.MapFrom(src => src.DataFabricacao))
+                .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
                 .ForPath(x => x.LocalEstocagem, map => map.MapFrom(src => new ReturnLocaleStorageResume
                 {
                     Guid = src.LocalArmazenagem.Id,

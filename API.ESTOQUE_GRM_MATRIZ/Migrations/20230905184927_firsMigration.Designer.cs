@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230902213822_firstMigration")]
-    partial class firstMigration
+    [Migration("20230905184927_firsMigration")]
+    partial class firsMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("DataFabricao")
+                    b.Property<DateTime>("DataFabricacao")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DataHoraAlteracao")

@@ -26,7 +26,7 @@ namespace API.AUTH.Service.JWT
             var tokenHeader = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -55,7 +55,7 @@ namespace API.AUTH.Service.JWT
             claims.Add(active);
             claims.Add(identityName);
             tokenDescriptor.Subject = new ClaimsIdentity(claims);
-            var expiration = DateTime.UtcNow.AddMinutes(1);
+            var expiration = DateTime.UtcNow.AddHours(1);
             tokenDescriptor.Expires = expiration;
             tokenDescriptor.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
             var token = tokenHeader.CreateToken(tokenDescriptor);
