@@ -14,5 +14,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
         Task<List<ReturnEstoqueDto>> UpdateQuantidadeZero();
         Task<ReturnEstoqueDto> UpdateDateTimeChange(Guid produtoId, Guid usuarioId);
         Task<ReturnEstoqueDto> UpdateQuantidadeOrUnidade(UpdateQuantidadeOrUnidadeDto dto);
+        Task<ReturnEstoqueDto> UpdatePreco(UpdatePrecoDto dto);
     }
 }

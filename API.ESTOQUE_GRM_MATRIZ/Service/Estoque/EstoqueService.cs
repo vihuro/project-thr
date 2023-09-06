@@ -90,7 +90,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 string.IsNullOrWhiteSpace(dto.Quantidade.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.LocalEstoqueId.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.UsuarioId.ToString()) ||
-                string.IsNullOrWhiteSpace(dto.TipoMaterialId.ToString()))
+                string.IsNullOrWhiteSpace(dto.TipoMaterialId.ToString()) || 
+                string.IsNullOrWhiteSpace(dto.DataFabricacao.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.Preco.ToString()))
 
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
 
@@ -188,6 +190,9 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
         }
         public async Task<ReturnEstoqueDto> UpdateDateTimeChange(Guid produtoId, Guid usuarioId)
         {
+            if (string.IsNullOrWhiteSpace(produtoId.ToString()) ||
+                string.IsNullOrWhiteSpace(usuarioId.ToString()))
+                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
             var obj = await _context.Estoque
                 .FirstOrDefaultAsync(x => x.Id == produtoId);
             if (obj == null)
@@ -214,6 +219,25 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             await _context.SaveChangesAsync();
 
             return await GetById(obj.Id);
+        }
+        public async Task<ReturnEstoqueDto> UpdatePreco(UpdatePrecoDto dto)
+        {
+            var obj = await _context.Estoque
+                .FirstOrDefaultAsync(x => x.Id == dto.ProdutoId) ??
+                throw new CustomException("Produto não encontrado!") { HResult = 404 };
+            if (dto.Preco < 0)
+                throw new CustomException("Não é possível declar um preço negativo!") { HResult = 400 };
+
+            obj.Preco = dto.Preco;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+
+            _context.Estoque.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+
+
         }
     }
 }

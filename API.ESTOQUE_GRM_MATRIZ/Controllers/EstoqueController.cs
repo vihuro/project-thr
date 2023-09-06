@@ -1,9 +1,11 @@
 ﻿using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class EstoqueController : ControllerBase
@@ -21,12 +23,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             try
             {
                 var result = await _service.Insert(dto);
-                return Ok(result);
+                return Created("",result);
             }
             catch (Exception ex)
             {
                 if(ex.HResult == 400) return BadRequest(ex.Message);
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -41,7 +43,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpPut]
@@ -58,9 +60,24 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 if(ex.HResult == 404) return NotFound(ex.Message);
                 if (ex.HResult == 400) return BadRequest(ex.Message);
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
 
+        }
+        [HttpPut("preco")]
+        public async Task<ActionResult<ReturnEstoqueDto>> UpdatePreco(UpdatePrecoDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdatePreco(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                if (ex.HResult == 400) return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetById(Guid id)
@@ -89,7 +106,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             {
                 if (ex.HResult == 404) return NotFound(ex.Message);
                 if (ex.HResult == 400) return BadRequest(ex.Message);
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpDelete]
@@ -103,7 +120,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }
