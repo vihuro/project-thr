@@ -1,4 +1,5 @@
-﻿using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
+﻿using API.AUTH.Service.JWT;
+using API.ESTOQUE_GRM_MATRIZ.Dto.Estoque;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
         }
 
         [HttpPost]
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ","TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO")]
         public async Task<ActionResult<ReturnEstoqueDto>> Insert(InsertEstoqueDto dto)
         {
             try
@@ -33,6 +35,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
         }
 
         [HttpGet]
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO,COMUNICADOR - LEITURA")]
+
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetAll()
         {
             try
@@ -47,6 +51,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
         }
         [HttpPut]
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO")]
         public async Task<ActionResult<ReturnEstoqueDto>> UpdateUnidadeOrTipo(UpdateQuantidadeOrUnidadeDto dto)
         {
             try
@@ -65,6 +70,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
 
         }
         [HttpPut("preco")]
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA")]
         public async Task<ActionResult<ReturnEstoqueDto>> UpdatePreco(UpdatePrecoDto dto)
         {
             try
@@ -95,6 +101,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
         }
         [HttpGet("without-substituto/{id}")]
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO")]
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetWithoutSubstituto(Guid id)
         {
             try
@@ -110,6 +117,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
         }
         [HttpDelete]
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI")]
         public async Task<ActionResult<bool>> DeteleAll()
         {
             try
