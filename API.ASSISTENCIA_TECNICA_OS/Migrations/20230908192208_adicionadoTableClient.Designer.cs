@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230830160817_adicionando_tabela_pecas_por_os")]
-    partial class adicionando_tabela_pecas_por_os
+    [Migration("20230908192208_adicionadoTableClient")]
+    partial class adicionadoTableClient
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,64 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Client.ClientModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Cnpj")
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)");
+
+                    b.Property<string>("CodigoRadar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContatoTelefone")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("NomeContatoClient")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tab_client");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ClientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MaquinaId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("MaquinaId");
+
+                    b.ToTable("tab_maquina_cliente");
+                });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", b =>
                 {
@@ -101,6 +159,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("MaquinaClienteModelId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("MaquinaId")
                         .HasColumnType("uuid");
 
@@ -108,6 +169,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaquinaClienteModelId");
 
                     b.HasIndex("MaquinaId");
 
@@ -152,6 +215,23 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.ToTable("tab_user");
                 });
 
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Client.ClientModel", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
+                        .WithMany()
+                        .HasForeignKey("MaquinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Maquina");
+                });
+
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaEOrdemModel", b =>
                 {
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
@@ -181,6 +261,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaModel", b =>
                 {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", null)
+                        .WithMany("PecasPorMaquinaNoClient")
+                        .HasForeignKey("MaquinaClienteModelId");
+
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
                         .WithMany("Pecas")
                         .HasForeignKey("MaquinaId")
@@ -196,6 +280,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Navigation("Maquina");
 
                     b.Navigation("Peca");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", b =>
+                {
+                    b.Navigation("PecasPorMaquinaNoClient");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", b =>

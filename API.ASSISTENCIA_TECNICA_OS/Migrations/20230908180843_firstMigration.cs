@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class adicionando_tabela_pecas_por_os : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

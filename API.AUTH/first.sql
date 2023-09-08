@@ -9,7 +9,7 @@ START TRANSACTION;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE TABLE tab_user (
         "Id" uuid NOT NULL,
         "Nome" text NULL,
@@ -25,7 +25,7 @@ END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE TABLE "tab_typeClaims" (
         "Id" uuid NOT NULL,
         "Name" text NULL,
@@ -43,69 +43,51 @@ END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE TABLE "tab_claimsForUser" (
         "Id" uuid NOT NULL,
         "TypeClaimsId" uuid NOT NULL,
         "UserClaimId" uuid NOT NULL,
-        "UserRegisterId" uuid NOT NULL,
-        "UserChangeId" uuid NOT NULL,
         CONSTRAINT "PK_tab_claimsForUser" PRIMARY KEY ("Id"),
         CONSTRAINT "FK_tab_claimsForUser_tab_typeClaims_TypeClaimsId" FOREIGN KEY ("TypeClaimsId") REFERENCES "tab_typeClaims" ("Id") ON DELETE CASCADE,
-        CONSTRAINT "FK_tab_claimsForUser_tab_user_UserChangeId" FOREIGN KEY ("UserChangeId") REFERENCES tab_user ("Id") ON DELETE CASCADE,
-        CONSTRAINT "FK_tab_claimsForUser_tab_user_UserClaimId" FOREIGN KEY ("UserClaimId") REFERENCES tab_user ("Id") ON DELETE CASCADE,
-        CONSTRAINT "FK_tab_claimsForUser_tab_user_UserRegisterId" FOREIGN KEY ("UserRegisterId") REFERENCES tab_user ("Id") ON DELETE CASCADE
+        CONSTRAINT "FK_tab_claimsForUser_tab_user_UserClaimId" FOREIGN KEY ("UserClaimId") REFERENCES tab_user ("Id") ON DELETE CASCADE
     );
     END IF;
 END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE INDEX "IX_tab_claimsForUser_TypeClaimsId" ON "tab_claimsForUser" ("TypeClaimsId");
     END IF;
 END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
-    CREATE INDEX "IX_tab_claimsForUser_UserChangeId" ON "tab_claimsForUser" ("UserChangeId");
-    END IF;
-END $EF$;
-
-DO $EF$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE INDEX "IX_tab_claimsForUser_UserClaimId" ON "tab_claimsForUser" ("UserClaimId");
     END IF;
 END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
-    CREATE INDEX "IX_tab_claimsForUser_UserRegisterId" ON "tab_claimsForUser" ("UserRegisterId");
-    END IF;
-END $EF$;
-
-DO $EF$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE INDEX "IX_tab_typeClaims_UsuarioAlteracaoId" ON "tab_typeClaims" ("UsuarioAlteracaoId");
     END IF;
 END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     CREATE INDEX "IX_tab_typeClaims_UsuarioCadastroId" ON "tab_typeClaims" ("UsuarioCadastroId");
     END IF;
 END $EF$;
 
 DO $EF$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230726141810_first') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230816171913_firsMigration') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20230726141810_first', '7.0.5');
+    VALUES ('20230816171913_firsMigration', '7.0.5');
     END IF;
 END $EF$;
 COMMIT;
