@@ -1,27 +1,49 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Client;
 using API.ASSISTENCIA_TECNICA_OS.Model.Client;
+using API.ASSISTENCIA_TECNICA_OS.Model.User;
 using AutoMapper;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
 {
-    public class ClientMapping :Profile
+    public class ClientMapping : Profile
     {
-        public ClientMapping() 
+        public ClientMapping()
         {
             CreateMap<InsertClientDto, ClientModel>()
                 .ForMember(x => x.Endereco, map => map.MapFrom(src => src.Endereco))
-                .ForMember(x => x.NomeContatoClient, map => map.MapFrom(src => src.NomeContatoCliente))
+                .ForMember(x => x.Nome, map => map.MapFrom(src => src.Nome.ToUpper()))
+                .ForMember(x => x.NomeContatoClient, map => map.MapFrom(src => src.NomeContatoCliente.ToUpper()))
                 .ForMember(x => x.ContatoTelefone, map => map.MapFrom(src => src.ContatoTelefone))
                 .ForMember(x => x.Cnpj, map => map.MapFrom(src => src.Cnpj))
-                .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar));
+                .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar.ToUpper()))
+                .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UserId))
+                .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
+                .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UserId))
+                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow)) ;
 
             CreateMap<ClientModel, ReturnClientDto>()
                 .ForMember(x => x.IdCliente, map => map.MapFrom(src => src.Id))
+                .ForMember(x => x.Nome, map => map.MapFrom(src => src.Nome))
                 .ForMember(x => x.Endereco, map => map.MapFrom(src => src.Endereco))
                 .ForMember(x => x.ContatoNome, map => map.MapFrom(src => src.NomeContatoClient))
                 .ForMember(x => x.ContatoTelefone, map => map.MapFrom(src => src.ContatoTelefone))
-                .ForMember(x => x.Cnpj, map => map.MapFrom(src => src.Cnpj)).
-                ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar));
+                .ForMember(x => x.Cnpj, map => map.MapFrom(src => src.Cnpj))
+                .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar))
+                .ForPath(x => x.Cadastro, map => map.MapFrom(src => new UsuarioDto
+                {
+                    Apelido = src.UsuarioCadastro.Apelido,
+                    UsuarioId = src.UsuarioCadastro.Id,
+                    Nome = src.UsuarioCadastro.Nome,
+                    DataHora = src.DataHoraCadastro
+                }))
+                .ForPath(x => x.Alteracao, map => map.MapFrom(src => new UsuarioDto
+                {
+                    Apelido = src.UsuarioAlteracao.Apelido,
+                    UsuarioId = src.UsuarioAlteracao.Id,
+                    Nome = src.UsuarioAlteracao.Nome,
+                    DataHora = src.DataHoraAlteracao
+                }));
+
         }
     }
 }

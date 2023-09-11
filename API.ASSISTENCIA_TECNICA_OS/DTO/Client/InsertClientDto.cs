@@ -8,6 +8,7 @@
         public string Endereco { get; set; }
         public string NomeContatoCliente { get; set; }
         public string ContatoTelefone { get; set; }
+        public Guid UserId { get;set; }
 #nullable enable
         public List<Maquina>? Maquinas { get; set; }
     }

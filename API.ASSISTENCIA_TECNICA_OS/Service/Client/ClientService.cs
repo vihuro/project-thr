@@ -46,28 +46,39 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
 
             await _context.SaveChangesAsync();
 
-            var result = _mapper.Map<ReturnClientDto>(obj);
 
-            return result;
+            return await GetById(obj.Id);
 
         }
         public async Task<List<ReturnClientDto>> GetAll()
         {
-            var obj = await _context.Cliente.ToListAsync();
+            var obj = await _context.Cliente
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
+                .AsNoTracking()
+                .ToListAsync();
             var dto = _mapper.Map<List<ReturnClientDto>>(obj);
 
             return dto;
         }
         public async Task<ReturnClientDto> GetById(Guid id)
         {
-            var obj = await _context.Cliente.SingleOrDefaultAsync(x => x.Id == id) ??
+            var obj = await _context.Cliente
+                .Include(u => u.UsuarioCadastro)
+                .Include(u => u.UsuarioAlteracao)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == id) ??
                 throw new CustomException("Cliente não encontrado!");
             var dto = _mapper.Map<ReturnClientDto>(obj);
             return dto;
         }
         public async Task<ReturnClientDto> GetByCodigoRadar(string codigoRadar)
         {
-            var obj = await _context.Cliente.SingleOrDefaultAsync(x => x.CodigoRadar == codigoRadar) ??
+            var obj = await _context.Cliente
+                .Include(u => u.UsuarioCadastro)
+                .Include(u => u.UsuarioAlteracao)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.CodigoRadar == codigoRadar) ??
                 throw new CustomException("Cliente não encontrado!");
             var dto = _mapper.Map<ReturnClientDto>(obj);
             return dto;

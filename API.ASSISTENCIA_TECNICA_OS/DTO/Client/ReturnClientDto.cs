@@ -9,5 +9,14 @@
         public string ContatoNome { get; set; }
         public string Endereco { get; set; }
         public string CodigoRadar { get; set; }
+        public UsuarioDto Cadastro { get; set; }
+        public UsuarioDto Alteracao { get; set; }
+    }
+    public class UsuarioDto
+    {
+        public Guid UsuarioId { get; set; }
+        public string Nome { get; set; }
+        public string Apelido { get; set; }
+        public DateTime DataHora { get; set; }
     }
 }

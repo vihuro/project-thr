@@ -1,4 +1,5 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
+using API.ASSISTENCIA_TECNICA_OS.Model.User;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Client
         public string Cnpj { get; set; }
         public string NomeContatoClient { get; set; }
         public string ContatoTelefone { get; set; }
+        public Guid UsuarioCadastroId { get;set; }
+        public DateTime DataHoraCadastro { get; set; }
+        public virtual UserModel UsuarioCadastro { get; set; }
+        public Guid UsuarioAlteracaoId { get; set; }
+        public DateTime DataHoraAlteracao { get; set; }
+        public virtual UserModel UsuarioAlteracao { get; set; }
 
     }
 }
