@@ -27,6 +27,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
                 string.IsNullOrWhiteSpace(dto.Cnpj) ||
                 string.IsNullOrWhiteSpace(dto.CodigoRadar))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
+            if (dto.Cnpj.Length != 14)
+            {
+                throw new CustomException("O CNPJ Precisa conter 14 números!") { HResult = 400 };
+
+            }
             //Verifica se código desse cliente já está sendo usado
             var verifyCodigoRadar = await _context.Cliente.SingleOrDefaultAsync(x => x.CodigoRadar == dto.CodigoRadar);
             if (verifyCodigoRadar != null)
