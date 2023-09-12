@@ -1,6 +1,6 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Client;
 using API.ASSISTENCIA_TECNICA_OS.Model.Client;
-using API.ASSISTENCIA_TECNICA_OS.Model.User;
+using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using AutoMapper;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
@@ -19,7 +19,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UserId))
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UserId))
-                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow)) ;
+                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow));
 
             CreateMap<ClientModel, ReturnClientDto>()
                 .ForMember(x => x.IdCliente, map => map.MapFrom(src => src.Id))
@@ -42,8 +42,31 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                     UsuarioId = src.UsuarioAlteracao.Id,
                     Nome = src.UsuarioAlteracao.Nome,
                     DataHora = src.DataHoraAlteracao
-                }));
+                }))
+                .ForPath(x => x.MaquinaCliente, map => map.MapFrom(src => src.Maquinas.Select(c => new MaquinaClienteDto
+                {
+                    MaquinaId = c.MaquinaId,
+                    NumeroSerie = c.Maquina.NumeroSerie,
+                    TipoMaquina = c.Maquina.TipoMaquina,
+                    Status = GetFormattedStatus(c.Status),
+                })));
 
+        }
+        public string GetFormattedStatus(Status status)
+        {
+            switch (status)
+            {
+                case Status.LIBERADA:
+                    return "Liberada";
+                case Status.AGUARDANDO_ORCAMENTO:
+                    return "Aguardando Orçamento";
+                case Status.AGUARDANDO_APROVACAO:
+                    return "Aguardando Aprovação";
+                case Status.EM_MANUTENCAO:
+                    return "Em Manutenção";
+                default:
+                    return "Status Desconhecido";
+            }
         }
     }
 }

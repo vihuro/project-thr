@@ -55,6 +55,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
             var obj = await _context.Cliente
                 .Include(u => u.UsuarioAlteracao)
                 .Include(u => u.UsuarioCadastro)
+                .Include(m => m.Maquinas)
+                    .ThenInclude(m => m.Maquina)
                 .AsNoTracking()
                 .ToListAsync();
             var dto = _mapper.Map<List<ReturnClientDto>>(obj);
@@ -85,8 +87,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
         }
         public async Task<bool> DeleteAll()
         {
-            var list = await _context.Cliente.ToListAsync();
+            var list = await _context.Cliente
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
+                .AsNoTracking()
+                .ToListAsync();
             _context.Cliente.RemoveRange(list);
+
+            await _context.SaveChangesAsync();
 
             return true;
         }

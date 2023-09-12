@@ -1,5 +1,4 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Client;
-using API.ASSISTENCIA_TECNICA_OS.DTO.OrdemServico;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +6,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 {
     [ApiController]
     [Route("api/v1/cliente")]
-    public class ClientController:ControllerBase
+    public class ClientController : ControllerBase
     {
         private readonly IClientInteService _service;
 
@@ -48,7 +47,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
         {
             try
             {
-                var result = _service.DeleteAll();
+                var result = await _service.DeleteAll();
                 return Ok(result);
             }
             catch (Exception ex)

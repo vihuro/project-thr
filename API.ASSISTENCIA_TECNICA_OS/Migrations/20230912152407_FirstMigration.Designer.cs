@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230912032601_CorrigiDoClienteInMaquinaClienteModel")]
-    partial class CorrigiDoClienteInMaquinaClienteModel
+    [Migration("20230912152407_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.Property<Guid>("MaquinaId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -11,6 +11,8 @@
         public string CodigoRadar { get; set; }
         public UsuarioDto Cadastro { get; set; }
         public UsuarioDto Alteracao { get; set; }
+        public List<MaquinaClienteDto> MaquinaCliente { get; set; }
+
     }
     public class UsuarioDto
     {
@@ -19,4 +21,12 @@
         public string Apelido { get; set; }
         public DateTime DataHora { get; set; }
     }
+    public class MaquinaClienteDto
+    {
+        public Guid MaquinaId { get; set; }
+        public string TipoMaquina { get; set; }
+        public string NumeroSerie { get; set; }
+        public string Status { get; set; }
+    }
+
 }

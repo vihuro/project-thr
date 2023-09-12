@@ -18,7 +18,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.MessageConsumer
             _service = service;
             var factory = new ConnectionFactory
             {
-                HostName = "some-rabbit",
+                HostName = "localhost",
                 UserName = "guest",
                 Password = "guest",
             };

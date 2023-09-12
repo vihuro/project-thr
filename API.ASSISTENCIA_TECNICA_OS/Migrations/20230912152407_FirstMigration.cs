@@ -125,16 +125,17 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MaquinaId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClienteId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tab_maquina_cliente", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tab_maquina_cliente_tab_client_ClientId",
-                        column: x => x.ClientId,
+                        name: "FK_tab_maquina_cliente_tab_client_ClienteId",
+                        column: x => x.ClienteId,
                         principalTable: "tab_client",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tab_maquina_cliente_tab_maquina_MaquinaId",
                         column: x => x.MaquinaId,
@@ -223,9 +224,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 column: "UsuarioCadastroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tab_maquina_cliente_ClientId",
+                name: "IX_tab_maquina_cliente_ClienteId",
                 table: "tab_maquina_cliente",
-                column: "ClientId");
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_maquina_cliente_MaquinaId",

@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace API.ASSISTENCIA_TECNICA_OS.Migrations
+namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 {
     /// <inheritdoc />
-    public partial class AlterandoTabelaCliente : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
