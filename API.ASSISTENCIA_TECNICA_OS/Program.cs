@@ -3,7 +3,11 @@ using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Service.Client;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client;
+using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Maquina;
+using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.OrdemServico;
+using API.ASSISTENCIA_TECNICA_OS.Service.Maquina;
+using API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +26,8 @@ builder.Services.AddCors(x => x.AddPolicy("corsPolicy", build =>
 }));
 //services
 builder.Services.AddScoped<IClientInteService, ClientService>();
+builder.Services.AddScoped<IMaquinaService, MaquinaService>();
+builder.Services.AddScoped<IMaquinaClienteService, MaquinaClienteService>();
 
 //context
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");
@@ -35,6 +41,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(OrdemServicoMapping));
     x.AddProfile(typeof(MaquinaMapping));
     x.AddProfile(typeof(ClientMapping));
+    x.AddProfile(typeof(MaquinaInClienteMapping));
 });
 
 var environment = builder.Environment.EnvironmentName;

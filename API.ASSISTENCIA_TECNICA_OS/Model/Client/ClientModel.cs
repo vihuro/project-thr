@@ -21,14 +21,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Client
         [StringLength(14, MinimumLength = 14,
             ErrorMessage = "Um CNPJ precisa ter 14 caracteres!")]
         public string Cnpj { get; set; }
+        [StringLength(50, MinimumLength = 3,
+            ErrorMessage = "O Nome do cliente precisa ter pelo menos 3 caracteres!")]
         public string NomeContatoClient { get; set; }
+        [StringLength(10, MinimumLength = 8,
+            ErrorMessage = "O telefone precisa ter pelo menos 8 caracteres!")]
         public string ContatoTelefone { get; set; }
-        public Guid UsuarioCadastroId { get;set; }
+        public Guid UsuarioCadastroId { get; set; }
         public DateTime DataHoraCadastro { get; set; }
         public virtual UserModel UsuarioCadastro { get; set; }
         public Guid UsuarioAlteracaoId { get; set; }
         public DateTime DataHoraAlteracao { get; set; }
         public virtual UserModel UsuarioAlteracao { get; set; }
+#nullable enable
+        public virtual List<MaquinaClienteModel>? Maquinas { get; set; }
 
     }
 }

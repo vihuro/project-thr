@@ -36,7 +36,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 };*/
                 var obj = _mapper.Map<OrdemServicoModel>(dto);
 
-                if(dto.Maquinas.Count > 0)
+                /*if(dto.Maquinas.Count > 0)
                 {
                     obj.MaquinaPorOs = new List<PecasPorMaquinaEOrdemModel>();
                     foreach(var item in dto.Maquinas)
@@ -60,7 +60,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                             }
                         }
                     }
-                }
+                }*/
 
                 _context.Os.Add(obj);
                 await _context.SaveChangesAsync();

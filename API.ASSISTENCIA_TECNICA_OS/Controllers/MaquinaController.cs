@@ -1,9 +1,6 @@
-﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
-using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
-using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
-using AutoMapper;
+﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
+using API.ASSISTENCIA_TECNICA_OS.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 {
@@ -11,79 +8,55 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
     [Route("api/v1/maquina")]
     public class MaquinaController : ControllerBase
     {
-        private readonly Context _context;
-        private readonly IMapper _mapper;
+        private readonly IMaquinaService _service;
 
-        public MaquinaController(Context context, IMapper mapper)
+        public MaquinaController(IMaquinaService service)
         {
-            _context = context;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Insert(InsertMaquinaDto dto)
+        public async Task<ActionResult<ReturnMaquinaComPecasDto>> Insert(InsertMaquinaDto dto)
         {
             try
             {
-                var obj = _mapper.Map<MaquinaModel>(dto);
+                var result = await _service.Insert(dto);
 
-                _context.Maquina.Add(obj);
-                await _context.SaveChangesAsync();
-
-                var result = await _context.Maquina
-                    .Include(p => p.Pecas)
-                        .ThenInclude(p => p.Peca)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Id == obj.Id);
-                //VERIFICAR
-
-                var mapper = _mapper.Map<ReturnMaquinaComPecasDto>(result);
-
-
-
-                return Created("", mapper);
+                return Created("", result);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult<List<ReturnMaquinaComPecasDto>>> GetAll()
         {
             try
             {
-                var list = await _context.Maquina
-                    .Include(p => p.Pecas)
-                        .ThenInclude(p => p.Peca)
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                var result = _mapper.Map<List<ReturnMaquinaComPecasDto>>(list);
+                var result = await _service.GetAll();
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpDelete]
-        public async Task<ActionResult> Delete()
+        public async Task<ActionResult<bool>> Delete()
         {
             try
             {
-                var list = await _context.Maquina.ToListAsync();
-                _context.Maquina.RemoveRange(list);
-                await _context.SaveChangesAsync();
-                return Ok(true);
+                var result = await _service.DeleteAll();
+                return Ok(result);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }

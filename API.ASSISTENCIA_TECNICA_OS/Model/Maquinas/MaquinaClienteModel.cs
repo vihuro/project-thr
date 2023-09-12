@@ -1,5 +1,4 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.Model.Client;
-using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
@@ -11,7 +10,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         public Guid MaquinaId { get; set; }
         public Guid ClienteId { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
-        public virtual ClientModel Client { get; set; }
-        public virtual List<PecasPorMaquinaModel> PecasPorMaquinaNoClient { get; set; } 
+        public virtual ClientModel Cliente { get; set; }
     }
 }

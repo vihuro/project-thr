@@ -5,7 +5,8 @@
         public string TipoMaquina { get; set; }
         public string NumeroSerie { get; set; }
         public Guid UserId { get; set; }
-        public List<InsertMaquinaPecasDto> Pecas { get; set;}
+#nullable enable
+        public List<InsertMaquinaPecasDto>? Pecas { get; set;}
     }
     public class InsertMaquinaPecasDto
     {
