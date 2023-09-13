@@ -25,6 +25,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
             catch (Exception ex)
             {
+                if (ex.HResult == 404) return NotFound(ex.Message);
                 return BadRequest(ex.Message);
             }
         }

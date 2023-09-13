@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class FirstMagration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,14 +62,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nome = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CodigoRadar = table.Column<string>(type: "text", nullable: true),
-                    Endereco = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    Cnpj = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: true),
-                    NomeContatoClient = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    ContatoTelefone = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    CEP = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Estado = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false),
+                    Cidade = table.Column<string>(type: "text", nullable: false),
+                    Regiao = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Rua = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    NumeroEstabelecimento = table.Column<string>(type: "text", nullable: false),
+                    Cnpj = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
+                    ContatoTelefone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DataHoraAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    DataHoraAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Complemento = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    NomeContatoClient = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {

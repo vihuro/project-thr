@@ -20,7 +20,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
                     ClienteId = src.ClienteId,
                     Cnpj = src.Cliente.Cnpj,
                     CodigoRadar = src.Cliente.CodigoRadar,
-                    Endereco = src.Cliente.Endereco,
+                    //Endereco = src.Cliente.Endereco,
                     NomeCliente = src.Cliente.Nome
                 }))
                 .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaDto

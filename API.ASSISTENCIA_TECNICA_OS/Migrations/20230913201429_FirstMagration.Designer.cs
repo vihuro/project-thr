@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230912152407_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230913201429_FirstMagration")]
+    partial class FirstMagration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,16 +32,31 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("CEP")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Cnpj")
+                        .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("character varying(14)");
 
                     b.Property<string>("CodigoRadar")
                         .HasColumnType("text");
 
+                    b.Property<string>("Complemento")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<string>("ContatoTelefone")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
 
                     b.Property<DateTime>("DataHoraAlteracao")
                         .HasColumnType("timestamp with time zone");
@@ -49,10 +64,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<DateTime>("DataHoraCadastro")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Endereco")
+                    b.Property<string>("Estado")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(4)
+                        .HasColumnType("character varying(4)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -62,6 +77,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<string>("NomeContatoClient")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<string>("NumeroEstabelecimento")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Regiao")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("UsuarioAlteracaoId")
                         .HasColumnType("uuid");

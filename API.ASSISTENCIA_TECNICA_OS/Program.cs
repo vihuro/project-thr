@@ -1,7 +1,9 @@
 using API.ASSISTENCIA_TECNICA_OS.ContextBase;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
+using API.ASSISTENCIA_TECNICA_OS.Service.CEP;
 using API.ASSISTENCIA_TECNICA_OS.Service.Client;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper;
+using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.CEP;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente;
@@ -28,7 +30,7 @@ builder.Services.AddCors(x => x.AddPolicy("corsPolicy", build =>
 builder.Services.AddScoped<IClientInteService, ClientService>();
 builder.Services.AddScoped<IMaquinaService, MaquinaService>();
 builder.Services.AddScoped<IMaquinaClienteService, MaquinaClienteService>();
-
+builder.Services.AddScoped<ICEPService, CEPService>();
 //context
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");
 builder.Services.AddEntityFrameworkNpgsql()
@@ -42,6 +44,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(MaquinaMapping));
     x.AddProfile(typeof(ClientMapping));
     x.AddProfile(typeof(MaquinaInClienteMapping));
+    x.AddProfile(typeof(CepMapping));
 });
 
 var environment = builder.Environment.EnvironmentName;

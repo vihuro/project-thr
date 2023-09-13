@@ -7,7 +7,13 @@
         public string Cnpj { get; set; }
         public string ContatoTelefone { get; set; }
         public string ContatoNome { get; set; }
-        public string Endereco { get; set; }
+        public string Cep { get; set; }
+        public string Estado { get; set; }
+        public string Cidade { get; set; }
+        public string Regiao { get; set; }
+        public string Rua { get; set; }
+        public string NumeroEstabelecimento { get; set; }
+        public string Complemento { get; set; }
         public string CodigoRadar { get; set; }
         public UsuarioDto Cadastro { get; set; }
         public UsuarioDto Alteracao { get; set; }

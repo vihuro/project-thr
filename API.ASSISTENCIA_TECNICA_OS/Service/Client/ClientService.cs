@@ -4,7 +4,6 @@ using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Client;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 using THR.auth.Service.ExceptionService;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
@@ -13,25 +12,38 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly ICEPService _cepSerive;
 
-        public ClientService(Context context, IMapper mapper)
+        public ClientService(Context context,
+                            IMapper mapper,
+                            ICEPService cepSerive)
         {
             _context = context;
             _mapper = mapper;
+            _cepSerive = cepSerive;
         }
 
         public async Task<ReturnClientDto> Insert(InsertClientDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Endereco) ||
+            if (string.IsNullOrWhiteSpace(dto.Cep) ||
                 string.IsNullOrWhiteSpace(dto.Nome) ||
                 string.IsNullOrWhiteSpace(dto.Cnpj) ||
-                string.IsNullOrWhiteSpace(dto.CodigoRadar))
+                string.IsNullOrWhiteSpace(dto.CodigoRadar) ||
+                string.IsNullOrWhiteSpace(dto.Cidade) ||
+                string.IsNullOrWhiteSpace(dto.Rua) ||
+                string.IsNullOrWhiteSpace(dto.NumeroEstabelecimento) ||
+                string.IsNullOrWhiteSpace(dto.Regiao) ||
+                string.IsNullOrEmpty(dto.Cep))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
+
             if (dto.Cnpj.Length != 14)
-            {
                 throw new CustomException("O CNPJ Precisa conter 14 números!") { HResult = 400 };
 
-            }
+
+            //Para vaidar se o cep está correto
+            await _cepSerive.Get(Convert.ToInt32(dto.Cep));
+
+
             //Verifica se código desse cliente já está sendo usado
             var verifyCodigoRadar = await _context.Cliente.SingleOrDefaultAsync(x => x.CodigoRadar == dto.CodigoRadar);
             if (verifyCodigoRadar != null)
@@ -41,13 +53,22 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
                 throw new CustomException("CNPJ já cadastrado!");
 
             var obj = _mapper.Map<ClientModel>(dto);
+            try
+            {
+                _context.Cliente.Add(obj);
 
-            _context.Cliente.Add(obj);
-
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
 
-            return await GetById(obj.Id);
+                return await GetById(obj.Id);
+            }
+            catch (Exception ex)
+            {
+
+                throw new CustomException(ex.Message);
+            }
+
+
 
         }
         public async Task<List<ReturnClientDto>> GetAll()

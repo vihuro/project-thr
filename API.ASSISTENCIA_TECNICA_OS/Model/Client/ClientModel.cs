@@ -10,22 +10,31 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Client
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Nome do cliente obrigatório!")]
-        [StringLength(100, MinimumLength = 3,
-            ErrorMessage = "Nome do cliente deve conter de 3 a 100 caracteres!")]
+        [StringLength(100)]
         public string Nome { get; set; }
         public string CodigoRadar { get; set; }
-        [Required(ErrorMessage = "Endereço do cliente é obrigatório!")]
-        [StringLength(300, MinimumLength = 3,
-            ErrorMessage = "Nome do cliente deve conter de 3 a 100 caracteres!")]
-        public string Endereco { get; set; }
-        [StringLength(14, MinimumLength = 14,
-            ErrorMessage = "Um CNPJ precisa ter 14 caracteres!")]
+        [Required]
+        [StringLength(20)]
+        public string CEP { get; set; }
+        [Required]
+        [StringLength(4)]
+        public string Estado { get; set; }
+        [Required]
+        public string Cidade { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Regiao { get;set; }
+        [Required]
+        [StringLength(100)]
+        public string Rua { get; set; }
+        [Required]
+        public string NumeroEstabelecimento { get; set; }
+        [Required]
+        [StringLength(14)]
         public string Cnpj { get; set; }
-        [StringLength(50, MinimumLength = 3,
-            ErrorMessage = "O Nome do cliente precisa ter pelo menos 3 caracteres!")]
-        public string NomeContatoClient { get; set; }
-        [StringLength(10, MinimumLength = 8,
-            ErrorMessage = "O telefone precisa ter pelo menos 8 caracteres!")]
+
+        [Required]
+        [StringLength(15)]
         public string ContatoTelefone { get; set; }
         public Guid UsuarioCadastroId { get; set; }
         public DateTime DataHoraCadastro { get; set; }
@@ -34,6 +43,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Client
         public DateTime DataHoraAlteracao { get; set; }
         public virtual UserModel UsuarioAlteracao { get; set; }
 #nullable enable
+        [StringLength(50)]
+        public string? Complemento { get; set; }
+        [StringLength(50)]
+        public string? NomeContatoClient { get; set; }
         public virtual List<MaquinaClienteModel>? Maquinas { get; set; }
 
     }
