@@ -11,8 +11,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Maquina
         {
             CreateMap<InsertMaquinaDto, MaquinaModel>()
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => true))
+                .ForMember(x => x.Atribuida, map => map.MapFrom(src => false))
                 .ForMember(x => x.TipoMaquina, map => map.MapFrom(src => src.TipoMaquina.ToUpper()))
                 .ForMember(x => x.NumeroSerie, map => map.MapFrom(src => src.NumeroSerie.ToUpper()))
+                .ForMember(x => x.CodigoMaquina, map => map.MapFrom(src => src.CodigoMaquina.ToUpper()))
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UserId))
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
@@ -21,9 +23,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Maquina
 
             CreateMap<MaquinaModel, ReturnMaquinaComPecasDto>()
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))
+                .ForMember(x => x.Codigo, map => map.MapFrom(src => src.CodigoMaquina))
                 .ForMember(x => x.TipoMaquina, map => map.MapFrom(src => src.TipoMaquina))
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => src.Ativo))
                 .ForMember(x => x.NumeroSerie, map => map.MapFrom(src => src.NumeroSerie))
+                .ForMember(x => x.Atribuida, map => map.MapFrom(src => src.Atribuida))
                 .ForPath(x => x.Cadastro, map => map.MapFrom(src => new UserDto
                 {
                     Apelido = src.UsuarioCadastro.Apelido,

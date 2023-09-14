@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMagration : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -100,6 +100,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     TipoMaquina = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Atribuida = table.Column<bool>(type: "boolean", nullable: false),
                     NumeroSerie = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Ativo = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),

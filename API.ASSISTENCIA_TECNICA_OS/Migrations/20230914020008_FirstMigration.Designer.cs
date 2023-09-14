@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230913201429_FirstMagration")]
-    partial class FirstMagration
+    [Migration("20230914020008_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,6 +139,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Atribuida")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("DataHoraAlteracao")

@@ -3,9 +3,11 @@
     public class ReturnMaquinaComPecasDto
     {
         public  Guid Id { get; set; }
+        public string Codigo { get; set; }
         public string TipoMaquina { get; set; }
         public string NumeroSerie { get; set; }
         public bool Ativo { get; set; }
+        public bool Atribuida { get; set; }
         public UserDto Cadastro { get; set; }
         public UserDto Alteracao { get; set; }
         public List<Pecas> Pecas { get; set; }

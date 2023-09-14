@@ -50,6 +50,19 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 
             return dto;
         }
+        public async Task<List<ReturnMaquinaComPecasDto>> GetBySemAtribuicao()
+        {
+            var list = await _context.Maquina
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
+                .AsNoTracking()
+                .Where(x => !x.Atribuida)
+                .ToListAsync();
+
+            var dto = _mapper.Map<List<ReturnMaquinaComPecasDto>>(list);
+
+            return dto;
+        }
 
         public async Task<ReturnMaquinaComPecasDto> GetById(Guid id)
         {
@@ -81,7 +94,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 
         public async Task<ReturnMaquinaComPecasDto> Insert(InsertMaquinaDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.TipoMaquina) ||
+            if (string.IsNullOrWhiteSpace(dto.CodigoMaquina) ||
+                string.IsNullOrWhiteSpace(dto.TipoMaquina) ||
                 string.IsNullOrWhiteSpace(dto.NumeroSerie) ||
                 string.IsNullOrWhiteSpace(dto.UserId.ToString()))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };

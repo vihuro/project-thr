@@ -45,6 +45,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("sem-atribuicao")]
+        public async Task<ActionResult<List<ReturnMaquinaComPecasDto>>> GetBySemAtribuicao()
+        {
+            try
+            {
+                var result = await _service.GetBySemAtribuicao();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpDelete]
         public async Task<ActionResult<bool>> Delete()
         {

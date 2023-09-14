@@ -10,12 +10,17 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
     {
         public Guid Id { get; set; }
         [Required]
+        public string CodigoMaquina { get; set; }
+        [Required]
         [StringLength(150, MinimumLength = 3,
              ErrorMessage = "O tipo da máquina deve conter pelo menos 3 caracteres!")]
         public string TipoMaquina { get; set; }
+
+        [Required]
+        public bool Atribuida { get; set; }
         [Required]
         [StringLength(150, MinimumLength = 4,
-            ErrorMessage = "O número de série tem que conter de 4 a 150 caracteres!")]
+                     ErrorMessage = "O número de série tem que conter de 4 a 150 caracteres!")]
         public string NumeroSerie { get; set; }
         [Required]
         public bool Ativo { get; set; }

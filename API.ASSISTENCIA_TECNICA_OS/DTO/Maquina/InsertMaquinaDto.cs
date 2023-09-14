@@ -2,6 +2,7 @@
 {
     public class InsertMaquinaDto
     {
+        public string CodigoMaquina { get; set; }
         public string TipoMaquina { get; set; }
         public string NumeroSerie { get; set; }
         public Guid UserId { get; set; }
