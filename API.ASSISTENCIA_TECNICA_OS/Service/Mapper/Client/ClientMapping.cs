@@ -25,7 +25,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UserId))
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UserId))
-                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow));
+                .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
+                .ForMember(x => x.Maquinas, map => map.MapFrom(src => src.Maquinas.Select(c => new MaquinaClienteModel
+                {
+                    MaquinaId = c.MaquinaId,
+                    Status = Status.LIBERADA
+                })));
 
             CreateMap<ClientModel, ReturnClientDto>()
                 .ForMember(x => x.IdCliente, map => map.MapFrom(src => src.Id))

@@ -1,5 +1,6 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Client;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Client;
 using AutoMapper;
@@ -13,17 +14,47 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
         private readonly Context _context;
         private readonly IMapper _mapper;
         private readonly ICEPService _cepSerive;
+        private readonly IMaquinaService _maquinaService;
 
-        public ClientService(Context context,
-                            IMapper mapper,
-                            ICEPService cepSerive)
+        public ClientService(Context context, 
+                                IMapper mapper, 
+                                ICEPService cepSerive, 
+                                IMaquinaService maquinaService)
         {
             _context = context;
             _mapper = mapper;
             _cepSerive = cepSerive;
+            _maquinaService = maquinaService;
         }
 
         public async Task<ReturnClientDto> Insert(InsertClientDto dto)
+        {
+
+            await ValidacaoInsert(dto);
+
+            using var transaction = _context.Database.BeginTransaction();
+
+            var obj = _mapper.Map<ClientModel>(dto);
+
+            _context.Cliente.Add(obj);
+
+            await _context.SaveChangesAsync();
+            for(var i = 0; i < obj.Maquinas.Count; i++)
+            {
+                var atribuicao = new AtribuicaoMaquinaDto
+                {
+                    MaquinaId = obj.Maquinas[i].MaquinaId,
+                    UserId = obj.UsuarioAlteracaoId
+                };
+                await _maquinaService.AtribuirMaquina(atribuicao);
+            }
+            transaction.Commit();
+
+
+            return await GetById(obj.Id);
+
+        }
+        private async Task ValidacaoInsert(InsertClientDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Cep) ||
                 string.IsNullOrWhiteSpace(dto.Nome) ||
@@ -34,13 +65,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
                 string.IsNullOrWhiteSpace(dto.NumeroEstabelecimento) ||
                 string.IsNullOrWhiteSpace(dto.Regiao) ||
                 string.IsNullOrEmpty(dto.Cep))
+
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
 
             if (dto.Cnpj.Length != 14)
                 throw new CustomException("O CNPJ Precisa conter 14 números!") { HResult = 400 };
 
 
-            //Para vaidar se o cep está correto
+            //Para validar se o cep está correto
             await _cepSerive.Get(Convert.ToInt32(dto.Cep));
 
 
@@ -51,26 +83,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
             var verifyCnpj = await _context.Cliente.SingleOrDefaultAsync(x => x.Cnpj == dto.Cnpj);
             if (verifyCnpj != null)
                 throw new CustomException("CNPJ já cadastrado!");
-
-            var obj = _mapper.Map<ClientModel>(dto);
-            try
-            {
-                _context.Cliente.Add(obj);
-
-                await _context.SaveChangesAsync();
-
-
-                return await GetById(obj.Id);
-            }
-            catch (Exception ex)
-            {
-
-                throw new CustomException(ex.Message);
-            }
-
-
-
         }
+
         public async Task<List<ReturnClientDto>> GetAll()
         {
             var obj = await _context.Cliente

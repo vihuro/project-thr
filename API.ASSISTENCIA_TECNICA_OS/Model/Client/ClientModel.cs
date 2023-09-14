@@ -37,11 +37,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Client
         [StringLength(15)]
         public string ContatoTelefone { get; set; }
         public Guid UsuarioCadastroId { get; set; }
-        public DateTime DataHoraCadastro { get; set; }
         public virtual UserModel UsuarioCadastro { get; set; }
+        public DateTime DataHoraCadastro { get; set; }
         public Guid UsuarioAlteracaoId { get; set; }
-        public DateTime DataHoraAlteracao { get; set; }
         public virtual UserModel UsuarioAlteracao { get; set; }
+        public DateTime DataHoraAlteracao { get; set; }
 #nullable enable
         [StringLength(50)]
         public string? Complemento { get; set; }

@@ -4,6 +4,7 @@ using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 using THR.auth.Service.ExceptionService;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
@@ -12,12 +13,15 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly IMaquinaClienteService _maquinaClienteSerice;
 
         public MaquinaService(Context context,
-            IMapper mapper)
+                                IMapper mapper,
+                                IMaquinaClienteService maquinaClienteSerice)
         {
             _context = context;
             _mapper = mapper;
+            _maquinaClienteSerice = maquinaClienteSerice;
         }
 
         public async Task<bool> DeleteAll()
@@ -62,6 +66,45 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
             var dto = _mapper.Map<List<ReturnMaquinaComPecasDto>>(list);
 
             return dto;
+        }
+        public async Task<ReturnMaquinaComPecasDto> AtribuirMaquina(AtribuicaoMaquinaDto dto)
+        {
+            var obj = await _context.Maquina.FirstOrDefaultAsync(x => x.Id == dto.MaquinaId) ??
+                throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+
+            var exists = await _maquinaClienteSerice.MaquinaAtribuida(dto.MaquinaId);
+            if (exists)
+                throw new CustomException("Máquina já atribuída!");
+
+            obj.Atribuida = true;
+            obj.UsuarioAlteracaoId = dto.UserId;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+
+            _context.Maquina.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
+        public async Task<ReturnMaquinaComPecasDto> DesatribuirMaquina(AtribuicaoMaquinaDto dto)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Maquina.FirstOrDefaultAsync(x => x.Id == dto.MaquinaId) ??
+                throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+
+            var teste = await _maquinaClienteSerice.DeleteMaquinaInCliente(dto.MaquinaId);
+
+
+            obj.Atribuida = false;
+            obj.UsuarioAlteracaoId = dto.UserId;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+
+            _context.Maquina.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transaction.Commit();
+
+            return await GetById(obj.Id);
         }
 
         public async Task<ReturnMaquinaComPecasDto> GetById(Guid id)

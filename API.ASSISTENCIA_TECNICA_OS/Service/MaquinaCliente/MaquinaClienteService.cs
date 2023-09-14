@@ -19,9 +19,22 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
             _mapper = mapper;
         }
 
-        public Task<bool> DeleteMaquinaInCliente(Guid id)
+        public async Task<bool> DeleteMaquinaInCliente(Guid id)
         {
-            throw new NotImplementedException();
+            var obj = _context.MaquinaCliente.FirstOrDefaultAsync(x => x.MaquinaId == id);
+            _context.Remove(obj);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> MaquinaAtribuida(Guid maquinaId)
+        {
+            var obj = await _context.MaquinaCliente.Where(x => x.MaquinaId == maquinaId).ToListAsync();
+
+            if (obj.Count > 1) return true;
+
+            return false;
         }
 
         public async Task<ReturnMaquinaClienteDto> UpdateMaquinaInCliente(InsertMaquinaInClientDto dto)

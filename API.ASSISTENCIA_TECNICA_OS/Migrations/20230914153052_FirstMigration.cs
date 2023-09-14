@@ -99,6 +99,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CodigoMaquina = table.Column<string>(type: "text", nullable: false),
                     TipoMaquina = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Atribuida = table.Column<bool>(type: "boolean", nullable: false),
                     NumeroSerie = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),

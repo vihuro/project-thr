@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230914020008_FirstMigration")]
+    [Migration("20230914153052_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -143,6 +143,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.Property<bool>("Atribuida")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("CodigoMaquina")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DataHoraAlteracao")
                         .HasColumnType("timestamp with time zone");

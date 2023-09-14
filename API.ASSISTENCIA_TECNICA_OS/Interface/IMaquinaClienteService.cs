@@ -6,5 +6,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     {
         Task<ReturnMaquinaClienteDto> UpdateMaquinaInCliente(InsertMaquinaInClientDto dto);
         Task<bool> DeleteMaquinaInCliente(Guid id);
+        Task<bool> MaquinaAtribuida(Guid maquinaId);
     }
 }
