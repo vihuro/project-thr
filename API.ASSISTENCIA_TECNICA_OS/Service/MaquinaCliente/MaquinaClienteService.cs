@@ -21,7 +21,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
 
         public async Task<bool> DeleteMaquinaInCliente(Guid id)
         {
-            var obj = _context.MaquinaCliente.FirstOrDefaultAsync(x => x.MaquinaId == id);
+            var obj = await _context.MaquinaCliente.FirstOrDefaultAsync(x => x.MaquinaId == id);
             _context.Remove(obj);
             await _context.SaveChangesAsync();
 

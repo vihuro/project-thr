@@ -8,6 +8,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
         Task<bool> DeleteAll();
         Task<List<ReturnClientDto>> GetAll();
         Task<ReturnClientDto> GetById(Guid id);
+        Task<ReturnClientDto> UpdateCliente(UpdateClienteDto dto);
         Task<ReturnClientDto> GetByCodigoRadar(string codigoRadar);
     }
 }

@@ -30,6 +30,7 @@
     public class MaquinaClienteDto
     {
         public Guid MaquinaId { get; set; }
+        public string CodigoMaquina { get; set; }
         public string TipoMaquina { get; set; }
         public string NumeroSerie { get; set; }
         public string Status { get; set; }

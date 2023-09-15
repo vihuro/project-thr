@@ -63,6 +63,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 .ForPath(x => x.MaquinaCliente, map => map.MapFrom(src => src.Maquinas.Select(c => new MaquinaClienteDto
                 {
                     MaquinaId = c.MaquinaId,
+                    CodigoMaquina = c.Maquina.CodigoMaquina,
                     NumeroSerie = c.Maquina.NumeroSerie,
                     TipoMaquina = c.Maquina.TipoMaquina,
                     Status = GetFormattedStatus(c.Status),

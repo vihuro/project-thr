@@ -87,7 +87,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
         }
         public async Task<ReturnMaquinaComPecasDto> DesatribuirMaquina(AtribuicaoMaquinaDto dto)
         {
-            using var transaction = _context.Database.BeginTransaction();
 
             var obj = await _context.Maquina.FirstOrDefaultAsync(x => x.Id == dto.MaquinaId) ??
                 throw new CustomException("Máquina não encontrada!") { HResult = 404 };
@@ -101,8 +100,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 
             _context.Maquina.Update(obj);
             await _context.SaveChangesAsync();
-
-            transaction.Commit();
 
             return await GetById(obj.Id);
         }

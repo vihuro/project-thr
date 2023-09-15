@@ -3,6 +3,7 @@ using API.ASSISTENCIA_TECNICA_OS.DTO.Client;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Client;
+using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using THR.auth.Service.ExceptionService;
@@ -16,9 +17,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
         private readonly ICEPService _cepSerive;
         private readonly IMaquinaService _maquinaService;
 
-        public ClientService(Context context, 
-                                IMapper mapper, 
-                                ICEPService cepSerive, 
+        public ClientService(Context context,
+                                IMapper mapper,
+                                ICEPService cepSerive,
                                 IMaquinaService maquinaService)
         {
             _context = context;
@@ -39,7 +40,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
             _context.Cliente.Add(obj);
 
             await _context.SaveChangesAsync();
-            for(var i = 0; i < obj.Maquinas.Count; i++)
+            for (var i = 0; i < obj.Maquinas.Count; i++)
             {
                 var atribuicao = new AtribuicaoMaquinaDto
                 {
@@ -53,6 +54,167 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
 
             return await GetById(obj.Id);
 
+        }
+        public async Task<ReturnClientDto> UpdateCliente(UpdateClienteDto dto)
+        {
+            await ValidacaoUpdate(dto);
+
+            using var transaction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Cliente
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
+                .Include(m => m.Maquinas)
+                    .ThenInclude(m => m.Maquina)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == dto.IdCliente);
+
+            obj.Cnpj = dto.Cnpj;
+            obj.CEP = dto.Cep;
+            obj.Estado = dto.Estado;
+            obj.Cidade = dto.Cidade;
+            obj.CodigoRadar = dto.CodigoRadar.ToUpper();
+            obj.Complemento = dto.Complemento.ToUpper();
+            obj.ContatoTelefone = dto.ContatoTelefone;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UserId;
+            obj.NomeContatoClient = dto.NomeContatoCliente;
+            obj.Nome = dto.Nome.ToUpper();
+            obj.NumeroEstabelecimento = dto.NumeroEstabelecimento;
+            obj.Regiao = dto.Regiao;
+            obj.Rua = dto.Rua;
+
+            var atribuicao = new AtribuicaoMaquinaDto()
+            {
+                UserId = dto.UserId,
+            };
+            var maquina = new List<MaquinaClienteModel>();
+
+            var maquinaParaAtribuir = dto.MaquinaCliente.Select(m => m.MaquinaId).ToList();
+            var maquinaParaDesatribuir = obj.Maquinas.Select(m => m.MaquinaId).Except(maquinaParaAtribuir).ToList();
+
+            foreach (var maquinaIdParaDesatribuir in maquinaParaDesatribuir)
+            {
+                atribuicao.MaquinaId = maquinaIdParaDesatribuir;
+                await _maquinaService.DesatribuirMaquina(atribuicao);
+                obj.Maquinas.RemoveAll(m => m.MaquinaId == maquinaIdParaDesatribuir);
+
+            }
+            foreach (var maquinaIdParaAtribuir in maquinaParaAtribuir)
+            {
+                if (!obj.Maquinas.Any(m => m.MaquinaId == maquinaIdParaAtribuir))
+                {
+                    atribuicao.MaquinaId = maquinaIdParaAtribuir;
+                    await _maquinaService.AtribuirMaquina(atribuicao);
+
+                    obj.Maquinas.Add(new MaquinaClienteModel
+                    {
+                        MaquinaId = maquinaIdParaAtribuir
+                    });
+                }
+            }
+
+            /*foreach (var maquinaObjeto in obj.Maquinas)
+            {
+                var teste = dto.MaquinaCliente.Any(x => x.MaquinaId != maquinaObjeto.MaquinaId);
+                if (teste)
+                {
+                    atribuicao.MaquinaId = maquinaObjeto.MaquinaId;
+                    await _maquinaService.DesatribuirMaquina(atribuicao);
+
+
+                }
+                else
+                {
+                    maquina.Add(maquinaObjeto);
+                }
+            }
+            foreach (var maquinaDto in dto.MaquinaCliente)
+            {
+                var teste = dto.MaquinaCliente.Any(x => x.MaquinaId != maquinaDto.MaquinaId);
+                if (teste)
+                {
+                    atribuicao.MaquinaId = maquinaDto.MaquinaId;
+                    await _maquinaService.AtribuirMaquina(atribuicao);
+                    maquina.Add(new MaquinaClienteModel
+                    {
+                        ClienteId = dto.IdCliente,
+                        MaquinaId = maquinaDto.MaquinaId
+                    });
+
+
+                }
+            }
+            obj.Maquinas = maquina;*/
+
+            /*for (int i = 0; i <= obj.Maquinas.Count; i++)
+            {
+                for (int j = 0; j <= dto.MaquinaCliente.Count;j++)
+                {
+                    if (obj.Maquinas[i].MaquinaId != dto.MaquinaCliente[j].MaquinaId && j == dto.MaquinaCliente.Count)
+                    {
+                        atribuicao.MaquinaId = dto.MaquinaCliente[j].MaquinaId;
+                        await _maquinaService.DesatribuirMaquina(atribuicao);
+
+                        obj.Maquinas.Remove(obj.Maquinas[i]);
+
+                        break;
+                    }
+                }
+            }
+            for(int i= 0;i < dto.MaquinaCliente.Count; i++)
+            {
+                for(int j =0; j < obj.Maquinas.Count; j++)
+                {
+                    if (dto.MaquinaCliente[i].MaquinaId != obj.Maquinas[j].MaquinaId && j == dto.MaquinaCliente.Count)
+                    {
+                        atribuicao.MaquinaId = dto.MaquinaCliente[j].MaquinaId;
+                        await _maquinaService.AtribuirMaquina(atribuicao);
+
+                        obj.Maquinas.Add(obj.Maquinas[i]);
+
+                        break;
+                    }
+                }
+            }*/
+
+            _context.Cliente.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transaction.Commit();
+
+            return await GetById(obj.Id);
+        }
+        private async Task ValidacaoUpdate(UpdateClienteDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.IdCliente.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.Cep) ||
+                string.IsNullOrWhiteSpace(dto.Nome) ||
+                string.IsNullOrWhiteSpace(dto.Cnpj) ||
+                string.IsNullOrWhiteSpace(dto.CodigoRadar) ||
+                string.IsNullOrWhiteSpace(dto.Cidade) ||
+                string.IsNullOrWhiteSpace(dto.Rua) ||
+                string.IsNullOrWhiteSpace(dto.NumeroEstabelecimento) ||
+                string.IsNullOrWhiteSpace(dto.Regiao) ||
+                string.IsNullOrEmpty(dto.Cep))
+
+                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
+
+            if (dto.Cnpj.Length != 14)
+                throw new CustomException("O CNPJ Precisa conter 14 números!") { HResult = 400 };
+
+
+            //Para validar se o cep está correto
+            await _cepSerive.Get(Convert.ToInt32(dto.Cep));
+
+
+            //Verifica se código desse cliente já está sendo usado
+            var verifyCodigoRadar = await _context.Cliente.SingleOrDefaultAsync(x => x.CodigoRadar == dto.CodigoRadar && x.Id != dto.IdCliente);
+            if (verifyCodigoRadar != null)
+                throw new CustomException("Já existe um cliente com esse código do radar!");
+            var verifyCnpj = await _context.Cliente.SingleOrDefaultAsync(x => x.Cnpj == dto.Cnpj && x.Id != dto.IdCliente);
+            if (verifyCnpj != null)
+                throw new CustomException("CNPJ já cadastrado!");
         }
         private async Task ValidacaoInsert(InsertClientDto dto)
         {
