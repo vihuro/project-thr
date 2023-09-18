@@ -142,7 +142,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 
             var verify = await _context.Maquina
                 .AsNoTracking()
-                .AnyAsync(x => x.NumeroSerie == dto.NumeroSerie);
+                .AnyAsync(x => x.NumeroSerie.ToUpper() == dto.NumeroSerie.ToUpper());
             if (verify)
                 throw new CustomException("Número de série já cadastrado!") { HResult = 400 };
 
