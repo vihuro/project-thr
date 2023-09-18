@@ -1,7 +1,7 @@
-﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
+﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
+using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using SharpCifs.Smb;
 using SharpCifs.Util.Sharpen;
@@ -13,57 +13,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
     [Route("api/v1/assistencia-tecnica/pecas")]
     public class PecasController : ControllerBase
     {
-        private readonly Context _context;
 
-        public PecasController(Context context)
+        private readonly IPecaService _service;
+
+        public PecasController(IPecaService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult<List<ReturnPecasDto>>> GetAll()
         {
             try
             {
-                var obj = await _context.Pecas.ToListAsync();
-
-                var teste = new List<PecasModel>();
-
-                foreach (var item in obj)
-                {
-                    var newItem = new PecasModel()
-                    {
-                        Nome = item.Nome,
-                        Preco = item.Preco,
-                        Id = item.Id,
-                    };
-
-                    if (item.EnderecoImagem.Count > 0)
-                    {
-                        newItem.EnderecoImagem = new List<string>();
-                        foreach (var imagem in item.EnderecoImagem)
-                        {
-                            //listImagem.Add($"http://{item}");
-                            newItem.EnderecoImagem.Add($"{imagem}");
-                        }
-                    }
-                    teste.Add(newItem);
-                }
-
-
-                /*var newObj = new List<PecasModel>();
-                foreach(var item in obj)
-                {
-                    if(item.EnderecoImagem.Count > 0)
-                    {
-                        foreach (var itemImage in item.EnderecoImagem) 
-                        {
-                            item.EnderecoImagem.Add($"http://{itemImage}");
-                        }
-                    }
-                    newObj.Add(item);
-                }*/
-                return Ok(teste);
+                var result = await _service.GetAll();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -84,9 +48,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 {
                     string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
 
-                    NtlmPasswordAuthentication auth = new(null, "VitorHugo", "25249882");
+                    NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
 
-                    var sbmFile = await new SmbFile(smbPath).GetInputStreamAsync();
+                    var sbmFile = await new SmbFile(smbPath,auth).GetInputStreamAsync();
 
                     return File(sbmFile, mimeType);
 
@@ -106,24 +70,18 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> Insert(PecasModel dto)
+        public async Task<ActionResult<ReturnPecasDto>> Insert(InsertPecaDto dto)
         {
             try
             {
-                var obj = new PecasModel
-                {
-                    EnderecoImagem = dto.EnderecoImagem,
-                    Nome = dto.Nome,
-                    Preco = dto.Preco,
-                };
-                _context.Pecas.Add(obj);
-                await _context.SaveChangesAsync();
-                return Created("", obj);
+                var restult = await _service.InsertPecas(dto);
+
+                return Created("", restult);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpDelete]
@@ -131,10 +89,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
         {
             try
             {
-                var list = await _context.Pecas.ToListAsync();
-                _context.Pecas.RemoveRange(list);
-                await _context.SaveChangesAsync();
-                return Ok(true);
+                var resutl = await _service.DeleteAll();
+
+
+
+                return Ok(resutl);
 
             }
             catch (Exception ex)

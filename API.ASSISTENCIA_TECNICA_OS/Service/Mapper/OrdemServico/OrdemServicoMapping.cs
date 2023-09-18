@@ -33,7 +33,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.OrdemServico
                     var firstMaquina = group.First().Maquina;
                     var pecas = group.Select(p => new Pecas
                     {
-                        Peca = p.Peca.Nome,
+                        Peca = p.Peca.Descricao,
                         PecaId = p.PecaId,
                         Conserto = p.Conserto,
                         Troca = p.Troca,

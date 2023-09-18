@@ -10,6 +10,7 @@ using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.OrdemServico;
 using API.ASSISTENCIA_TECNICA_OS.Service.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente;
+using API.ASSISTENCIA_TECNICA_OS.Service.Peca;
 using API.ASSISTENCIA_TECNICA_OS.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ builder.Services.AddCors(x => x.AddPolicy("corsPolicy", build =>
 //services
 builder.Services.AddScoped<IClientInteService, ClientService>();
 builder.Services.AddScoped<IMaquinaService, MaquinaService>();
+builder.Services.AddScoped<IPecaService, PecaService>();
 builder.Services.AddScoped<IMaquinaClienteService, MaquinaClienteService>();
 builder.Services.AddScoped<ICEPService, CEPService>();
 //context
@@ -45,6 +47,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(ClientMapping));
     x.AddProfile(typeof(MaquinaInClienteMapping));
     x.AddProfile(typeof(CepMapping));
+    x.AddProfile(typeof(PecasMapping));
 });
 
 var environment = builder.Environment.EnvironmentName;
