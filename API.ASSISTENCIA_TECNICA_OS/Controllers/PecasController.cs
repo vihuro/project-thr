@@ -48,11 +48,51 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 {
                     string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
 
-                    NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
+                    NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
 
-                    var sbmFile = await new SmbFile(smbPath,auth).GetInputStreamAsync();
+                    var sbmFile = await new SmbFile(smbPath).GetInputStreamAsync();
 
                     return File(sbmFile, mimeType);
+
+                }
+
+                if (!System.IO.File.Exists(path))
+                {
+                    return NotFound();
+                }
+
+                return File(System.IO.File.OpenRead(path), mimeType, Path.GetFileName(path));
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("list/{caminho}")]
+        public async Task<ActionResult> GetPaths(string caminho)
+        {
+            try
+            {
+                var isRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+                string mimeType = "image/jpg";
+
+                string path = caminho;
+                if (!isRunningOnWindows)
+                {
+                    string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
+
+                    NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
+
+                    var sbmFile = await new SmbFile(smbPath).ListFilesAsync();
+
+
+                    var fileList = new List<SmbFile>();
+                    foreach(var file in sbmFile)
+                    {
+                        fileList.Add(file);
+                    }
+                    return Ok(fileList);
 
                 }
 

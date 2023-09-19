@@ -3,7 +3,7 @@
     public class ReturnPecasDto
     {
         public Guid Id { get; set; }
-        public string CodigRadar { get; set; }
+        public string CodigoRadar { get; set; }
         public string Descricao { get; set; }
         public string Preco { get; set; }
         public UsuarioDataHora Cadastro { get; set; }

@@ -19,7 +19,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper
                 .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagens));
 
             CreateMap<PecasModel, ReturnPecasDto>()
-                .ForMember(x => x.CodigRadar, map => map.MapFrom(src => src.CodigoRadar))
+                .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar))
                 .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao))
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))
