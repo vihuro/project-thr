@@ -16,6 +16,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 
         private readonly IPecaService _service;
 
+        private static readonly NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
+
         public PecasController(IPecaService service)
         {
             _service = service;
@@ -48,9 +50,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 {
                     string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
 
-                    NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
+                    //NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
 
-                    var sbmFile = await new SmbFile(smbPath).GetInputStreamAsync();
+                    var sbmFile = await new SmbFile(smbPath, auth).GetInputStreamAsync();
 
                     return File(sbmFile, mimeType);
 
@@ -82,13 +84,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 {
                     string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
 
-                    NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
+                    //NtlmPasswordAuthentication auth = new(null, "thr", "25249882");
 
-                    var sbmFile = await new SmbFile(smbPath).ListFilesAsync();
+                    var sbmFile = await new SmbFile(smbPath, auth).ListFilesAsync();
 
 
                     var fileList = new List<SmbFile>();
-                    foreach(var file in sbmFile)
+                    foreach (var file in sbmFile)
                     {
                         fileList.Add(file);
                     }

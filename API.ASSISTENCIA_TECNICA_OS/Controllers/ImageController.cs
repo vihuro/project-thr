@@ -11,7 +11,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
     [Route("api/v1/image")]
     public class ImageController : ControllerBase
     {
-        private static string caminho = "\\\\192.168.0.187\\api_assitencia_tecnica\\imagens\\";
+        private static readonly string caminho = "\\\\192.168.2.24\\api_assistencia_tecnica\\Imagens\\";
+
+        private static readonly NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
 
         [HttpGet]
         public async Task<ActionResult> GetFiles()
@@ -24,7 +26,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 if (!isRunningOnWindows)
                 {
                     string smbPath = $"smb:{caminho.Replace("\\", "//").ReplaceAll("//", "/")}";
-                    var smbFille = await new SmbFile(smbPath).ListFilesAsync();
+                    var smbFille = await new SmbFile(smbPath, auth).ListFilesAsync();
 
                     var list = new List<string>();
 
@@ -60,7 +62,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             {
                 string smbPath = $"smb:{caminhoPath.Replace("\\", "//").ReplaceAll("//", "/")}";
 
-                var smbFile = new SmbFile($"{smbPath}.jpg");
+                var smbFile = new SmbFile($"{smbPath}.jpg", auth);
 
                 using (var stream = await smbFile.GetOutputStreamAsync())
                 {
@@ -100,7 +102,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 {
                     string smbPath = $"smb:{caminhoPath.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
 
-                    var sbmFile = await new SmbFile(smbPath).GetInputStreamAsync();
+                    var sbmFile = await new SmbFile(smbPath, auth).GetInputStreamAsync();
 
                     return File(sbmFile, mimeType);
 
