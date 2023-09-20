@@ -9,8 +9,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper
         public PecasMapping()
         {
             CreateMap<InsertPecaDto, PecasModel>()
-                .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar))
-                .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao))
+                .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar.ToUpper()))
+                .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao.ToUpper()))
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
                 .ForMember(x => x.DataHoraCadastro, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UsuarioId))
