@@ -8,7 +8,7 @@
         public string Preco { get; set; }
         public UsuarioDataHora Cadastro { get; set; }
         public UsuarioDataHora Alteracao { get; set; }
-        public List<string> EnderecoImagens { get; set; }
+        public string EnderecoImagem { get; set; }
     }
     public class UsuarioDataHora
     {

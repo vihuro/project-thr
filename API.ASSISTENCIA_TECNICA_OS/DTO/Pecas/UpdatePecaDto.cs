@@ -1,7 +1,8 @@
 ﻿namespace API.ASSISTENCIA_TECNICA_OS.DTO.Pecas
 {
-    public class InsertPecaDto
+    public class UpdatePecaDto
     {
+        public Guid PecaId { get; set; }
         public string CodigoRadar { get; set; }
         public string Descricao { get; set; }
         public double Preco { get; set; }

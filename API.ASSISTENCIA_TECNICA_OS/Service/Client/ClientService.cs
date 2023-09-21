@@ -191,6 +191,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
                 .Include(m => m.Maquinas)
                     .ThenInclude(m => m.Maquina)
                 .AsNoTracking()
+                .OrderBy(m => m.Nome)
                 .ToListAsync();
             var dto = _mapper.Map<List<ReturnClientDto>>(obj);
 

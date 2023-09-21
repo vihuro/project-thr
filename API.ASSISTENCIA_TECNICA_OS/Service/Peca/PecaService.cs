@@ -60,12 +60,44 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
 
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
 
+            var existis = _context.Pecas
+                .Any(x => x.CodigoRadar == dto.CodigoRadar.ToUpper());
+            if (existis)
+                throw new CustomException("CÓDIGO JÁ CADASTRADO!");
+
             var obj = _mapper.Map<PecasModel>(dto);
 
             _context.Pecas.Add(obj);
             await _context.SaveChangesAsync();
 
             return await GetById(obj.Id);
+        }
+        public async Task<ReturnPecasDto> Update(UpdatePecaDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Preco.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.Descricao) ||
+                string.IsNullOrWhiteSpace(dto.CodigoRadar))
+
+                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
+
+            var existis = _context.Pecas
+                .Any(x => x.CodigoRadar == dto.CodigoRadar.ToUpper() && x.Id != dto.PecaId);
+            if (existis)
+                throw new CustomException("CÓDIGO JÁ CADASTRADO!");
+            var obj = await _context.Pecas.SingleOrDefaultAsync(x => x.Id == dto.PecaId) ??
+                throw new CustomException("PEÇA NÃO ENCONTRADA!") { HResult = 404 };
+
+            obj.Descricao = dto.Descricao.ToUpper();
+            obj.CodigoRadar = dto.CodigoRadar.ToUpper();
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.EnderecoImagem = dto.EnderecoImagem;
+
+            _context.Pecas.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+
         }
     }
 }

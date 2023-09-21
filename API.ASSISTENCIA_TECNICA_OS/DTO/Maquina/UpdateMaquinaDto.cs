@@ -1,15 +1,17 @@
 ﻿namespace API.ASSISTENCIA_TECNICA_OS.DTO.Maquina
 {
-    public class InsertMaquinaDto
+    public class UpdateMaquinaDto
     {
+        public Guid MaquinaId { get; set; }
         public string CodigoMaquina { get; set; }
         public string DescricaoMaquina { get; set; }
         public string NumeroSerie { get; set; }
+        public bool Ativo { get; set; }
         public Guid UserId { get; set; }
-#nullable enable
-        public List<InsertMaquinaPecasDto>? Pecas { get; set;}
+        public List<ListPecasInMaquinaDto> Pecas { get; set; }
+
     }
-    public class InsertMaquinaPecasDto
+    public class ListPecasInMaquinaDto
     {
         public Guid IdPeca { get; set; }
     }

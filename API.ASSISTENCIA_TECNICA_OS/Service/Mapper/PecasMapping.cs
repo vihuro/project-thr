@@ -16,14 +16,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UsuarioId))
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UsuarioId))
-                .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagens));
+                .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagem));
 
             CreateMap<PecasModel, ReturnPecasDto>()
                 .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar))
                 .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao))
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))
-                .ForMember(x => x.EnderecoImagens, map => map.MapFrom(src => src.EnderecoImagem))
+                .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagem))
                 .ForPath(x => x.Cadastro, map => map.MapFrom(src => new UsuarioDataHora
                 {
                     Apelido = src.UsuarioCadastro.Apelido,

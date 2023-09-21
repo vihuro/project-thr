@@ -20,6 +20,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
         public DateTime DataHoraAlteracao { get; set; }
 #nullable enable
 
-        public List<string>? EnderecoImagem { get; set; }
+        public string? EnderecoImagem { get; set; }
     }
 }

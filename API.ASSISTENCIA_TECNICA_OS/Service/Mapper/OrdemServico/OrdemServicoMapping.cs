@@ -37,12 +37,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.OrdemServico
                         PecaId = p.PecaId,
                         Conserto = p.Conserto,
                         Troca = p.Troca,
-                        EnderecoImagem = p.Peca.EnderecoImagem[0]
+                        EnderecoImagem = p.Peca.EnderecoImagem
                     }).ToList();
 
                     return new ReturnMaquinaDto
                     {
-                        Maquina = firstMaquina.TipoMaquina,
+                        Maquina = firstMaquina.DescricaoMaquina,
                         MaquinaId = firstMaquina.Id,
                         PecasDaMaquina = pecas
                     };

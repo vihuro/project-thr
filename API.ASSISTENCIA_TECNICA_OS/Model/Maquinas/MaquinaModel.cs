@@ -14,7 +14,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         [Required]
         [StringLength(150, MinimumLength = 3,
              ErrorMessage = "O tipo da máquina deve conter pelo menos 3 caracteres!")]
-        public string TipoMaquina { get; set; }
+        public string DescricaoMaquina { get; set; }
 
         [Required]
         public bool Atribuida { get; set; }
@@ -31,5 +31,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         public virtual UserModel UsuarioAlteracao { get; set; }
         public DateTime DataHoraAlteracao { get; set; }
         public virtual MaquinaClienteModel MaquinaCliente { get; set; }
+        public virtual List<PecasPorMaquinaModel> Pecas { get; set; }
     }
 }

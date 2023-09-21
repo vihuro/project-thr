@@ -65,7 +65,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                     MaquinaId = c.MaquinaId,
                     CodigoMaquina = c.Maquina.CodigoMaquina,
                     NumeroSerie = c.Maquina.NumeroSerie,
-                    TipoMaquina = c.Maquina.TipoMaquina,
+                    TipoMaquina = c.Maquina.DescricaoMaquina,
                     Status = GetFormattedStatus(c.Status),
                 })));
 

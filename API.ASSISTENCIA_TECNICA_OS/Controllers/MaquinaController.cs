@@ -30,6 +30,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut]
+        public async Task<ActionResult<ReturnMaquinaComPecasDto>> Update(UpdateMaquinaDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateMaquina(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet]
         public async Task<ActionResult<List<ReturnMaquinaComPecasDto>>> GetAll()
         {

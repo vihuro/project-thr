@@ -6,6 +6,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     public interface IMaquinaService
     {
         Task<ReturnMaquinaComPecasDto> Insert(InsertMaquinaDto dto);
+        Task<ReturnMaquinaComPecasDto> UpdateMaquina(UpdateMaquinaDto dto);
         Task<List<ReturnMaquinaComPecasDto>> GetAll();
         Task<List<ReturnMaquinaComPecasDto>> GetBySemAtribuicao();
         Task<ReturnMaquinaComPecasDto> AtribuirMaquina(AtribuicaoMaquinaDto dto);

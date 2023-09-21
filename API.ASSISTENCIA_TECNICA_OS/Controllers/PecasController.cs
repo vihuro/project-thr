@@ -1,4 +1,5 @@
-﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
+﻿using API.ASSISTENCIA_TECNICA_OS.DTO.OrdemServico;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using Microsoft.AspNetCore.Mvc;
@@ -123,6 +124,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             catch (Exception ex)
             {
 
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut]
+        public async Task<ActionResult<ReturnPecasDto>> Update(UpdatePecaDto dto)
+        {
+            try
+            {
+                var result = await _service.Update(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
                 return BadRequest(ex.Message);
             }
         }

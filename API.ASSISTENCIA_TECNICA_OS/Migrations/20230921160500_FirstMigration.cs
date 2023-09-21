@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -25,20 +24,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tab_ordemServico", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tab_pecas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nome = table.Column<string>(type: "text", nullable: true),
-                    Preco = table.Column<double>(type: "double precision", nullable: false),
-                    EnderecoImagem = table.Column<List<string>>(type: "text[]", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tab_pecas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,6 +105,37 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tab_maquina_tab_user_auth_UsuarioCadastroId",
+                        column: x => x.UsuarioCadastroId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_pecas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CodigoRadar = table.Column<string>(type: "text", nullable: true),
+                    Descricao = table.Column<string>(type: "text", nullable: true),
+                    Preco = table.Column<double>(type: "double precision", nullable: false),
+                    UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataHoraAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EnderecoImagem = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_pecas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_pecas_tab_user_auth_UsuarioAlteracaoId",
+                        column: x => x.UsuarioAlteracaoId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_pecas_tab_user_auth_UsuarioCadastroId",
                         column: x => x.UsuarioCadastroId,
                         principalTable: "tab_user_auth",
                         principalColumn: "Id",
@@ -251,6 +267,16 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "IX_tab_pecaPorMaquina_PecaId",
                 table: "tab_pecaPorMaquina",
                 column: "PecaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_pecas_UsuarioAlteracaoId",
+                table: "tab_pecas",
+                column: "UsuarioAlteracaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_pecas_UsuarioCadastroId",
+                table: "tab_pecas",
+                column: "UsuarioCadastroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_pecas_por_maquina_ordem_servico_MaquinaId",

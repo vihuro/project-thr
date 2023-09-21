@@ -26,7 +26,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
                 .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaDto
                 {
                     MaquinaId = src.MaquinaId,
-                    TipoMaquina = src.Maquina.TipoMaquina
+                    TipoMaquina = src.Maquina.DescricaoMaquina
                     
                 }));
         }
