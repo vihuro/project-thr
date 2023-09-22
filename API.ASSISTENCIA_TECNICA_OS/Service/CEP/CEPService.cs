@@ -1,9 +1,8 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.DTO.CEP;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
+using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using THR.auth.Service.ExceptionService;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.CEP
 {

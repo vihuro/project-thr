@@ -1,5 +1,4 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
-using API.ASSISTENCIA_TECNICA_OS.DTO.OrdemServico;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Interface
 {

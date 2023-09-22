@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230921182947_AlteradoNomeColunaDescricaoMaquina")]
-    partial class AlteradoNomeColunaDescricaoMaquina
+    [Migration("20230922182317_AdicionaMaisUmaColuna")]
+    partial class AdicionaMaisUmaColuna
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,6 +178,38 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.ToTable("tab_maquina");
                 });
 
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasMaquinaOrcamentoModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Conserto")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("MaquinaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("OrcamentoId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PecaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Troca")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaquinaId");
+
+                    b.HasIndex("OrcamentoId");
+
+                    b.HasIndex("PecaId");
+
+                    b.ToTable("tab_pecasMaquinaEOrcamento");
+                });
+
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -217,38 +249,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.ToTable("tab_pecas");
                 });
 
-            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaEOrdemModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Conserto")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("MaquinaId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("OrdemServicoId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("PecaId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Troca")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaquinaId");
-
-                    b.HasIndex("OrdemServicoId");
-
-                    b.HasIndex("PecaId");
-
-                    b.ToTable("tab_pecas_por_maquina_ordem_servico");
-                });
-
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -270,7 +270,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.ToTable("tab_pecaPorMaquina");
                 });
 
-            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.OrdemServico.OrdemServicoModel", b =>
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -278,15 +278,82 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descricao")
+                    b.Property<DateTime>("DataHoraAlteracao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataHoraCadastro")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DescricaoServico")
                         .HasColumnType("text");
+
+                    b.Property<Guid>("MaquinaClienteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MaquinaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsuarioAlteracaoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsuarioCadastroId")
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("ValorOrcamento")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaquinaClienteId");
+
+                    b.HasIndex("MaquinaId");
+
+                    b.HasIndex("UsuarioAlteracaoId");
+
+                    b.HasIndex("UsuarioCadastroId");
+
+                    b.ToTable("tab_orcamento");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Status")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("tab_ordemServico");
+                    b.ToTable("tab_status");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DataHoraFim")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataHoraInicio")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OrcamentoId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrcamentoId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("tab_statusOrcamento");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", b =>
@@ -366,6 +433,33 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Navigation("UsuarioCadastro");
                 });
 
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasMaquinaOrcamentoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
+                        .WithMany()
+                        .HasForeignKey("MaquinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", "Orcamento")
+                        .WithMany("Pecas")
+                        .HasForeignKey("OrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasModel", "Peca")
+                        .WithMany()
+                        .HasForeignKey("PecaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Maquina");
+
+                    b.Navigation("Orcamento");
+
+                    b.Navigation("Peca");
+                });
+
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasModel", b =>
                 {
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioAlteracao")
@@ -383,33 +477,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Navigation("UsuarioAlteracao");
 
                     b.Navigation("UsuarioCadastro");
-                });
-
-            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaEOrdemModel", b =>
-                {
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
-                        .WithMany()
-                        .HasForeignKey("MaquinaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.OrdemServico.OrdemServicoModel", "OrdemServico")
-                        .WithMany("MaquinaPorOs")
-                        .HasForeignKey("OrdemServicoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasModel", "Peca")
-                        .WithMany()
-                        .HasForeignKey("PecaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Maquina");
-
-                    b.Navigation("OrdemServico");
-
-                    b.Navigation("Peca");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaModel", b =>
@@ -431,6 +498,60 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Navigation("Peca");
                 });
 
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", "MaquinaCliente")
+                        .WithMany()
+                        .HasForeignKey("MaquinaClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
+                        .WithMany()
+                        .HasForeignKey("MaquinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioAlteracao")
+                        .WithMany()
+                        .HasForeignKey("UsuarioAlteracaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioCadastro")
+                        .WithMany()
+                        .HasForeignKey("UsuarioCadastroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Maquina");
+
+                    b.Navigation("MaquinaCliente");
+
+                    b.Navigation("UsuarioAlteracao");
+
+                    b.Navigation("UsuarioCadastro");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", "Orcamento")
+                        .WithMany("Status")
+                        .HasForeignKey("OrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusModel", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Orcamento");
+
+                    b.Navigation("Status");
+                });
+
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Client.ClientModel", b =>
                 {
                     b.Navigation("Maquinas");
@@ -443,9 +564,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Navigation("Pecas");
                 });
 
-            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.OrdemServico.OrdemServicoModel", b =>
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", b =>
                 {
-                    b.Navigation("MaquinaPorOs");
+                    b.Navigation("Pecas");
+
+                    b.Navigation("Status");
                 });
 #pragma warning restore 612, 618
         }

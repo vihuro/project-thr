@@ -3,9 +3,9 @@ using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
+using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using THR.auth.Service.ExceptionService;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 {

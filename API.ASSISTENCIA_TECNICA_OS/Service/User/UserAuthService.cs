@@ -2,10 +2,9 @@
 using API.ASSISTENCIA_TECNICA_OS.DTO.User;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.User;
+using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Text.Json;
-using THR.auth.Service.ExceptionService;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.User
 {
@@ -56,7 +55,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
 
             using var cliente = new HttpClient();
 
-            var responseApiAuth = await cliente.GetAsync("http://192.168.0.187:8080/api/v1/auth/login");
+            var responseApiAuth = await cliente.GetAsync("http://192.168.2.24:8080/api/v1/auth/login");
 
             if (responseApiAuth.IsSuccessStatusCode)
             {

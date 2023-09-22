@@ -20,13 +20,29 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
                     ClienteId = src.ClienteId,
                     Cnpj = src.Cliente.Cnpj,
                     CodigoRadar = src.Cliente.CodigoRadar,
-                    //Endereco = src.Cliente.Endereco,
+                    CEP = src.Cliente.CEP,
+                    Estado = src.Cliente.Estado,
+                    Cidade = src.Cliente.Cidade,
+                    Regiao = src.Cliente.Regiao,
+                    NomeRua = src.Cliente.Rua,
+                    NumeroEstabelecimento = src.Cliente.NumeroEstabelecimento,
+                    Complemento = src.Cliente.Complemento,
+                    ContatoNomeCliente = src.Cliente.NomeContatoClient,
+                    ContatoTelefoneCliente = src.Cliente.ContatoTelefone,
                     NomeCliente = src.Cliente.Nome
                 }))
                 .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaDto
                 {
                     MaquinaId = src.MaquinaId,
-                    TipoMaquina = src.Maquina.DescricaoMaquina
+                    CodigoMaquina = src.Maquina.CodigoMaquina,
+                    DescricaoMaquina = src.Maquina.DescricaoMaquina,
+                    Pecas = src.Maquina.Pecas.Select(c => new ReturnPecasInMaquinaInClienteDto
+                    {
+                        CodigoPeca = c.Peca.CodigoRadar,
+                        DescricaoPeca = c.Peca.Descricao,
+                        PecaId = c.Peca.Id,
+                        Preco = c.Peca.Preco
+                    }).ToList()
                     
                 }));
         }

@@ -9,12 +9,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         public Guid Id { get; set; }
         public Guid MaquinaId { get; set; }
         public Guid ClienteId { get; set; }
-        public Status Status { get; set; }
+        public StatusMaquinaClienteModel Status { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
         public virtual ClientModel Cliente { get; set; }
     }
 
-    public enum Status
+    public enum StatusMaquinaClienteModel
     {
         LIBERADA,
         AGUARDANDO_ORCAMENTO,

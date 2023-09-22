@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SharpCifs.Smb;
 using SharpCifs.Util.Sharpen;
-using System.IO;
 using System.Runtime.InteropServices;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 {
@@ -11,9 +9,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
     [Route("api/v1/image")]
     public class ImageController : ControllerBase
     {
-        private static readonly string caminho = "\\\\192.168.0.187\\api_assitencia_tecnica\\imagens\\";
+        private static readonly string caminho = "\\\\192.168.2.24\\api_assistencia_tecnica\\Imagens\\";
 
-        private static readonly NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
+        private static readonly NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
 
         [HttpGet]
         public async Task<ActionResult> GetFiles()

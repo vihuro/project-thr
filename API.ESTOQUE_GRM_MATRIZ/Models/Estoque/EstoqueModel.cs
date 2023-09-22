@@ -16,6 +16,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Models.Estoque
         public double Preco { get; set; }
         public DateTime DataFabricacao { get; set; }
         public bool Ativo { get; set; }
+        public string ClienteUltimaCompra { get; set; }
+        public string CodigoClienteUltimaCompra { get; set; }
         public virtual TipoMaterialModel TipoMaterial { get; set; }
         public string Unidade { get; set; }
         public virtual List<SubstitutoModel> Substituos { get; set; }

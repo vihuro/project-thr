@@ -1,5 +1,4 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
-using API.ASSISTENCIA_TECNICA_OS.DTO.OrdemServico;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using AutoMapper;

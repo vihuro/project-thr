@@ -1,10 +1,10 @@
-﻿using API.ASSISTENCIA_TECNICA_OS.Model.OrdemServico;
+﻿using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
 {
-    [Table("tab_pecas_por_maquina_ordem_servico")]
-    public class PecasPorMaquinaEOrdemModel
+    [Table("tab_pecasMaquinaEOrcamento")]
+    public class PecasMaquinaOrcamentoModel
     {
         public Guid Id { get; set; }
         public Guid MaquinaId { get; set; }
@@ -13,7 +13,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
         public bool Conserto { get; set; }
         public bool Troca { get; set; }
         public virtual PecasModel Peca { get; set; }
-        public int OrdemServicoId { get; set; }
-        public virtual OrdemServicoModel OrdemServico { get; set; }
+        public int OrcamentoId { get; set; }
+        public virtual OrcamentoModel Orcamento{ get; set; }
     }
 }

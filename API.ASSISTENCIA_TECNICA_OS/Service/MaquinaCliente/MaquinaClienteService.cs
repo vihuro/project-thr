@@ -2,9 +2,10 @@
 using API.ASSISTENCIA_TECNICA_OS.DTO.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
+using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using THR.auth.Service.ExceptionService;
+
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
 {
@@ -26,6 +27,22 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
             await _context.SaveChangesAsync();
 
             return true;
+        }
+        public async Task<ReturnMaquinaClienteDto> GetByMaquinaIndCliente(Guid id)
+        {
+            var obj = await _context.MaquinaCliente
+                .Include(m => m.Maquina)
+                    .ThenInclude(p => p.Pecas)
+                        .ThenInclude(p => p.Peca)
+                .Include(c => c.Cliente)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.MaquinaId == id);
+
+            if (obj == null) throw new CustomException("Màquina não encontrada!") { HResult = 404 };
+
+            var dto = _mapper.Map<ReturnMaquinaClienteDto>(obj);
+
+            return dto;
         }
 
         public async Task<bool> MaquinaAtribuida(Guid maquinaId)

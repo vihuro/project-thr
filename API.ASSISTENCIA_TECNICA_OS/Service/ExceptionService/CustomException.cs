@@ -1,4 +1,4 @@
-﻿namespace THR.auth.Service.ExceptionService
+﻿namespace API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService
 {
     public class CustomException : Exception
     {

@@ -2,7 +2,7 @@
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using AutoMapper;
 
-namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper
+namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Pecas
 {
     public class PecasMapping : Profile
     {

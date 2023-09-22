@@ -29,7 +29,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 .ForMember(x => x.Maquinas, map => map.MapFrom(src => src.Maquinas.Select(c => new MaquinaClienteModel
                 {
                     MaquinaId = c.MaquinaId,
-                    Status = Status.LIBERADA
+                    Status = StatusMaquinaClienteModel.LIBERADA
                 })));
 
             CreateMap<ClientModel, ReturnClientDto>()
@@ -70,17 +70,17 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 })));
 
         }
-        public string GetFormattedStatus(Status status)
+        public string GetFormattedStatus(StatusMaquinaClienteModel status)
         {
             switch (status)
             {
-                case Status.LIBERADA:
+                case StatusMaquinaClienteModel.LIBERADA:
                     return "Liberada";
-                case Status.AGUARDANDO_ORCAMENTO:
+                case StatusMaquinaClienteModel.AGUARDANDO_ORCAMENTO:
                     return "Aguardando Orçamento";
-                case Status.AGUARDANDO_APROVACAO:
+                case StatusMaquinaClienteModel.AGUARDANDO_APROVACAO:
                     return "Aguardando Aprovação";
-                case Status.EM_MANUTENCAO:
+                case StatusMaquinaClienteModel.EM_MANUTENCAO:
                     return "Em Manutenção";
                 default:
                     return "Status Desconhecido";

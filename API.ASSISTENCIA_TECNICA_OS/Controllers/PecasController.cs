@@ -1,9 +1,6 @@
-﻿using API.ASSISTENCIA_TECNICA_OS.DTO.OrdemServico;
-using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
+﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
-using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SharpCifs.Smb;
 using SharpCifs.Util.Sharpen;
 using System.Runtime.InteropServices;
