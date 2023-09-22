@@ -205,7 +205,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 
             await _context.SaveChangesAsync();
 
-            return await GetById(verify.Id);
+            return await GetById(obj.Id);
         }
     }
 }

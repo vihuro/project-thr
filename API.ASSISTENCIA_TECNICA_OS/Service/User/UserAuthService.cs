@@ -52,11 +52,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
 
         private async Task<List<ReturnUserAuthDto>> GetUserAuth()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://192.168.2.24:8080/api/v1/auth/login");
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://192.168.0.187:8080/api/v1/auth/login");
 
             using var cliente = new HttpClient();
 
-            var responseApiAuth = await cliente.GetAsync("http://192.168.2.24:8080/api/v1/auth/login");
+            var responseApiAuth = await cliente.GetAsync("http://192.168.0.187:8080/api/v1/auth/login");
 
             if (responseApiAuth.IsSuccessStatusCode)
             {
