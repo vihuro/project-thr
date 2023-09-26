@@ -9,6 +9,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
         public Guid Id { get; set; }
         public Guid MaquinaId { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
+        public double Quantidade { get; set; }
         public Guid PecaId { get; set; }
         public bool Conserto { get; set; }
         public bool Troca { get; set; }

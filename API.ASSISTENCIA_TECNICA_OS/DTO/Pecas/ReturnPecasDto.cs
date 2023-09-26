@@ -5,7 +5,9 @@
         public Guid Id { get; set; }
         public string CodigoRadar { get; set; }
         public string Descricao { get; set; }
-        public string Preco { get; set; }
+        public double Preco { get; set; }
+        public string Unidade { get; set; }
+        public string Familia { get; set; }
         public UsuarioDataHora Cadastro { get; set; }
         public UsuarioDataHora Alteracao { get; set; }
         public string EnderecoImagem { get; set; }

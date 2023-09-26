@@ -5,7 +5,8 @@
         public int NumeroOrcamento { get; set; }
         public string DescricaoServico { get; set; }
         public double ValorOrcamento { get; set; }
-        public List<StatusOrcamentoDto> Status { get; set; }
+        public string Status { get; set; }
+        public List<StatusOrcamentoDto> StatusSituacao { get; set; }
         public UserOrcamentoDto Cadastro {get;set;}
         public UserOrcamentoDto Alteracao { get; set; }
         public MaquinaOrcamentoDto Maquina { get; set; }
@@ -30,8 +31,17 @@
     {
         public Guid StatusId {  get; set; }
         public string Status { get; set; }
+        
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
+        public Guid UsuarioApontamentoId { get; set; }
+        public UsuarioApontamentoOrcamentoDto UsuarioApontamento { get; set; }
+
+    }
+    public class UsuarioApontamentoOrcamentoDto
+    {
+        public string UsuarioApotamentoNome { get; set; }
+        public string UsuarioApontamentoApelido { get; set; }
     }
     public class UserOrcamentoDto 
     {

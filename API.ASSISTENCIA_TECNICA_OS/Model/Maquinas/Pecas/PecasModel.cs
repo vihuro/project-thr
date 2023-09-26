@@ -11,6 +11,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
         public Guid Id { get; set; }
         public string CodigoRadar { get; set; }
         public string Descricao { get; set; }
+        public string Unidade { get; set; }
+        public string Familia { get; set; }
         public double Preco { get; set; }
         public Guid UsuarioCadastroId { get; set; }
         public virtual UserModel UsuarioCadastro { get; set; }
@@ -19,7 +21,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
         public virtual UserModel UsuarioAlteracao { get; set; }
         public DateTime DataHoraAlteracao { get; set; }
 #nullable enable
-
         public string? EnderecoImagem { get; set; }
     }
 }

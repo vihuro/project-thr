@@ -1,5 +1,6 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
+using API.ASSISTENCIA_TECNICA_OS.Model.Tecnico;
 using API.ASSISTENCIA_TECNICA_OS.Model.User;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,8 +23,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public Guid MaquinaId { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
         public Guid MaquinaClienteId { get; set; }
-        public Guid TecnicoId { get; set; }
-        public virtual TecnicoModel Tecnico { get; set; }
+        public virtual TecnicoOrcamentoModel TecnicoOrcamento { get; set; }
+        public virtual TecnicoManutencaoModel TecnicoManutenco { get; set; }
         public virtual MaquinaClienteModel MaquinaCliente { get; set; }
         public virtual List<PecasMaquinaOrcamentoModel> Pecas { get; set; }
     }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230925183704_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230926195357_RemovidoIdTecnicoTabelaOrcamento")]
+    partial class RemovidoIdTecnicoTabelaOrcamento
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,6 +196,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<Guid>("PecaId")
                         .HasColumnType("uuid");
 
+                    b.Property<double>("Quantidade")
+                        .HasColumnType("double precision");
+
+                    b.Property<bool>("Reaproveitamento")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("Troca")
                         .HasColumnType("boolean");
 
@@ -231,8 +237,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<string>("EnderecoImagem")
                         .HasColumnType("text");
 
+                    b.Property<string>("Familia")
+                        .HasColumnType("text");
+
                     b.Property<double>("Preco")
                         .HasColumnType("double precision");
+
+                    b.Property<string>("Unidade")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UsuarioAlteracaoId")
                         .HasColumnType("uuid");
@@ -293,6 +305,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<Guid>("MaquinaId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("UsuarioAlteracaoId")
                         .HasColumnType("uuid");
 
@@ -347,13 +362,114 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("UsuarioApontamentoFimId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsuarioApontamentoInicioId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrcamentoId");
 
                     b.HasIndex("StatusId");
 
+                    b.HasIndex("UsuarioApontamentoFimId");
+
+                    b.HasIndex("UsuarioApontamentoInicioId");
+
                     b.ToTable("tab_statusOrcamento");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.SugestacaoManutencaoModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataHoraSugestacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StatusSugestacao")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SugestacaoManutencao")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<Guid>("UsuarioSugestacaoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioSugestacaoId");
+
+                    b.ToTable("tab_sugestao");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoManutencaoModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("OrcamentoId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TecnicoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrcamentoId")
+                        .IsUnique();
+
+                    b.HasIndex("TecnicoId");
+
+                    b.ToTable("tab_tecnicoManutencao");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoOrcamentoModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("OrcamentoId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TecnicoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrcamentoId")
+                        .IsUnique();
+
+                    b.HasIndex("TecnicoId");
+
+                    b.ToTable("tab_tecnicoOrcamento");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("tab_tecnico");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", b =>
@@ -536,7 +652,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", b =>
                 {
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", "Orcamento")
-                        .WithMany("Status")
+                        .WithMany("StatusOrcamento")
                         .HasForeignKey("OrcamentoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -547,9 +663,85 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioApontamentoFim")
+                        .WithMany()
+                        .HasForeignKey("UsuarioApontamentoFimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioApontamentoInicio")
+                        .WithMany()
+                        .HasForeignKey("UsuarioApontamentoInicioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Orcamento");
 
                     b.Navigation("Status");
+
+                    b.Navigation("UsuarioApontamentoFim");
+
+                    b.Navigation("UsuarioApontamentoInicio");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.SugestacaoManutencaoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioSugestacao")
+                        .WithMany()
+                        .HasForeignKey("UsuarioSugestacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UsuarioSugestacao");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoManutencaoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", "Orcamento")
+                        .WithOne("TecnicoManutenco")
+                        .HasForeignKey("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoManutencaoModel", "OrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", "Tecnico")
+                        .WithMany()
+                        .HasForeignKey("TecnicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Orcamento");
+
+                    b.Navigation("Tecnico");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoOrcamentoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", "Orcamento")
+                        .WithOne("TecnicoOrcamento")
+                        .HasForeignKey("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoOrcamentoModel", "OrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", "Tecnico")
+                        .WithMany()
+                        .HasForeignKey("TecnicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Orcamento");
+
+                    b.Navigation("Tecnico");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Client.ClientModel", b =>
@@ -568,7 +760,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 {
                     b.Navigation("Pecas");
 
-                    b.Navigation("Status");
+                    b.Navigation("StatusOrcamento");
+
+                    b.Navigation("TecnicoManutenco");
+
+                    b.Navigation("TecnicoOrcamento");
                 });
 #pragma warning restore 612, 618
         }

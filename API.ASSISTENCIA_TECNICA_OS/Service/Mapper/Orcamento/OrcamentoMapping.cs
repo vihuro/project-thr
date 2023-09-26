@@ -6,7 +6,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
 {
     public class OrcamentoMapping : Profile
     {
-        public OrcamentoMapping() 
+        public OrcamentoMapping()
         {
             CreateMap<InsertOrcamentoDto, OrcamentoModel>()
                 .ForMember(x => x.DescricaoServico, map => map.MapFrom(src => src.DescricaoServico))
@@ -20,6 +20,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
             CreateMap<OrcamentoModel, ReturnOrcamentoDto>()
                 .ForMember(x => x.NumeroOrcamento, map => map.MapFrom(src => src.Id))
                 .ForMember(x => x.DescricaoServico, map => map.MapFrom(src => src.DescricaoServico))
+                .ForMember(x => x.Status, map => map.MapFrom(src => src.Status))
                 .ForPath(x => x.Cadastro, map => map.MapFrom(src => new UserOrcamentoDto
                 {
                     Apelido = src.UsuarioCadastro.Apelido,
@@ -34,10 +35,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     DataHora = src.DataHoraAlteracao,
                     UserId = src.UsuarioAlteracao.Id
                 }))
-                .ForPath(x => x.Status, map => map.MapFrom(src => src.Status.Select(c => new StatusOrcamentoDto
+                .ForPath(x => x.StatusSituacao, map => map.MapFrom(src => src.StatusOrcamento.Select(c => new StatusOrcamentoDto
                 {
                     Status = c.Status.Status,
-                    StatusId = c.StatusId
+                    StatusId = c.StatusId,
+                    DataHoraInicio = c.DataHoraInicio,
+                    DataHoraFim = c.DataHoraFim,
+                    UsuarioApontamento = ValidateUserApontamento(c.UsuarioApontamento)
+
                 })))
                 .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaOrcamentoDto
                 {
@@ -64,6 +69,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                         Preco = c.Peca.Preco
                     }).ToList()*/
                 }))
+
                 .ForPath(x => x.Cliente, map => map.MapFrom(src => new ClienteOrcamentoDto
                 {
                     CEP = src.MaquinaCliente.Cliente.CEP,
@@ -78,6 +84,17 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     Regiao = src.MaquinaCliente.Cliente.Regiao,
                     Rua = src.MaquinaCliente.Cliente.Rua
                 }));
+        }
+        private UsuarioApontamentoOrcamentoDto ValidateUserApontamento(UsuarioApontamentoStatus dto)
+        {
+            if (dto == null) return null;
+
+            var item = new UsuarioApontamentoOrcamentoDto
+            {
+                UsuarioApotamentoNome = dto.UsuarioApontamento.Nome
+            };
+
+            return item;
         }
     }
 }

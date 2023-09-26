@@ -7,6 +7,7 @@ using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
@@ -47,13 +48,17 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             
             var listStausService = await _statusService.GetAll();
             var listStatus = new List<StatusOrcamentoModel>();
-            foreach(var item in listStausService)
+            var novoStatusId = new UsuarioApontamentoStatus();
+            foreach (var item in listStausService)
             {
                 var newItem = new StatusOrcamentoModel();
                 if(item.Status == "AGUARDANDO ORÇAMENTO")
                 {
                     newItem.DataHoraInicio = DateTime.UtcNow;
-                    newItem.UsuarioApontamentoInicioId = dto.UserId;
+                    newItem.UsuarioApontamento = new UsuarioApontamentoStatus 
+                    {
+                        UsuarioApontamentoId = dto.UserId,
+                    };
 
                 }
                 newItem.StatusId = item.Id;
@@ -61,6 +66,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             }
             orcamento.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
+            orcamento.StatusOrcamento = listStatus;
 
             _context.Orcamento.Add(orcamento);
             await _context.SaveChangesAsync();
@@ -72,12 +78,31 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             await _maquinaService.UpdateStatusForAguardandoOrcamento(status);
 
-
             transiction.Commit();
 
+            return await GetById(orcamento.Id);
 
-            return null;
+        }
+        public async Task<ReturnOrcamentoDto> GetById(int numeroOrcamento)
+        {
+            var obj = await _context.Orcamento
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
+                .Include(m => m.MaquinaCliente)
+                    .ThenInclude(m => m.Maquina)
+                .Include(c => c.MaquinaCliente)
+                    .ThenInclude(c => c.Cliente)
+                .Include(p => p.Pecas)
+                    .ThenInclude(p => p.Peca)
+                .Include(s => s.StatusOrcamento)
+                    //.ThenInclude(s => s.Status)
+                        //.ThenInclude(s => s.Status)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == numeroOrcamento);
 
+            var dto = _mapper.Map<ReturnOrcamentoDto>(obj);
+
+            return dto;
         }
         public async Task<List<ReturnOrcamentoDto>> GetAll()
         {
@@ -90,8 +115,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                     .ThenInclude(c => c.Cliente)
                 .Include(p => p.Pecas)
                     .ThenInclude(p => p.Peca)
-                .Include(s => s.Status)
+                .Include(s => s.StatusOrcamento)
                     .ThenInclude(s => s.Status)
+                 .Include(s => s.StatusOrcamento)
+                    .ThenInclude(u => u.UsuarioApontamento)
+                        .ThenInclude(u => u.UsuarioApontamento)
+                        //.ThenInclude(s => s.Status)
                 .AsNoTracking()
                 .ToListAsync();
 

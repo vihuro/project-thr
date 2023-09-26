@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class RemovidoIdTecnicoTabelaOrcamento : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -116,6 +116,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CodigoRadar = table.Column<string>(type: "text", nullable: true),
                     Descricao = table.Column<string>(type: "text", nullable: true),
+                    Unidade = table.Column<string>(type: "text", nullable: true),
+                    Familia = table.Column<string>(type: "text", nullable: true),
                     Preco = table.Column<double>(type: "double precision", nullable: false),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -135,6 +137,47 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     table.ForeignKey(
                         name: "FK_tab_pecas_tab_user_auth_UsuarioCadastroId",
                         column: x => x.UsuarioCadastroId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_sugestao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SugestacaoManutencao = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    UsuarioSugestacaoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataHoraSugestacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StatusSugestacao = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_sugestao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_sugestao_tab_user_auth_UsuarioSugestacaoId",
+                        column: x => x.UsuarioSugestacaoId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_tecnico",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_tecnico", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_tecnico_tab_user_auth_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "tab_user_auth",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -199,6 +242,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DescricaoServico = table.Column<string>(type: "text", nullable: true),
                     ValorOrcamento = table.Column<double>(type: "double precision", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -241,9 +285,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MaquinaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantidade = table.Column<double>(type: "double precision", nullable: false),
                     PecaId = table.Column<Guid>(type: "uuid", nullable: false),
                     Conserto = table.Column<bool>(type: "boolean", nullable: false),
                     Troca = table.Column<bool>(type: "boolean", nullable: false),
+                    Reaproveitamento = table.Column<bool>(type: "boolean", nullable: false),
                     OrcamentoId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -277,7 +323,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     OrcamentoId = table.Column<int>(type: "integer", nullable: false),
                     StatusId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraInicio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    UsuarioApontamentoInicioId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UsuarioApontamentoFimId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -292,6 +340,68 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         name: "FK_tab_statusOrcamento_tab_status_StatusId",
                         column: x => x.StatusId,
                         principalTable: "tab_status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_statusOrcamento_tab_user_auth_UsuarioApontamentoFimId",
+                        column: x => x.UsuarioApontamentoFimId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_statusOrcamento_tab_user_auth_UsuarioApontamentoInicioId",
+                        column: x => x.UsuarioApontamentoInicioId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_tecnicoManutencao",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TecnicoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrcamentoId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_tecnicoManutencao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_tecnicoManutencao_tab_orcamento_OrcamentoId",
+                        column: x => x.OrcamentoId,
+                        principalTable: "tab_orcamento",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_tecnicoManutencao_tab_tecnico_TecnicoId",
+                        column: x => x.TecnicoId,
+                        principalTable: "tab_tecnico",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_tecnicoOrcamento",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TecnicoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrcamentoId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_tecnicoOrcamento", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_tecnicoOrcamento_tab_orcamento_OrcamentoId",
+                        column: x => x.OrcamentoId,
+                        principalTable: "tab_orcamento",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_tecnicoOrcamento_tab_tecnico_TecnicoId",
+                        column: x => x.TecnicoId,
+                        principalTable: "tab_tecnico",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -391,6 +501,48 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "IX_tab_statusOrcamento_StatusId",
                 table: "tab_statusOrcamento",
                 column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_statusOrcamento_UsuarioApontamentoFimId",
+                table: "tab_statusOrcamento",
+                column: "UsuarioApontamentoFimId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_statusOrcamento_UsuarioApontamentoInicioId",
+                table: "tab_statusOrcamento",
+                column: "UsuarioApontamentoInicioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_sugestao_UsuarioSugestacaoId",
+                table: "tab_sugestao",
+                column: "UsuarioSugestacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_tecnico_UsuarioId",
+                table: "tab_tecnico",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_tecnicoManutencao_OrcamentoId",
+                table: "tab_tecnicoManutencao",
+                column: "OrcamentoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_tecnicoManutencao_TecnicoId",
+                table: "tab_tecnicoManutencao",
+                column: "TecnicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_tecnicoOrcamento_OrcamentoId",
+                table: "tab_tecnicoOrcamento",
+                column: "OrcamentoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_tecnicoOrcamento_TecnicoId",
+                table: "tab_tecnicoOrcamento",
+                column: "TecnicoId");
         }
 
         /// <inheritdoc />
@@ -406,13 +558,25 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "tab_statusOrcamento");
 
             migrationBuilder.DropTable(
+                name: "tab_sugestao");
+
+            migrationBuilder.DropTable(
+                name: "tab_tecnicoManutencao");
+
+            migrationBuilder.DropTable(
+                name: "tab_tecnicoOrcamento");
+
+            migrationBuilder.DropTable(
                 name: "tab_pecas");
+
+            migrationBuilder.DropTable(
+                name: "tab_status");
 
             migrationBuilder.DropTable(
                 name: "tab_orcamento");
 
             migrationBuilder.DropTable(
-                name: "tab_status");
+                name: "tab_tecnico");
 
             migrationBuilder.DropTable(
                 name: "tab_maquina_cliente");

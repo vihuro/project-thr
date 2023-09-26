@@ -16,7 +16,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Pecas
                 .ForMember(x => x.UsuarioCadastroId, map => map.MapFrom(src => src.UsuarioId))
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UsuarioId))
-                .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagem));
+                .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagem))
+                .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade))
+                .ForPath(x => x.Familia, map => map.MapFrom(src => src.Familia));
 
             CreateMap<PecasModel, ReturnPecasDto>()
                 .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar))
