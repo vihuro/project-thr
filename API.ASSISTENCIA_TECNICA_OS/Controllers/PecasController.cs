@@ -14,7 +14,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 
         private readonly IPecaService _service;
 
-        private static readonly NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
+        private static readonly NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
 
         public PecasController(IPecaService service)
         {

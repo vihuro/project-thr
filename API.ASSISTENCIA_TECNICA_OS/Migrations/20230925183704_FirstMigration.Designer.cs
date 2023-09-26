@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230922153101_FirstMigration")]
+    [Migration("20230925183704_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -290,6 +290,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<Guid>("MaquinaClienteId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("MaquinaId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("UsuarioAlteracaoId")
                         .HasColumnType("uuid");
 
@@ -302,6 +305,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MaquinaClienteId");
+
+                    b.HasIndex("MaquinaId");
 
                     b.HasIndex("UsuarioAlteracaoId");
 
@@ -321,7 +326,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StatusModel");
+                    b.ToTable("tab_status");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", b =>
@@ -348,7 +353,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("StatusOrcamentoModel");
+                    b.ToTable("tab_statusOrcamento");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", b =>
@@ -501,6 +506,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
+                        .WithMany()
+                        .HasForeignKey("MaquinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioAlteracao")
                         .WithMany()
                         .HasForeignKey("UsuarioAlteracaoId")
@@ -512,6 +523,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .HasForeignKey("UsuarioCadastroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Maquina");
 
                     b.Navigation("MaquinaCliente");
 

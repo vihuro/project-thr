@@ -12,6 +12,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas
         public Guid PecaId { get; set; }
         public bool Conserto { get; set; }
         public bool Troca { get; set; }
+        public bool Reaproveitamento { get; set; }
         public virtual PecasModel Peca { get; set; }
         public int OrcamentoId { get; set; }
         public virtual OrcamentoModel Orcamento{ get; set; }

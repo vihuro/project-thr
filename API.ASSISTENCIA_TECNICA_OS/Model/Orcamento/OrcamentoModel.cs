@@ -11,7 +11,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public int Id { get; set; }
         public string DescricaoServico { get; set; }
         public double ValorOrcamento { get; set; }
-        public virtual List<StatusOrcamentoModel> Status { get; set; }
+        public StatusSituacaoModel Status { get; set; }
+        public virtual List<StatusOrcamentoModel> StatusOrcamento { get; set; }
         public Guid UsuarioCadastroId { get; set; }
         public virtual UserModel UsuarioCadastro { get; set; }
         public DateTime DataHoraCadastro { get; set; }
@@ -21,7 +22,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public Guid MaquinaId { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
         public Guid MaquinaClienteId { get; set; }
+        public Guid TecnicoId { get; set; }
+        public virtual TecnicoModel Tecnico { get; set; }
         public virtual MaquinaClienteModel MaquinaCliente { get; set; }
         public virtual List<PecasMaquinaOrcamentoModel> Pecas { get; set; }
+    }
+    public enum StatusSituacaoModel
+    {
+        AGUARDANDO_ORCAMENTO,
+        ORCANDO,
+        AGUARDANDO_LIBERACAO_ORCAMENTO,
+        AGUARDANDO_MANUTENCAO,
+        MANUTENCAO_INICIADA,
+        AGUARDANDO_PECAS,
+        PECAS_SEPARADAS,
+        MANUTENCAO_FINALIZADA
     }
 }

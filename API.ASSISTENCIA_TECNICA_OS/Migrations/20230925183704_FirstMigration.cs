@@ -13,7 +13,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "StatusModel",
+                name: "tab_status",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -21,7 +21,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StatusModel", x => x.Id);
+                    table.PrimaryKey("PK_tab_status", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,11 +203,18 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     DataHoraCadastro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MaquinaId = table.Column<Guid>(type: "uuid", nullable: false),
                     MaquinaClienteId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tab_orcamento", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_orcamento_tab_maquina_MaquinaId",
+                        column: x => x.MaquinaId,
+                        principalTable: "tab_maquina",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tab_orcamento_tab_maquina_cliente_MaquinaClienteId",
                         column: x => x.MaquinaClienteId,
@@ -224,33 +231,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         name: "FK_tab_orcamento_tab_user_auth_UsuarioCadastroId",
                         column: x => x.UsuarioCadastroId,
                         principalTable: "tab_user_auth",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StatusOrcamentoModel",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrcamentoId = table.Column<int>(type: "integer", nullable: false),
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DataHoraInicio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StatusOrcamentoModel", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StatusOrcamentoModel_StatusModel_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "StatusModel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StatusOrcamentoModel_tab_orcamento_OrcamentoId",
-                        column: x => x.OrcamentoId,
-                        principalTable: "tab_orcamento",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -289,15 +269,32 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_StatusOrcamentoModel_OrcamentoId",
-                table: "StatusOrcamentoModel",
-                column: "OrcamentoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StatusOrcamentoModel_StatusId",
-                table: "StatusOrcamentoModel",
-                column: "StatusId");
+            migrationBuilder.CreateTable(
+                name: "tab_statusOrcamento",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrcamentoId = table.Column<int>(type: "integer", nullable: false),
+                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataHoraInicio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_statusOrcamento", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_statusOrcamento_tab_orcamento_OrcamentoId",
+                        column: x => x.OrcamentoId,
+                        principalTable: "tab_orcamento",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_statusOrcamento_tab_status_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "tab_status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_client_UsuarioAlteracaoId",
@@ -334,6 +331,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "IX_tab_orcamento_MaquinaClienteId",
                 table: "tab_orcamento",
                 column: "MaquinaClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_orcamento_MaquinaId",
+                table: "tab_orcamento",
+                column: "MaquinaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tab_orcamento_UsuarioAlteracaoId",
@@ -379,14 +381,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "IX_tab_pecasMaquinaEOrcamento_PecaId",
                 table: "tab_pecasMaquinaEOrcamento",
                 column: "PecaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_statusOrcamento_OrcamentoId",
+                table: "tab_statusOrcamento",
+                column: "OrcamentoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_statusOrcamento_StatusId",
+                table: "tab_statusOrcamento",
+                column: "StatusId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "StatusOrcamentoModel");
-
             migrationBuilder.DropTable(
                 name: "tab_pecaPorMaquina");
 
@@ -394,13 +403,16 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "tab_pecasMaquinaEOrcamento");
 
             migrationBuilder.DropTable(
-                name: "StatusModel");
+                name: "tab_statusOrcamento");
+
+            migrationBuilder.DropTable(
+                name: "tab_pecas");
 
             migrationBuilder.DropTable(
                 name: "tab_orcamento");
 
             migrationBuilder.DropTable(
-                name: "tab_pecas");
+                name: "tab_status");
 
             migrationBuilder.DropTable(
                 name: "tab_maquina_cliente");

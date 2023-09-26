@@ -8,5 +8,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
         Task<ReturnMaquinaClienteDto> GetByMaquinaIndCliente(Guid id);
         Task<bool> DeleteMaquinaInCliente(Guid id);
         Task<bool> MaquinaAtribuida(Guid maquinaId);
+        Task<ReturnMaquinaClienteDto> UpdateStatusForLiberada(UpdateStatusMaquina dto);
+        Task<ReturnMaquinaClienteDto> UpdateStatusForAguardandoOrcamento(UpdateStatusMaquina dto);
+        Task<ReturnMaquinaClienteDto> UpdateStatusForAguardandoAprovacao(UpdateStatusMaquina dto);
+        Task<ReturnMaquinaClienteDto> UpdateStatusForEmManutencao(UpdateStatusMaquina dto);
     }
 }

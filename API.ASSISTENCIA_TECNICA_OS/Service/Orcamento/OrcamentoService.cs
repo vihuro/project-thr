@@ -1,4 +1,5 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
+using API.ASSISTENCIA_TECNICA_OS.DTO.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
@@ -6,6 +7,7 @@ using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Xml;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 {
@@ -36,38 +38,43 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             var maquinaInCliente = await _maquinaService.GetByMaquinaIndCliente(dto.MaquinaId);
 
+            var transiction = _context.Database.BeginTransaction();
+
             var orcamento = _mapper.Map<OrcamentoModel>(dto);
 
             orcamento.MaquinaClienteId = maquinaInCliente.Id;
 
-            var listPecas = new List<PecasMaquinaOrcamentoModel>();
-
-            foreach (var item in maquinaInCliente.Maquina.Pecas)
-            {
-                listPecas.Add(new PecasMaquinaOrcamentoModel
-                {
-                    Conserto = false,
-                    Troca = false,
-                    MaquinaId = dto.MaquinaId,
-                    PecaId = item.PecaId,
-
-                });
             
-            }
             var listStausService = await _statusService.GetAll();
             var listStatus = new List<StatusOrcamentoModel>();
             foreach(var item in listStausService)
             {
-                listStatus.Add(new StatusOrcamentoModel
+                var newItem = new StatusOrcamentoModel();
+                if(item.Status == "AGUARDANDO ORÇAMENTO")
                 {
-                    StatusId = item.Id
-                });
+                    newItem.DataHoraInicio = DateTime.UtcNow;
+                    newItem.UsuarioApontamentoInicioId = dto.UserId;
+
+                }
+                newItem.StatusId = item.Id;
+                listStatus.Add(newItem);
+
             }
-            orcamento.Status = listStatus;
-            orcamento.Pecas = listPecas;
+            orcamento.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
 
             _context.Orcamento.Add(orcamento);
             await _context.SaveChangesAsync();
+
+            var status = new UpdateStatusMaquina
+            {
+                MaquinaId = maquinaInCliente.Maquina.MaquinaId,
+            };
+
+            await _maquinaService.UpdateStatusForAguardandoOrcamento(status);
+
+
+            transiction.Commit();
+
 
             return null;
 
