@@ -29,13 +29,13 @@
     }
     public class StatusOrcamentoDto
     {
-        public Guid StatusId {  get; set; }
+        public int StatusId {  get; set; }
         public string Status { get; set; }
         
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
-        public Guid UsuarioApontamentoId { get; set; }
-        public UsuarioApontamentoOrcamentoDto UsuarioApontamento { get; set; }
+        public UsuarioApontamentoOrcamentoDto UsuarioApontamentoInicio { get; set; }
+        public UsuarioApontamentoOrcamentoDto UsuarioApontamentoFim { get; set; }
 
     }
     public class UsuarioApontamentoOrcamentoDto

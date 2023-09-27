@@ -31,7 +31,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReturnOrcamentoDto>>> GetAll()
+        public async Task<ActionResult<List<ReturnOrcamentoResumidoDto>>> GetAll()
         {
             try
             {
@@ -41,6 +41,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             catch (Exception ex)
             {
 
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<ReturnOrcamentoResumidoDto>>> GetById(int id)
+        {
+            try
+            {
+                var result = await _service.GetById(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
                 return BadRequest(ex.Message);
             }
         }

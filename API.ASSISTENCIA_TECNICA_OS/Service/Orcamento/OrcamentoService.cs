@@ -45,19 +45,19 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             orcamento.MaquinaClienteId = maquinaInCliente.Id;
 
-            
+
             var listStausService = await _statusService.GetAll();
             var listStatus = new List<StatusOrcamentoModel>();
-            var novoStatusId = new UsuarioApontamentoStatus();
+
             foreach (var item in listStausService)
             {
                 var newItem = new StatusOrcamentoModel();
-                if(item.Status == "AGUARDANDO ORÇAMENTO")
+                if (item.Status == "AGUARDANDO ORÇAMENTO")
                 {
                     newItem.DataHoraInicio = DateTime.UtcNow;
-                    newItem.UsuarioApontamento = new UsuarioApontamentoStatus 
+                    newItem.UsuarioApontamentoInicio = new UsuarioApontamentoInicioStatusModel
                     {
-                        UsuarioApontamentoId = dto.UserId,
+                        UsuarioApontamentoInicioId = dto.UserId,
                     };
 
                 }
@@ -94,9 +94,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                     .ThenInclude(c => c.Cliente)
                 .Include(p => p.Pecas)
                     .ThenInclude(p => p.Peca)
-                .Include(s => s.StatusOrcamento)
-                    //.ThenInclude(s => s.Status)
-                        //.ThenInclude(s => s.Status)
+                .Include(s => s.StatusOrcamento.OrderBy(x => x.StatusId))
+                    .ThenInclude(s => s.Status)
+                 .Include(s => s.StatusOrcamento)
+                    .ThenInclude(u => u.UsuarioApontamentoInicio)
+                        .ThenInclude(u => u.UsuarioApontamentoInicio)
+                 .Include(s => s.StatusOrcamento)
+                    .ThenInclude(u => u.UsuarioApontamentFim)
+                        .ThenInclude(u => u.UsuarioApontamentoFim)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == numeroOrcamento);
 
@@ -104,7 +109,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             return dto;
         }
-        public async Task<List<ReturnOrcamentoDto>> GetAll()
+        public async Task<List<ReturnOrcamentoResumidoDto>> GetAll()
         {
             var list = await _context.Orcamento
                 .Include(u => u.UsuarioAlteracao)
@@ -113,18 +118,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                     .ThenInclude(m => m.Maquina)
                 .Include(c => c.MaquinaCliente)
                     .ThenInclude(c => c.Cliente)
-                .Include(p => p.Pecas)
-                    .ThenInclude(p => p.Peca)
-                .Include(s => s.StatusOrcamento)
-                    .ThenInclude(s => s.Status)
-                 .Include(s => s.StatusOrcamento)
-                    .ThenInclude(u => u.UsuarioApontamento)
-                        .ThenInclude(u => u.UsuarioApontamento)
-                        //.ThenInclude(s => s.Status)
                 .AsNoTracking()
+                .OrderBy(o => o.Id)
                 .ToListAsync();
 
-            var dto = _mapper.Map<List<ReturnOrcamentoDto>>(list);
+            var dto = _mapper.Map<List<ReturnOrcamentoResumidoDto>>(list);
 
             return dto;
         }

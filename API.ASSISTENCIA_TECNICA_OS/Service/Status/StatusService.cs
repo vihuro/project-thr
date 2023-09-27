@@ -39,7 +39,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
 
         }
 
-        public async Task<ReturnStatusDto> GetById(Guid id)
+        public async Task<ReturnStatusDto> GetById(int id)
         {
             var obj = await _context.Status
                 .SingleOrDefaultAsync(x => x.Id == id);

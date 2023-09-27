@@ -329,9 +329,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Status")
                         .HasColumnType("text");
@@ -356,12 +358,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<int>("OrcamentoId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrcamentoId");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("tab_statusOrcamento");
                 });
@@ -438,7 +442,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.ToTable("tab_tecnicoOrcamento");
                 });
 
-            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoStatus", b =>
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoFimStatusModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -447,7 +451,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<Guid>("StatusOrcamentoId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UsuarioApontamentoId")
+                    b.Property<Guid>("UsuarioApontamentoFimId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -455,9 +459,31 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.HasIndex("StatusOrcamentoId")
                         .IsUnique();
 
-                    b.HasIndex("UsuarioApontamentoId");
+                    b.HasIndex("UsuarioApontamentoFimId");
 
-                    b.ToTable("tab_usuarioApontamentoStatus");
+                    b.ToTable("tab_usuarioApontamentoStatusFim");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoInicioStatusModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StatusOrcamentoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsuarioApontamentoInicioId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatusOrcamentoId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioApontamentoInicioId");
+
+                    b.ToTable("tab_usuarioApontamentoStatusInicio");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", b =>
@@ -664,7 +690,15 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusModel", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Orcamento");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.SugestacaoManutencaoModel", b =>
@@ -716,23 +750,42 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Navigation("Tecnico");
                 });
 
-            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoStatus", b =>
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoFimStatusModel", b =>
                 {
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", "StatusOrcamento")
-                        .WithOne("UsuarioApontamento")
-                        .HasForeignKey("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoStatus", "StatusOrcamentoId")
+                        .WithOne("UsuarioApontamentFim")
+                        .HasForeignKey("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoFimStatusModel", "StatusOrcamentoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioApontamento")
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioApontamentoFim")
                         .WithMany()
-                        .HasForeignKey("UsuarioApontamentoId")
+                        .HasForeignKey("UsuarioApontamentoFimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("StatusOrcamento");
 
-                    b.Navigation("UsuarioApontamento");
+                    b.Navigation("UsuarioApontamentoFim");
+                });
+
+            modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoInicioStatusModel", b =>
+                {
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", "StatusOrcamento")
+                        .WithOne("UsuarioApontamentoInicio")
+                        .HasForeignKey("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoInicioStatusModel", "StatusOrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioApontamentoInicio")
+                        .WithMany()
+                        .HasForeignKey("UsuarioApontamentoInicioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StatusOrcamento");
+
+                    b.Navigation("UsuarioApontamentoInicio");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", b =>
@@ -771,7 +824,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", b =>
                 {
-                    b.Navigation("UsuarioApontamento");
+                    b.Navigation("UsuarioApontamentFim");
+
+                    b.Navigation("UsuarioApontamentoInicio");
                 });
 #pragma warning restore 612, 618
         }

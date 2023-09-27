@@ -6,7 +6,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     public interface IStatusService
     {
         Task<ReturnStatusDto> Insert(InsertStatusDto dto);
-        Task<ReturnStatusDto> GetById(Guid id);
+        Task<ReturnStatusDto> GetById(int id);
         Task<List<ReturnStatusDto>> GetAll();
     }
 }

@@ -26,6 +26,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.ContextBase
         public DbSet<OrcamentoModel> Orcamento { get; set; }
         public DbSet<StatusModel> Status { get; set; }
         public DbSet<StatusOrcamentoModel> StatusOrcamento { get; set; }
+        public DbSet<UsuarioApontamentoInicioStatusModel> UsuarioApontamentoInicioStatus { get; set; }
+        public DbSet<UsuarioApontamentoFimStatusModel> UsuarioApotamentoFimStatus { get; set; }
         public DbSet<SugestacaoManutencaoModel> Sugestao { get; set; }
         public DbSet<TecnicoOrcamentoModel> TecnicoOrcamento { get; set; }
         public DbSet<TecnicoManutencaoModel> TecnicoManutencao { get; set; }

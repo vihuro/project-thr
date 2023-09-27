@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class RemovidoIdTecnicoTabelaOrcamento : Migration
+    public partial class SecondMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "tab_status",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Status = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -321,11 +322,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrcamentoId = table.Column<int>(type: "integer", nullable: false),
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StatusId = table.Column<int>(type: "integer", nullable: false),
                     DataHoraInicio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UsuarioApontamentoInicioId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UsuarioApontamentoFimId = table.Column<Guid>(type: "uuid", nullable: false)
+                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -340,18 +339,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         name: "FK_tab_statusOrcamento_tab_status_StatusId",
                         column: x => x.StatusId,
                         principalTable: "tab_status",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tab_statusOrcamento_tab_user_auth_UsuarioApontamentoFimId",
-                        column: x => x.UsuarioApontamentoFimId,
-                        principalTable: "tab_user_auth",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tab_statusOrcamento_tab_user_auth_UsuarioApontamentoInicioId",
-                        column: x => x.UsuarioApontamentoInicioId,
-                        principalTable: "tab_user_auth",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -402,6 +389,56 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         name: "FK_tab_tecnicoOrcamento_tab_tecnico_TecnicoId",
                         column: x => x.TecnicoId,
                         principalTable: "tab_tecnico",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_usuarioApontamentoStatusFim",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    StatusOrcamentoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsuarioApontamentoFimId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_usuarioApontamentoStatusFim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_usuarioApontamentoStatusFim_tab_statusOrcamento_StatusO~",
+                        column: x => x.StatusOrcamentoId,
+                        principalTable: "tab_statusOrcamento",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_usuarioApontamentoStatusFim_tab_user_auth_UsuarioAponta~",
+                        column: x => x.UsuarioApontamentoFimId,
+                        principalTable: "tab_user_auth",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tab_usuarioApontamentoStatusInicio",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    StatusOrcamentoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsuarioApontamentoInicioId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tab_usuarioApontamentoStatusInicio", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tab_usuarioApontamentoStatusInicio_tab_statusOrcamento_Stat~",
+                        column: x => x.StatusOrcamentoId,
+                        principalTable: "tab_statusOrcamento",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tab_usuarioApontamentoStatusInicio_tab_user_auth_UsuarioApo~",
+                        column: x => x.UsuarioApontamentoInicioId,
+                        principalTable: "tab_user_auth",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -503,16 +540,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tab_statusOrcamento_UsuarioApontamentoFimId",
-                table: "tab_statusOrcamento",
-                column: "UsuarioApontamentoFimId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tab_statusOrcamento_UsuarioApontamentoInicioId",
-                table: "tab_statusOrcamento",
-                column: "UsuarioApontamentoInicioId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tab_sugestao_UsuarioSugestacaoId",
                 table: "tab_sugestao",
                 column: "UsuarioSugestacaoId");
@@ -543,6 +570,28 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "IX_tab_tecnicoOrcamento_TecnicoId",
                 table: "tab_tecnicoOrcamento",
                 column: "TecnicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_usuarioApontamentoStatusFim_StatusOrcamentoId",
+                table: "tab_usuarioApontamentoStatusFim",
+                column: "StatusOrcamentoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_usuarioApontamentoStatusFim_UsuarioApontamentoFimId",
+                table: "tab_usuarioApontamentoStatusFim",
+                column: "UsuarioApontamentoFimId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_usuarioApontamentoStatusInicio_StatusOrcamentoId",
+                table: "tab_usuarioApontamentoStatusInicio",
+                column: "StatusOrcamentoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tab_usuarioApontamentoStatusInicio_UsuarioApontamentoInicio~",
+                table: "tab_usuarioApontamentoStatusInicio",
+                column: "UsuarioApontamentoInicioId");
         }
 
         /// <inheritdoc />
@@ -555,9 +604,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "tab_pecasMaquinaEOrcamento");
 
             migrationBuilder.DropTable(
-                name: "tab_statusOrcamento");
-
-            migrationBuilder.DropTable(
                 name: "tab_sugestao");
 
             migrationBuilder.DropTable(
@@ -567,16 +613,25 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 name: "tab_tecnicoOrcamento");
 
             migrationBuilder.DropTable(
+                name: "tab_usuarioApontamentoStatusFim");
+
+            migrationBuilder.DropTable(
+                name: "tab_usuarioApontamentoStatusInicio");
+
+            migrationBuilder.DropTable(
                 name: "tab_pecas");
 
             migrationBuilder.DropTable(
-                name: "tab_status");
+                name: "tab_tecnico");
+
+            migrationBuilder.DropTable(
+                name: "tab_statusOrcamento");
 
             migrationBuilder.DropTable(
                 name: "tab_orcamento");
 
             migrationBuilder.DropTable(
-                name: "tab_tecnico");
+                name: "tab_status");
 
             migrationBuilder.DropTable(
                 name: "tab_maquina_cliente");

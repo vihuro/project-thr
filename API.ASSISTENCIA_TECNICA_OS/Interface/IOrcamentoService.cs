@@ -6,6 +6,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     public interface IOrcamentoService
     {
         Task<ReturnOrcamentoDto> InsertOrcamento(InsertOrcamentoDto dto);
-        Task<List<ReturnOrcamentoDto>> GetAll();
+        Task<ReturnOrcamentoDto> GetById(int numeroOrcamento);
+        Task<List<ReturnOrcamentoResumidoDto>> GetAll();
     }
 }

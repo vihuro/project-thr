@@ -17,6 +17,47 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UserId))
                 .ForMember(x => x.MaquinaId, map => map.MapFrom(src => src.MaquinaId));
 
+            CreateMap<OrcamentoModel, ReturnOrcamentoResumidoDto>()
+                .ForMember(x => x.NumeroOrcamento, map => map.MapFrom(src => src.Id))
+                .ForMember(x => x.Status, map => map.MapFrom(src => src.Status))
+                .ForMember(x => x.ValorOrcamento, map => map.MapFrom(src => src.ValorOrcamento))
+                .ForPath(x => x.Cadastro, map => map.MapFrom(src => new InfoCadastroOuAlteracaoOrcamentoResumido
+                {
+                    Apelido = src.UsuarioCadastro.Apelido,
+                    Nome = src.UsuarioCadastro.Nome,
+                    DataHora = src.DataHoraCadastro,
+                    UserId = src.UsuarioCadastro.Id
+                }))
+                .ForPath(x => x.Alteracao, map => map.MapFrom(src => new InfoCadastroOuAlteracaoOrcamentoResumido
+                {
+                    Apelido = src.UsuarioAlteracao.Apelido,
+                    Nome = src.UsuarioAlteracao.Nome,
+                    DataHora = src.DataHoraAlteracao,
+                    UserId = src.UsuarioAlteracao.Id
+                }))
+                .ForPath(x => x.Cliente, map => map.MapFrom(src => new InfoClienteOrcamentoResumidoDto
+                {
+                    CEP = src.MaquinaCliente.Cliente.CEP,
+                    Cidade = src.MaquinaCliente.Cliente.Cidade,
+                    Cnpj = src.MaquinaCliente.Cliente.Cnpj,
+                    CodigoRadar = src.MaquinaCliente.Cliente.CodigoRadar,
+                    ContatoNomeCliente = src.MaquinaCliente.Cliente.NomeContatoClient,
+                    ContatoTelefoneCliente = src.MaquinaCliente.Cliente.ContatoTelefone,
+                    Estado = src.MaquinaCliente.Cliente.Estado,
+                    NomeCliente = src.MaquinaCliente.Cliente.Nome,
+                    NumeroEstabelecimento = src.MaquinaCliente.Cliente.NumeroEstabelecimento,
+                    Regiao = src.MaquinaCliente.Cliente.Regiao,
+                    Rua = src.MaquinaCliente.Cliente.Rua
+                }))
+                .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaOrcamentoResumidoDto
+                {
+                    CodigoMaquina = src.MaquinaCliente.Maquina.CodigoMaquina,
+                    DescricaoMaquina = src.MaquinaCliente.Maquina.DescricaoMaquina,
+                    MaquinaId = src.MaquinaCliente.Maquina.Id,
+                    NumeroSerie = src.MaquinaCliente.Maquina.NumeroSerie,
+                }));
+
+
             CreateMap<OrcamentoModel, ReturnOrcamentoDto>()
                 .ForMember(x => x.NumeroOrcamento, map => map.MapFrom(src => src.Id))
                 .ForMember(x => x.DescricaoServico, map => map.MapFrom(src => src.DescricaoServico))
@@ -41,7 +82,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     StatusId = c.StatusId,
                     DataHoraInicio = c.DataHoraInicio,
                     DataHoraFim = c.DataHoraFim,
-                    UsuarioApontamento = ValidateUserApontamento(c.UsuarioApontamento)
+                    UsuarioApontamentoInicio = ValidateUserApontamentoInicio(c.UsuarioApontamentoInicio),
+                    UsuarioApontamentoFim = ValidateUserApontamentoFim(c.UsuarioApontamentFim)
 
                 })))
                 .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaOrcamentoDto
@@ -85,13 +127,26 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     Rua = src.MaquinaCliente.Cliente.Rua
                 }));
         }
-        private UsuarioApontamentoOrcamentoDto ValidateUserApontamento(UsuarioApontamentoStatus dto)
+        private UsuarioApontamentoOrcamentoDto ValidateUserApontamentoInicio(UsuarioApontamentoInicioStatusModel dto)
         {
             if (dto == null) return null;
 
             var item = new UsuarioApontamentoOrcamentoDto
             {
-                UsuarioApotamentoNome = dto.UsuarioApontamento.Nome
+                UsuarioApotamentoNome = dto.UsuarioApontamentoInicio.Nome,
+                UsuarioApontamentoApelido = dto.UsuarioApontamentoInicio.Apelido
+            };
+
+            return item;
+        }
+        private UsuarioApontamentoOrcamentoDto ValidateUserApontamentoFim(UsuarioApontamentoFimStatusModel dto)
+        {
+            if (dto == null) return null;
+
+            var item = new UsuarioApontamentoOrcamentoDto
+            {
+                UsuarioApotamentoNome = dto.UsuarioApontamentoFim.Nome,
+                UsuarioApontamentoApelido = dto.UsuarioApontamentoFim.Apelido
             };
 
             return item;
