@@ -9,13 +9,15 @@ using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Status;
+using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Tecnico;
 using API.ASSISTENCIA_TECNICA_OS.Service.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.Service.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.Peca;
 using API.ASSISTENCIA_TECNICA_OS.Service.Status;
+using API.ASSISTENCIA_TECNICA_OS.Service.Tecnico;
 using API.ASSISTENCIA_TECNICA_OS.Service.User;
-using API.ASSISTENCIA_TECNICA_OS.Utils;
+using API.ASSISTENCIA_TECNICA_OS.Service.Utils;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -40,6 +42,9 @@ builder.Services.AddScoped<IMaquinaClienteService, MaquinaClienteService>();
 builder.Services.AddScoped<IUserService, UserAuthService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<ICEPService, CEPService>();
+builder.Services.AddScoped<ITecnicoService, TecnicoService>();
+builder.Services.AddScoped<IPecasRadarService, PecasRadarService>();
+builder.Services.AddScoped<ReaderFile>();
 //context
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");
 builder.Services.AddEntityFrameworkNpgsql()
@@ -56,12 +61,13 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(StatusMapping));
     x.AddProfile(typeof(CepMapping));
     x.AddProfile(typeof(PecasMapping));
+    x.AddProfile(typeof(TecnicoMapping));
 });
 
 var environment = builder.Environment.EnvironmentName;
 
-var filePath = builder.Configuration.Get<FilePath>();
-filePath.Caminho = builder.Configuration.GetSection("variables:FileNOTA")[environment];
+/*var filePath = builder.Configuration.Get<FilePath>();
+filePath.Caminho = builder.Configuration.GetSection("variables:FileNOTA")[environment];*/
 
 var app = builder.Build();
 
