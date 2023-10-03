@@ -355,6 +355,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<DateTime>("DataHoraInicio")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Observacao")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
                     b.Property<int>("OrcamentoId")
                         .HasColumnType("integer");
 

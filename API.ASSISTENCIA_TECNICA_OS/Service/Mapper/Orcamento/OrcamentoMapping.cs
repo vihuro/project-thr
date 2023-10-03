@@ -82,6 +82,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     StatusId = c.StatusId,
                     DataHoraInicio = c.DataHoraInicio,
                     DataHoraFim = c.DataHoraFim,
+                    Observacao = c.Observacao,
                     UsuarioApontamentoInicio = ValidateUserApontamentoInicio(c.UsuarioApontamentoInicio),
                     UsuarioApontamentoFim = ValidateUserApontamentoFim(c.UsuarioApontamentFim)
 

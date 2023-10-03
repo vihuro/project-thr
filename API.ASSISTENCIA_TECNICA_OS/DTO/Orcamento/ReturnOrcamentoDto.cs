@@ -31,6 +31,7 @@
     {
         public int StatusId {  get; set; }
         public string Status { get; set; }
+        public string Observacao { get; set; }
         
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }

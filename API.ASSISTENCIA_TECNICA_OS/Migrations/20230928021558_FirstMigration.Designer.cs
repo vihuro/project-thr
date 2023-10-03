@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230927141425_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20230928021558_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -357,6 +357,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.Property<DateTime>("DataHoraInicio")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Observacao")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<int>("OrcamentoId")
                         .HasColumnType("integer");

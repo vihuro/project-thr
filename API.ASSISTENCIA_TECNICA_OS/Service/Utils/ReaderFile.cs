@@ -8,13 +8,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Utils
     public class ReaderFile
     {
 
-        private static readonly string _path = "\\\\192.168.2.24\\api_assistencia_tecnica\\Relatorios\\THR_PROD_ASSTEC.txt";
-        private static readonly NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
+        private static readonly string _path = "\\\\192.168.0.230\\api_assitencia_tecnica\\Reports\\THR_PROD_ASSTEC.txt";
+        private static readonly NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
 
-        /*public ReaderFile(VerifyPlatform verifyPlatform)
-        {
-            this.verifyPlatform = verifyPlatform;
-        }*/
         public StreamReader GetFileReader()
         {
             if (VerifyPlatform() == OSPlatform.Windows) return ReaderInWindows();

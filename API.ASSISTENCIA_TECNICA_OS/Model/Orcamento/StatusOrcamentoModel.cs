@@ -1,4 +1,5 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.Model.User;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
@@ -11,6 +12,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public int StatusId { get; set; }
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
+        [MaxLength(2000)]
+        public string Observacao { get; set; }
         public virtual StatusModel Status { get; set; }
         public virtual UsuarioApontamentoInicioStatusModel UsuarioApontamentoInicio { get; set; }
         public virtual UsuarioApontamentoFimStatusModel UsuarioApontamentFim { get; set; }

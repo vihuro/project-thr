@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     /// <inheritdoc />
-    public partial class SecondMigration : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -324,7 +324,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     OrcamentoId = table.Column<int>(type: "integer", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
                     DataHoraInicio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    DataHoraFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Observacao = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true)
                 },
                 constraints: table =>
                 {
