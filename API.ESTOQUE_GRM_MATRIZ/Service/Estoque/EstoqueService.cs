@@ -239,5 +239,23 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
 
         }
+        public async Task<ReturnEstoqueDto> UpdateUltimoClienteCompra(UpdateUltimoClienteCompraDto dto)
+        {
+            var obj = await _context
+                .Estoque
+                .FindAsync(dto.MaterialId);
+            if (obj == null) throw new CustomException("Material não encontrado!") { HResult = 404 };
+            obj.ClienteUltimaCompra1 = dto.ClienteUltimaCompra1.ToUpper();
+            obj.CodigoClienteUltimaCompra1 = dto.CodigoClienteUltimaCompra1.ToUpper();
+            obj.ClienteUltimaCompra2 = dto.ClienteUltimaCompra2.ToUpper();
+            obj.CodigoClienteUltimaCompra2 = dto.CodigoClienteUltimaCompra2.ToUpper();
+            obj.ClienteUltimaCompra3 = dto.ClienteUltimaCompra3.ToUpper();
+            obj.CodigoClienteUltimaCompra3 = dto.CodigoClienteUltimaCompra3.ToUpper();
+
+            _context.Update(obj);
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
     }
 }

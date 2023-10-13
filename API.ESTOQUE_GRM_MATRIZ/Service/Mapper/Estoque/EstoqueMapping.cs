@@ -25,12 +25,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Mapper.Estoque
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => true))
                 .ForMember(x => x.DataFabricacao, map => map.MapFrom(src => src.DataFabricacao))
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
-                .ForMember(x => x.ClienteUltimaCompra1, map => map.MapFrom(src => src.ClienteUltimaCompra1))
-                .ForMember(x => x.CodigoClienteUltimaCompra1, map => map.MapFrom(src => src.CodigoClienteUltimaCompra1))
-                .ForMember(x => x.ClienteUltimaCompra2, map => map.MapFrom(src => src.ClienteUltimaCompra2))
-                .ForMember(x => x.CodigoClienteUltimaCompra2, map => map.MapFrom(src => src.CodigoClienteUltimaCompra2))
-                .ForMember(x => x.ClienteUltimaCompra3, map => map.MapFrom(src => src.ClienteUltimaCompra3))
-                .ForMember(x => x.CodigoClienteUltimaCompra3, map => map.MapFrom(src => src.CodigoClienteUltimaCompra3));
+                .ForMember(x => x.ClienteUltimaCompra1, map => map.MapFrom(src => src.ClienteUltimaCompra1.ToUpper()))
+                .ForMember(x => x.CodigoClienteUltimaCompra1, map => map.MapFrom(src => src.CodigoClienteUltimaCompra1.ToUpper()))
+                .ForMember(x => x.ClienteUltimaCompra2, map => map.MapFrom(src => src.ClienteUltimaCompra2.ToUpper()))
+                .ForMember(x => x.CodigoClienteUltimaCompra2, map => map.MapFrom(src => src.CodigoClienteUltimaCompra2.ToUpper()))
+                .ForMember(x => x.ClienteUltimaCompra3, map => map.MapFrom(src => src.ClienteUltimaCompra3.ToUpper()))
+                .ForMember(x => x.CodigoClienteUltimaCompra3, map => map.MapFrom(src => src.CodigoClienteUltimaCompra3.ToUpper()));
 
             CreateMap<EstoqueModel, ReturnEstoqueDto>()
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))

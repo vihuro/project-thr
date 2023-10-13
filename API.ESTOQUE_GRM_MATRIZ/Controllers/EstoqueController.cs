@@ -85,6 +85,20 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("cliente/ultima-compra")]
+        public async Task<ActionResult<ReturnEstoqueDto>> UpdateUltimoClienteCompra(UpdateUltimoClienteCompraDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateUltimoClienteCompra(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if(ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<List<ReturnEstoqueDto>>> GetById(int id)
         {
