@@ -8,7 +8,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Models.Estoque
     {
         public Guid Id { get; set; }
         public string TipoMovimentacao { get; set; }
-        public Guid MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public virtual EstoqueModel Material { get; set; }
         public double QuantidadeOrigem { get; set; }
         public double QuantidadeDestino { get; set; }

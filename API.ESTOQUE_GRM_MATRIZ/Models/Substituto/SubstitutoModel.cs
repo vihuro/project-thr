@@ -7,10 +7,10 @@ namespace API.ESTOQUE_GRM_MATRIZ.Models.Substituto
     [Table("tab_substitutos")]
     public class SubstitutoModel
     {
-        public Guid Id { get; set; }
-        public Guid MaterialEstoqueId { get; set; }
+        public int Id { get; set; }
+        public int MaterialEstoqueId { get; set; }
         public virtual EstoqueModel MaterialEstoque { get; set; }
-        public Guid SubstitutoId { get; set; }
+        public int SubstitutoId { get; set; }
         public virtual EstoqueModel Substituto { get; set; }
         public Guid UsuarioCadatroId { get; set; }
         public virtual UserAuthModel UsuarioCadatro { get; set; }

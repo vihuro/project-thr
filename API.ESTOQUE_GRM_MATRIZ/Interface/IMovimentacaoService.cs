@@ -7,7 +7,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
         Task<ReturnMovimentacao> Insert(UpdateMovimentacaoQuantidadeDto dto);
         Task<bool> DeleteAll();
         Task<ReturnMovimentacao> GetById(Guid id);
-        Task<List<ReturnMovimentacao>> GetByMaterialId(Guid id);
+        Task<List<ReturnMovimentacao>> GetByMaterialId(int id);
         Task<List<ReturnMovimentacao>> GetAll();
     }
 }

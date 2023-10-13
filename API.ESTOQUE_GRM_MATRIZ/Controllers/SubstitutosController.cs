@@ -47,7 +47,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<ReturnSubstitutoDto>>> GetById(Guid id)
+        public async Task<ActionResult<List<ReturnSubstitutoDto>>> GetById(int id)
         {
             try
             {

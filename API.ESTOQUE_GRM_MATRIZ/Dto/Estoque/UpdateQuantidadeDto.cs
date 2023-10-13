@@ -2,7 +2,7 @@
 {
     public class UpdateQuantidadeDto
     {
-        public Guid MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public double Quantidade { get; set; }
         public Guid UsuarioId { get; set; }
     }

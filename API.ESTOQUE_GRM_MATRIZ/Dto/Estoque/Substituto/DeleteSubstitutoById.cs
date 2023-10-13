@@ -2,8 +2,8 @@
 {
     public class DeleteSubstitutoById
     {
-        public Guid ProdutoId { get; set; }
-        public Guid SubstitutoId { get; set; }
+        public int ProdutoId { get; set; }
+        public int SubstitutoId { get; set; }
         public Guid UsuarioId { get; set; }
     }
 }

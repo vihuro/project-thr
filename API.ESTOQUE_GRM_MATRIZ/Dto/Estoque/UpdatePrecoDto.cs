@@ -2,7 +2,7 @@
 {
     public class UpdatePrecoDto
     {
-        public Guid ProdutoId { get; set; }
+        public int ProdutoId { get; set; }
         public Guid UsuarioId { get; set; }
         public double Preco { get; set; }
     }

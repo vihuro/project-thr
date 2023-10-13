@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 {
     /// <inheritdoc />
-    public partial class firsMigration : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,7 +87,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                 name: "tab_estoque",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Codigo = table.Column<string>(type: "text", nullable: true),
                     Descricao = table.Column<string>(type: "text", nullable: true),
                     Quantidade = table.Column<double>(type: "double precision", nullable: false),
@@ -94,6 +96,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     Preco = table.Column<double>(type: "double precision", nullable: false),
                     DataFabricacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Ativo = table.Column<bool>(type: "boolean", nullable: false),
+                    ClienteUltimaCompra1 = table.Column<string>(type: "text", nullable: true),
+                    CodigoClienteUltimaCompra1 = table.Column<string>(type: "text", nullable: true),
+                    ClienteUltimaCompra2 = table.Column<string>(type: "text", nullable: true),
+                    CodigoClienteUltimaCompra2 = table.Column<string>(type: "text", nullable: true),
+                    ClienteUltimaCompra3 = table.Column<string>(type: "text", nullable: true),
+                    CodigoClienteUltimaCompra3 = table.Column<string>(type: "text", nullable: true),
                     Unidade = table.Column<string>(type: "text", nullable: true),
                     LocalArmazenagemId = table.Column<Guid>(type: "uuid", nullable: true),
                     UsuarioCadastroId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -134,7 +142,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     TipoMovimentacao = table.Column<string>(type: "text", nullable: true),
-                    MaterialId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MaterialId = table.Column<int>(type: "integer", nullable: false),
                     QuantidadeOrigem = table.Column<double>(type: "double precision", nullable: false),
                     QuantidadeDestino = table.Column<double>(type: "double precision", nullable: false),
                     QuantidadeMovimentada = table.Column<double>(type: "double precision", nullable: false),
@@ -163,9 +171,10 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                 name: "tab_substitutos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    MaterialEstoqueId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SubstitutoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    MaterialEstoqueId = table.Column<int>(type: "integer", nullable: false),
+                    SubstitutoId = table.Column<int>(type: "integer", nullable: false),
                     UsuarioCadatroId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataHoraCadatro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UsuarioAlteracaoId = table.Column<Guid>(type: "uuid", nullable: false),

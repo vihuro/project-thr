@@ -52,7 +52,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             return dto;
         }
-        public async Task<List<ReturnMovimentacao>> GetByMaterialId(Guid id)
+        public async Task<List<ReturnMovimentacao>> GetByMaterialId(int id)
         {
             var obj = await _context.Movimentacao
                 .Include(u => u.UsuarioMovimentacao)

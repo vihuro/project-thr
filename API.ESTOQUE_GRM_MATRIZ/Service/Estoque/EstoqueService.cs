@@ -58,7 +58,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             return dto;
         }
 
-        public async Task<ReturnEstoqueDto> GetById(Guid id)
+        public async Task<ReturnEstoqueDto> GetById(int id)
         {
             var obj = await _context.Estoque
                 .Include(u => u.UsuarioCadastro)
@@ -114,7 +114,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             return await GetById(obj.Id);
         }
-        public async Task<List<ReturnEstoqueDto>> GetWithoutSubstituto(Guid id)
+        public async Task<List<ReturnEstoqueDto>> GetWithoutSubstituto(int id)
         {
             var obj = await _context.Estoque
                 .Include(u => u.UsuarioCadastro)
@@ -188,7 +188,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             return await GetAll();
         }
-        public async Task<ReturnEstoqueDto> UpdateDateTimeChange(Guid produtoId, Guid usuarioId)
+        public async Task<ReturnEstoqueDto> UpdateDateTimeChange(int produtoId, Guid usuarioId)
         {
             if (string.IsNullOrWhiteSpace(produtoId.ToString()) ||
                 string.IsNullOrWhiteSpace(usuarioId.ToString()))

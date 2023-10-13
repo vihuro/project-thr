@@ -44,7 +44,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
         }
         [HttpGet("material-id/{id}")]
-        public async Task<ActionResult<List<ReturnMovimentacao>>> GetByMaterialId(Guid id)
+        public async Task<ActionResult<List<ReturnMovimentacao>>> GetByMaterialId(int id)
         {
             try
             {

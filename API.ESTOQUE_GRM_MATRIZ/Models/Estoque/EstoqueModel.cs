@@ -8,7 +8,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Models.Estoque
     [Table("tab_estoque")]
     public class EstoqueModel
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Codigo { get; set; }
         public string Descricao { get; set; }
         public double Quantidade { get; set; }
@@ -16,8 +16,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Models.Estoque
         public double Preco { get; set; }
         public DateTime DataFabricacao { get; set; }
         public bool Ativo { get; set; }
-        public string ClienteUltimaCompra { get; set; }
-        public string CodigoClienteUltimaCompra { get; set; }
+        public string ClienteUltimaCompra1 { get; set; }
+        public string CodigoClienteUltimaCompra1 { get; set; }
+        public string ClienteUltimaCompra2 { get; set; }
+        public string CodigoClienteUltimaCompra2 { get; set; }
+        public string ClienteUltimaCompra3 { get; set; }
+        public string CodigoClienteUltimaCompra3 { get; set; }
         public virtual TipoMaterialModel TipoMaterial { get; set; }
         public string Unidade { get; set; }
         public virtual List<SubstitutoModel> Substituos { get; set; }

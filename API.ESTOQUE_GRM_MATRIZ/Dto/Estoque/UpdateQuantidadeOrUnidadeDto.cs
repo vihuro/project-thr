@@ -2,7 +2,7 @@
 {
     public class UpdateQuantidadeOrUnidadeDto
     {
-        public Guid ProdutoId { get; set; }
+        public int ProdutoId { get; set; }
         public Guid UsuarioId { get; set; }
         public Guid TipoId { get; set; }
         public string Unidade { get; set; }

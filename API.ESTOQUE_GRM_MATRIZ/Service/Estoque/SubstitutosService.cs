@@ -70,7 +70,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
             return dto;
         }
 
-        public async Task<ReturnSubstitutoDto> GetById(Guid id)
+        public async Task<ReturnSubstitutoDto> GetById(int id)
         {
             var obj =await _context.Substituto
                 .AsNoTracking()

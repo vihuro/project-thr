@@ -15,6 +15,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Dto.Estoque
         public double Preco { get; set; }
         public DateTime DataFabricacao { get; set; }
         public Guid UsuarioId { get; set; }
+        public string? ClienteUltimaCompra1 { get; set; }
+        public string? CodigoClienteUltimaCompra1 { get; set; }
+        public string? ClienteUltimaCompra2 { get; set; }
+        public string? CodigoClienteUltimaCompra2 { get; set; }
+        public string? ClienteUltimaCompra3 { get; set; }
+        public string? CodigoClienteUltimaCompra3 { get; set; }
 
     }
 }

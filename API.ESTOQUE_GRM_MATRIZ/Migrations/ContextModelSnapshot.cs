@@ -24,14 +24,34 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
             modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Estoque.EstoqueModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ClienteUltimaCompra1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClienteUltimaCompra2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClienteUltimaCompra3")
+                        .HasColumnType("text");
+
                     b.Property<string>("Codigo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CodigoClienteUltimaCompra1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CodigoClienteUltimaCompra2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CodigoClienteUltimaCompra3")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DataFabricacao")
@@ -125,8 +145,8 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<string>("Destino")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("MaterialId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
 
                     b.Property<double>("QuantidadeDestino")
                         .HasColumnType("double precision");
@@ -154,9 +174,11 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
 
             modelBuilder.Entity("API.ESTOQUE_GRM_MATRIZ.Models.Substituto.SubstitutoModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DataHoraAlteracao")
                         .HasColumnType("timestamp with time zone");
@@ -164,11 +186,11 @@ namespace API.ESTOQUE_GRM_MATRIZ.Migrations
                     b.Property<DateTime>("DataHoraCadatro")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("MaterialEstoqueId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("MaterialEstoqueId")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("SubstitutoId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("SubstitutoId")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("UsuarioAlteracaoId")
                         .HasColumnType("uuid");

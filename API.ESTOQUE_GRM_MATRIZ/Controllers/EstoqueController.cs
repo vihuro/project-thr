@@ -86,7 +86,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<ReturnEstoqueDto>>> GetById(Guid id)
+        public async Task<ActionResult<List<ReturnEstoqueDto>>> GetById(int id)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
         }
         [HttpGet("without-substituto/{id}")]
         [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO")]
-        public async Task<ActionResult<List<ReturnEstoqueDto>>> GetWithoutSubstituto(Guid id)
+        public async Task<ActionResult<List<ReturnEstoqueDto>>> GetWithoutSubstituto(int id)
         {
             try
             {

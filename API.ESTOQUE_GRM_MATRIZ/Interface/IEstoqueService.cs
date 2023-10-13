@@ -7,12 +7,12 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
     {
         Task<ReturnEstoqueDto> Insert(InsertEstoqueDto dto);
         Task<List<ReturnEstoqueDto>> GetAll();
-        Task<ReturnEstoqueDto> GetById(Guid id);
+        Task<ReturnEstoqueDto> GetById(int id);
         Task<bool> DeleteAll();
         Task<ReturnEstoqueDto> UpdateQuantidade(UpdateQuantidadeDto dto);
-        Task<List<ReturnEstoqueDto>> GetWithoutSubstituto(Guid id);
+        Task<List<ReturnEstoqueDto>> GetWithoutSubstituto(int id);
         Task<List<ReturnEstoqueDto>> UpdateQuantidadeZero();
-        Task<ReturnEstoqueDto> UpdateDateTimeChange(Guid produtoId, Guid usuarioId);
+        Task<ReturnEstoqueDto> UpdateDateTimeChange(int produtoId, Guid usuarioId);
         Task<ReturnEstoqueDto> UpdateQuantidadeOrUnidade(UpdateQuantidadeOrUnidadeDto dto);
         Task<ReturnEstoqueDto> UpdatePreco(UpdatePrecoDto dto);
     }
