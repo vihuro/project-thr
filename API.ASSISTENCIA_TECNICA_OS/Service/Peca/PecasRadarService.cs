@@ -1,5 +1,5 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
-using API.ASSISTENCIA_TECNICA_OS.DTO;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Service.Utils;
@@ -38,13 +38,31 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                 });
             }
 
+
             return list;
+        }
+        public async Task<List<PecasRadarDto>> GetPecas()
+        {
+            var listAll = await GetAll();
+            var listPecas = listAll.Where(x => x.ClasseCodigo != "APR" &&
+                                            x.ClasseCodigo != "MAQ").ToList();
+
+            return listPecas;
+        }
+        public async Task<List<PecasRadarDto>> GetMaquinaEAperelhos()
+        {
+            var listAll = await GetAll();
+            var listPecas = listAll.Where(x => x.ClasseCodigo == "APR" ||
+                                            x.ClasseCodigo == "MAQ").ToList();
+
+            return listPecas;
         }
         public async Task<List<PecasModel>> InsertPecas()
         {
             var list = await GetAll();
             var listModel = new List<PecasModel>();
-            foreach(var item in list)
+
+            foreach (var item in list)
             {
                 listModel.Add(new PecasModel
                 {
@@ -54,15 +72,15 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                     Descricao = item.Descricao,
                     Preco = 0,
                     Familia = item.Familia,
-                    Unidade= item.Unidade,
-                    UsuarioAlteracaoId = new Guid("96afb069-c572-4302-b631-8b6b16c825e7"),
-                    UsuarioCadastroId = new Guid("96afb069-c572-4302-b631-8b6b16c825e7")
+                    Unidade = item.Unidade,
+                    UsuarioAlteracaoId = new Guid("2cb75138-9232-454e-8784-d777e50f7547"),
+                    UsuarioCadastroId = new Guid("2cb75138-9232-454e-8784-d777e50f7547")
 
                 });
             }
             _context.Pecas.AddRange(listModel);
             await _context.SaveChangesAsync();
-            return listModel;    
+            return listModel;
         }
         private static string CustomReplace(string value)
         {

@@ -1,4 +1,4 @@
-﻿using API.ASSISTENCIA_TECNICA_OS.DTO;
+﻿using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Interface
@@ -7,5 +7,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     {
         Task<List<PecasRadarDto>> GetAll();
         Task<List<PecasModel>> InsertPecas();
+        Task<List<PecasRadarDto>> GetPecas();
+        Task<List<PecasRadarDto>> GetMaquinaEAperelhos();
     }
 }
