@@ -54,7 +54,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
 
             using var cliente = new HttpClient();
 
-            var responseApiAuth = await cliente.GetAsync("http://192.168.0.230:8080/api/v1/auth/login");
+            var responseApiAuth = await cliente.GetAsync("http://192.168.2.97:8080/api/v1/auth/login");
 
             if (responseApiAuth.IsSuccessStatusCode)
             {

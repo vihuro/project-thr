@@ -21,13 +21,67 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<ReturnPecasDto>>> GetAll()
+        [HttpGet("{skip}/{take}")]
+        public async Task<ActionResult<List<ReturnPecasDto>>> GetAll(int skip = 0, int take = 20)
         {
             try
             {
-                var result = await _service.GetAll();
+                var result = await _service.GetAll(skip,take);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("with-filter")]
+        public async Task<ActionResult<List<ReturnPecasDto>>> GetWithFilter([FromQuery]FilterPecasDto dto)
+        {
+            try
+            {
+                var result = await _service.GetWithFilter(dto);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("radar")]
+        public async Task<ActionResult<List<ReturnPecasDto>>> GetRadar()
+        {
+            try
+            {
+                var result = await _service.GetRadar();
+                var obj = new
+                {
+                    total = result.Pecas.Count,
+                    data = result.Pecas,
+                };
+
+                return Ok(obj);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("nao-cadastrados")]
+        public async Task<ActionResult<List<ReturnPecasDto>>> GetNotRegister()
+        {
+            try
+            {
+                var result = await _service.GetNotRegister();
+                var obj = new
+                {
+                    total = result.Pecas.Count,
+                    data = result.Pecas
+                };
+                return Ok(obj);
             }
             catch (Exception ex)
             {
@@ -109,14 +163,24 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost]
-        public async Task<ActionResult<ReturnPecasDto>> Insert(InsertPecaDto dto)
+        [HttpPost("{idUsuario}")]
+        public async Task<ActionResult<ReturnPecasDto>> Insert(Guid idUsuario)
         {
             try
             {
-                var restult = await _service.InsertPecas(dto);
+                var restult = await _service.InsertPecas(idUsuario);
 
-                return Created("", restult);
+                var obj = new
+                {
+                    total = restult.Pecas.Count,
+                    data = restult
+                };
+                if(restult.Pecas.Count == 0)
+                {
+                    return Ok("Não há novos códigos para serem adicionados!");
+                }
+
+                return Created("", obj);
             }
             catch (Exception ex)
             {

@@ -2,6 +2,13 @@
 {
     public class ReturnPecasDto
     {
+        public int Total { get; set; }
+        public int CurrentPage { get; set; }
+        public int QuantityPages{ get; set; }
+        public List<PecasDto> Pecas { get; set; }
+    }
+    public class PecasDto
+    {
         public Guid Id { get; set; }
         public string CodigoRadar { get; set; }
         public string Descricao { get; set; }

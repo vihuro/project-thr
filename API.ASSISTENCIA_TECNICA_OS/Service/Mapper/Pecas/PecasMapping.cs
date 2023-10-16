@@ -20,7 +20,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Pecas
                 .ForMember(x => x.Unidade, map => map.MapFrom(src => src.Unidade))
                 .ForPath(x => x.Familia, map => map.MapFrom(src => src.Familia));
 
-            CreateMap<PecasModel, ReturnPecasDto>()
+            CreateMap<PecasModel, PecasDto>()
                 .ForMember(x => x.CodigoRadar, map => map.MapFrom(src => src.CodigoRadar))
                 .ForMember(x => x.Descricao, map => map.MapFrom(src => src.Descricao))
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
