@@ -6,6 +6,7 @@
         public string Codigo { get; set; }
         public string DescricaoMaquina { get; set; }
         public string NumeroSerie { get; set; }
+        public string Unidade { get; set; }
         public bool Ativo { get; set; }
         public bool Atribuida { get; set; }
         public UserDto Cadastro { get; set; }

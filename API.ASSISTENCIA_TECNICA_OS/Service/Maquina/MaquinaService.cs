@@ -14,14 +14,17 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
         private readonly Context _context;
         private readonly IMapper _mapper;
         private readonly IMaquinaClienteService _maquinaClienteSerice;
+        private readonly IPecasRadarService _maquinaRadarService;
 
         public MaquinaService(Context context,
                                 IMapper mapper,
-                                IMaquinaClienteService maquinaClienteSerice)
+                                IMaquinaClienteService maquinaClienteSerice,
+                                IPecasRadarService maquinaRadarService)
         {
             _context = context;
             _mapper = mapper;
             _maquinaClienteSerice = maquinaClienteSerice;
+            _maquinaRadarService = maquinaRadarService;
         }
 
         public async Task<bool> DeleteAll()
@@ -138,6 +141,24 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
             var dto = _mapper.Map<ReturnMaquinaComPecasDto>(obj);
 
             return dto;
+        }
+        public async Task<ReturnMaquinaComPecasDto> GetByCodigo(string codigo)
+        {
+            var listRadar = await _maquinaRadarService.GetMaquinaEAperelhos();
+
+            var maquina = listRadar.Where(c => c.Codigo.ToUpper() == codigo.ToUpper()).FirstOrDefault();
+
+            if (maquina == null) throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+
+            var dto = new ReturnMaquinaComPecasDto
+            {
+                Codigo = maquina.Codigo,
+                DescricaoMaquina = maquina.Descricao,
+                Unidade = maquina.Unidade
+            };
+
+            return dto;
+
         }
 
         public async Task<ReturnMaquinaComPecasDto> Insert(InsertMaquinaDto dto)

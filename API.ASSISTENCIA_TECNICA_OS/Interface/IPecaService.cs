@@ -13,6 +13,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
         Task<ReturnPecasDto> InsertPecas(Guid idUsuario);
         Task<ReturnPecasDto> GetNotRegister();
         Task<ReturnPecasDto> GetRadar();
-        Task<ReturnPecasDto> GetWithFilter(FilterPecasDto dto);
+        Task<ReturnPecasDto> GetWithFilter(FilterPecasDto dto,int skip, int take);
     }
 }

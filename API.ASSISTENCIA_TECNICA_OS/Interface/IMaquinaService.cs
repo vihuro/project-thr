@@ -13,6 +13,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
         Task<ReturnMaquinaComPecasDto> GetById(Guid id);
         Task<ReturnMaquinaComPecasDto> GetByNumeroSerie(string numeroSerie);
         Task<bool> DeleteAll();
+        Task<ReturnMaquinaComPecasDto> GetByCodigo(string codigo);
         Task<bool> DeleteById(Guid id); 
     }
 }

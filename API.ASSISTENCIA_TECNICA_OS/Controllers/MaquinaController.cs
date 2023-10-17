@@ -59,6 +59,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{codigo}")]
+        public async Task<ActionResult<ReturnMaquinaComPecasDto>> GetByCodigo(string codigo)
+        {
+            try
+            {
+                var result = await _service.GetByCodigo(codigo);
+
+                return Ok(result); 
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+        }
         [HttpGet("sem-atribuicao")]
         public async Task<ActionResult<List<ReturnMaquinaComPecasDto>>> GetBySemAtribuicao()
         {

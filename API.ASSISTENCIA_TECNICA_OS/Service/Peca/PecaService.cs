@@ -48,28 +48,53 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
             var dto = new ReturnPecasDto
             {
                 Total = total,
-                QuantityPages = total /= take
+                QuantityPages = total /= take,
+                CurrentPage = skip / take + 1,
+                Pecas = mapper
             };
-            dto.CurrentPage = skip / take + 1;
-            dto.Pecas = mapper;
 
             return dto;
         }
-        public async Task<ReturnPecasDto> GetWithFilter(FilterPecasDto dto)
+        public async Task<ReturnPecasDto> GetWithFilter(FilterPecasDto dto, int skip, int take)
         {
 
-            var obj = await _context.Pecas
-                .Where(p => p.Unidade.ToUpper().Contains(dto.Unidade.ToUpper()) &&
-                p.CodigoRadar.ToUpper().Contains(dto.CodigoRadar.ToUpper()) &&
-                p.Descricao.ToUpper().Contains(dto.Descricao.ToUpper()) &&
-                p.Familia.ToUpper().Contains(dto.Familia.ToUpper()))
+            var unidade = dto.Unidade ?? "";
+            var codigoRadar = dto.CodigoRadar ?? "";
+            var descricao = dto.Descricao ?? "";
+            var familia = dto.Familia ?? "";
+
+            var quantityItems = await _context.Pecas
+                .Where(p => p.Unidade.ToUpper().Contains(unidade.ToUpper()) &&
+                p.CodigoRadar.ToUpper().Contains(codigoRadar.ToUpper()) &&
+                p.Descricao.ToUpper().Contains(descricao.ToUpper()) &&
+                p.Familia.ToUpper().Contains(familia.ToUpper()))
                 .Include(u => u.UsuarioCadastro)
                 .Include(u => u.UsuarioAlteracao)
+                .CountAsync();
+
+            var obj = await _context.Pecas
+                .Where(p => p.Unidade.ToUpper().Contains(unidade.ToUpper()) &&
+                        p.CodigoRadar.ToUpper().Contains(codigoRadar.ToUpper()) &&
+                        p.Descricao.ToUpper().Contains(descricao.ToUpper()) &&
+                        p.Familia.ToUpper().Contains(familia.ToUpper()))
+                .OrderBy(c => c.CodigoRadar)
+                .Include(u => u.UsuarioCadastro)
+                .Include(u => u.UsuarioAlteracao)
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync();
 
-            var mapper = _mapper.Map<ReturnPecasDto>(obj);
+            var pecasDto = _mapper.Map<List<PecasDto>>(obj);
 
-            return mapper;
+            var response = new ReturnPecasDto
+            {
+                Total = quantityItems,
+                CurrentPage = skip / take +1,
+                Pecas = pecasDto,
+                QuantityPages = quantityItems /= take
+            };
+
+            return response;
         }
 
         public async Task<ReturnPecasDto> GetById(Guid id)

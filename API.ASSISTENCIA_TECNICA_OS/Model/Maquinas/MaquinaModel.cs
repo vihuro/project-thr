@@ -15,6 +15,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         [StringLength(150, MinimumLength = 3,
              ErrorMessage = "O tipo da máquina deve conter pelo menos 3 caracteres!")]
         public string DescricaoMaquina { get; set; }
+        public string Unidade { get; set; }
 
         [Required]
         public bool Atribuida { get; set; }

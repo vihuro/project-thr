@@ -35,12 +35,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("with-filter")]
-        public async Task<ActionResult<List<ReturnPecasDto>>> GetWithFilter([FromQuery]FilterPecasDto dto)
+        [HttpGet("with-filter/{skip}/{take}")]
+        public async Task<ActionResult<List<ReturnPecasDto>>> GetWithFilter([FromQuery] FilterPecasDto dto,
+            int skip = 0 ,
+            int take = 20)
         {
             try
             {
-                var result = await _service.GetWithFilter(dto);
+                var result = await _service.GetWithFilter(dto,skip,take);
 
                 return Ok(result);
             }
