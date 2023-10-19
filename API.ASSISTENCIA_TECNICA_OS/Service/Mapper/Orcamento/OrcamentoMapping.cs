@@ -126,9 +126,19 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     NumeroEstabelecimento = src.MaquinaCliente.Cliente.NumeroEstabelecimento,
                     Regiao = src.MaquinaCliente.Cliente.Regiao,
                     Rua = src.MaquinaCliente.Cliente.Rua
-                }));
+                }))
+                .ForPath(x => x.Diario, map => map.MapFrom(src => src.Diario.Select(c => new DiarioOrcamentoDto
+                {
+                    ApelidoUsuario = c.UsuarioApontamento.Apelido,
+                    Observacao = c.Informacao,
+                    DataHoraApontamento = c.DataHoraApontamento,
+                    UsuarioId = c.UsuarioApontamentoId,
+                    Tag = c.Tag,
+                    NumeroApontamento = c.Id,
+                    UsuarioApontamento = c.UsuarioApontamento.Nome
+                })));
         }
-        private UsuarioApontamentoOrcamentoDto ValidateUserApontamentoInicio(UsuarioApontamentoInicioStatusModel dto)
+        private static UsuarioApontamentoOrcamentoDto ValidateUserApontamentoInicio(UsuarioApontamentoInicioStatusModel dto)
         {
             if (dto == null) return null;
 
@@ -140,7 +150,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
 
             return item;
         }
-        private UsuarioApontamentoOrcamentoDto ValidateUserApontamentoFim(UsuarioApontamentoFimStatusModel dto)
+        private static UsuarioApontamentoOrcamentoDto ValidateUserApontamentoFim(UsuarioApontamentoFimStatusModel dto)
         {
             if (dto == null) return null;
 
@@ -152,5 +162,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
 
             return item;
         }
+        
     }
 }

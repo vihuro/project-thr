@@ -102,6 +102,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                  .Include(s => s.StatusOrcamento)
                     .ThenInclude(u => u.UsuarioApontamentFim)
                         .ThenInclude(u => u.UsuarioApontamentoFim)
+                .Include(d => d.Diario)
+                    .ThenInclude(u => u.UsuarioApontamento)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == numeroOrcamento);
 

@@ -3,6 +3,7 @@ using System;
 using API.ASSISTENCIA_TECNICA_OS.ContextBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20231019191308_AdicionadoTabelaParaDiarioDoOrcamento")]
+    partial class AdicionadoTabelaParaDiarioDoOrcamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,7 +299,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<string>("Informacao")
                         .HasColumnType("text");
 
-                    b.Property<int>("OrcamentoId")
+                    b.Property<int>("NumeroOrcamentoId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("OrcamentoId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Tag")
@@ -690,9 +696,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                 {
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", "Orcamento")
                         .WithMany("Diario")
-                        .HasForeignKey("OrcamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrcamentoId");
 
                     b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioApontamento")
                         .WithMany()

@@ -11,6 +11,7 @@
         public UserOrcamentoDto Alteracao { get; set; }
         public MaquinaOrcamentoDto Maquina { get; set; }
         public ClienteOrcamentoDto Cliente { get; set; }
+        public List<DiarioOrcamentoDto> Diario { get; set; }
     }
     public class ClienteOrcamentoDto
     {
@@ -68,5 +69,15 @@
         public string EnderecoImagem { get; set; }
         public bool Troca { get; set; }
         public bool Conserto { get; set; }
+    }
+    public class DiarioOrcamentoDto
+    {
+        public int NumeroApontamento { get; set; }
+        public string Observacao { get; set; }
+        public string Tag { get; set; }
+        public string UsuarioApontamento { get; set; }
+        public string ApelidoUsuario { get; set; }
+        public Guid UsuarioId { get; set; }
+        public DateTime DataHoraApontamento { get; set; }
     }
 }

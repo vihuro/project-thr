@@ -44,6 +44,7 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<ICEPService, CEPService>();
 builder.Services.AddScoped<ITecnicoService, TecnicoService>();
 builder.Services.AddScoped<IPecasRadarService, PecasRadarService>();
+builder.Services.AddScoped<IDiarioService, DiaroService>();
 builder.Services.AddScoped<ReaderFile>();
 //context
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");
@@ -62,6 +63,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(CepMapping));
     x.AddProfile(typeof(PecasMapping));
     x.AddProfile(typeof(TecnicoMapping));
+    x.AddProfile(typeof(DiarioOrcamentoMapping));
 });
 
 var environment = builder.Environment.EnvironmentName;
