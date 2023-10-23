@@ -73,8 +73,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                     Preco = 0,
                     Familia = item.Familia,
                     Unidade = item.Unidade,
-                    UsuarioAlteracaoId = new Guid("2cb75138-9232-454e-8784-d777e50f7547"),
-                    UsuarioCadastroId = new Guid("2cb75138-9232-454e-8784-d777e50f7547")
+                    UsuarioAlteracaoId = new Guid("dd2e5879-bc16-4a9b-b0f7-2119523355db"),
+                    UsuarioCadastroId = new Guid("dd2e5879-bc16-4a9b-b0f7-2119523355db")
 
                 });
             }
