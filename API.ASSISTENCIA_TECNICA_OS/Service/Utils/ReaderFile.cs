@@ -8,8 +8,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Utils
     public class ReaderFile
     {
 
-        private static readonly string _path = "\\\\192.168.43.186\\api_assitencia_tecnica\\Reports\\THR_PROD_ASSTEC.txt";
-        private static readonly NtlmPasswordAuthentication auth = new(null, "vitor", "25249882");
+        private static readonly string _path = "\\\\192.168.2.24\\api_assistencia_tecnica\\Reports\\THR_PROD_ASSTEC.txt";
+        private static readonly NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
 
         public StreamReader GetFileReader()
         {
