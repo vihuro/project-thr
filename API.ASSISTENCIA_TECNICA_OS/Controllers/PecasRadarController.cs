@@ -83,11 +83,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<List<PecasModel>>> InsertPecas()
+        public async Task<ActionResult<List<PecasModel>>> InsertPecas([FromBody] Guid userId)
         {
             try
             {
-                var resutl = await _servicer.InsertPecas();
+                var resutl = await _servicer.InsertPecas(userId);
                 return Ok(resutl);
             }
             catch (Exception ex)

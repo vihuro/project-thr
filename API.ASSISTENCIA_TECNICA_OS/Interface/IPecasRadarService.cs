@@ -6,7 +6,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     public interface IPecasRadarService
     {
         Task<List<PecasRadarDto>> GetAll();
-        Task<List<PecasModel>> InsertPecas();
+        Task<List<PecasModel>> InsertPecas(Guid userId);
         Task<List<PecasRadarDto>> GetPecas();
         Task<List<PecasRadarDto>> GetMaquinaEAperelhos();
     }

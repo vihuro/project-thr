@@ -175,6 +175,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
             if (verify)
                 throw new CustomException("Número de série já cadastrado!") { HResult = 400 };
 
+            var listMachineInReportRadar = await _maquinaRadarService.GetMaquinaEAperelhos();
+            var verifyExistinMachineForCode = listMachineInReportRadar.Any(c => c.Codigo.ToUpper() == dto.CodigoMaquina.ToUpper());
+
+            if (!verifyExistinMachineForCode)
+                throw new CustomException("Código não encontrado!") { HResult = 404 };
+
             var obj = _mapper.Map<MaquinaModel>(dto);
             _context.Maquina.Add(obj);
 

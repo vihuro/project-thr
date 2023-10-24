@@ -9,7 +9,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
     public class PecasRadarService : IPecasRadarService
     {
         private readonly ReaderFile _readerFile;
-        private Context _context;
+        private readonly Context _context;
 
         public PecasRadarService(ReaderFile readerFile, Context context)
         {
@@ -57,7 +57,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
 
             return listPecas;
         }
-        public async Task<List<PecasModel>> InsertPecas()
+        public async Task<List<PecasModel>> InsertPecas(Guid userId)
         {
             var list = await GetAll();
             var listModel = new List<PecasModel>();
@@ -73,8 +73,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                     Preco = 0,
                     Familia = item.Familia,
                     Unidade = item.Unidade,
-                    UsuarioAlteracaoId = new Guid("dd2e5879-bc16-4a9b-b0f7-2119523355db"),
-                    UsuarioCadastroId = new Guid("dd2e5879-bc16-4a9b-b0f7-2119523355db")
+                    UsuarioAlteracaoId = userId,
+                    UsuarioCadastroId = userId
 
                 });
             }
