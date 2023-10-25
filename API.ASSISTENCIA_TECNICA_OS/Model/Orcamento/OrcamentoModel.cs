@@ -12,6 +12,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public int Id { get; set; }
         public string DescricaoServico { get; set; }
         public double ValorOrcamento { get; set; }
+        public bool Externo { get; set; }
         public StatusSituacaoModel Status { get; set; }
         public virtual List<StatusOrcamentoModel> StatusOrcamento { get; set; }
         public Guid UsuarioCadastroId { get; set; }

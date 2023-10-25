@@ -6,6 +6,7 @@
         public string DescricaoServico { get; set; }
         public double ValorOrcamento { get; set; }
         public string Status { get; set; }
+        public bool Externo { get; set; }
         public InfoCadastroOuAlteracaoOrcamentoResumido Cadastro { get; set; }
         public InfoCadastroOuAlteracaoOrcamentoResumido Alteracao { get; set; }
         public InfoClienteOrcamentoResumidoDto Cliente { get; set; }

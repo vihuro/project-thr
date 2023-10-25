@@ -38,6 +38,29 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
 
 
         }
+        public async Task<List<ReturnStatusDto>> InsertStatusList(Guid userId)
+        {
+            var list = new List<string>()
+            {
+                "ORÇAMENTO PENDENTE",
+                "AGUARDANDO ORÇAMENTO",
+                "EM NEGOCIAÇÃO",
+                "ORÇAMENTO APROVADO",
+                "ORÇAMENTO RECUSADO",
+                "AGUARDANDO MANUTENÇÃO",
+                "MANUTENÇÃO INICIADA",
+                "MANUNTENÇÃO FINALIZADA"
+            };
+            var verifyExistisStatusInDataBase = _context.Status.Any(x => list.Contains(x.Status));
+            if (verifyExistisStatusInDataBase)
+                throw new CustomException("Esse status já foi cadastradro!");
+            var obj = _mapper.Map<List<StatusModel>>(list);
+            _context.Status.AddRange(obj);
+            await _context.SaveChangesAsync();
+
+            var returObjMapper = _mapper.Map<List<ReturnStatusDto>>(obj);
+            return returObjMapper;
+        }
 
         public async Task<ReturnStatusDto> GetById(int id)
         {

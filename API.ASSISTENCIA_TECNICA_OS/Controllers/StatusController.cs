@@ -28,6 +28,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("{userId}")]
+        public async Task<ActionResult<List<ReturnStatusDto>>> InsertListStatus(Guid userId)
+        {
+            try
+            {
+                var result = await _service.InsertStatusList(userId);
+                return Created("", result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet]
         public async Task<ActionResult<List<ReturnStatusDto>>> GetAll()
         {

@@ -2,13 +2,10 @@
 using API.ASSISTENCIA_TECNICA_OS.DTO.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
-using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Xml;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 {
@@ -52,7 +49,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             foreach (var item in listStausService)
             {
                 var newItem = new StatusOrcamentoModel();
-                if (item.Status == "AGUARDANDO ORÇAMENTO")
+                /*if (item.Status == "AGUARDANDO ORÇAMENTO")
                 {
                     newItem.DataHoraInicio = DateTime.UtcNow;
                     newItem.UsuarioApontamentoInicio = new UsuarioApontamentoInicioStatusModel
@@ -60,7 +57,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                         UsuarioApontamentoInicioId = dto.UserId,
                     };
 
-                }
+                }*/
                 newItem.StatusId = item.Id;
                 listStatus.Add(newItem);
 
@@ -92,6 +89,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                     .ThenInclude(m => m.Maquina)
                 .Include(c => c.MaquinaCliente)
                     .ThenInclude(c => c.Cliente)
+                .Include(t => t.TecnicoManutenco)
+                    .ThenInclude(u => u.Tecnico)
+                        .ThenInclude(u => u.Usuario)
+                .Include(t => t.TecnicoOrcamento)
+                    .ThenInclude(u => u.Tecnico)
+                        .ThenInclude(u => u.Usuario)
                 .Include(p => p.Pecas)
                     .ThenInclude(p => p.Peca)
                 .Include(s => s.StatusOrcamento.OrderBy(x => x.StatusId))

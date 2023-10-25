@@ -5,13 +5,22 @@
         public int NumeroOrcamento { get; set; }
         public string DescricaoServico { get; set; }
         public double ValorOrcamento { get; set; }
+        public bool Externo { get; set; }
         public string Status { get; set; }
+        public TecnicoNoOrcamento TecnicoOrcamento { get; set; }
+        public TecnicoNoOrcamento TecnicoManutencao { get; set; }
         public List<StatusOrcamentoDto> StatusSituacao { get; set; }
         public UserOrcamentoDto Cadastro {get;set;}
         public UserOrcamentoDto Alteracao { get; set; }
         public MaquinaOrcamentoDto Maquina { get; set; }
         public ClienteOrcamentoDto Cliente { get; set; }
         public List<DiarioOrcamentoDto> Diario { get; set; }
+    }
+    public class TecnicoNoOrcamento
+    {
+        public Guid Id { get; set; }
+        public string Nome { get; set; }
+        public string Apelido { get; set; }
     }
     public class ClienteOrcamentoDto
     {

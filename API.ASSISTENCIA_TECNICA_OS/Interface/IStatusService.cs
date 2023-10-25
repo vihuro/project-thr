@@ -7,6 +7,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
     {
         Task<ReturnStatusDto> Insert(InsertStatusDto dto);
         Task<ReturnStatusDto> GetById(int id);
+        Task<List<ReturnStatusDto>> InsertStatusList(Guid userId);
         Task<List<ReturnStatusDto>> GetAll();
     }
 }

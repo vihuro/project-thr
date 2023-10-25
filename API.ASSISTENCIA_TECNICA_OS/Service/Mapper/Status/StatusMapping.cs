@@ -11,6 +11,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Status
             CreateMap<InsertStatusDto, StatusModel>()
                 .ForMember(x => x.Status, map => map.MapFrom(src => src.Status.ToUpper()));
 
+            CreateMap<string, StatusModel>()
+                .ForMember(x => x.Status, map => map.MapFrom(src => src.ToUpper()));
+
             CreateMap<StatusModel, ReturnStatusDto>()
                 .ForMember(x => x.Status, map => map.MapFrom(src => src.Status))
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id));

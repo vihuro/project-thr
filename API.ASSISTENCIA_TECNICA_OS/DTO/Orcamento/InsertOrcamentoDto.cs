@@ -4,6 +4,7 @@
     {
         public string DescricaoServico { get; set; }
         public double ValorOrcamento { get; set; }
+        public bool Externo { get; set; }
         public Guid UserId { get; set; }
         public Guid MaquinaId { get; set; }
     }
