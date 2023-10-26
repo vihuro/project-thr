@@ -18,6 +18,7 @@ using API.ASSISTENCIA_TECNICA_OS.Service.Status;
 using API.ASSISTENCIA_TECNICA_OS.Service.Tecnico;
 using API.ASSISTENCIA_TECNICA_OS.Service.User;
 using API.ASSISTENCIA_TECNICA_OS.Service.Utils;
+using API.ASSISTENCIA_TECNICA_OS.Utils;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -66,10 +67,16 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(DiarioOrcamentoMapping));
 });
 
+
+//  environment
 var environment = builder.Environment.EnvironmentName;
 
-/*var filePath = builder.Configuration.Get<FilePath>();
-filePath.Caminho = builder.Configuration.GetSection("variables:FileNOTA")[environment];*/
+builder.Services.Configure<AndressReports>(builder.Configuration.GetSection("AndressReportsRadar"));
+
+
+//filePath.Andress = builder.Configuration.GetSection("AndressReportsRadar");
+//filePath.User = builder.Configuration.GetSection("variables:FileNOTA")[environment];
+//filePath.Password = builder.Configuration.GetSection("variables:FileNOTA")[environment];
 
 var app = builder.Build();
 
