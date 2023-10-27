@@ -20,7 +20,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Utils
         {
             _configuration = configuration;
             _andressReports = andressReports.Value;
-            auth = new NtlmPasswordAuthentication(null,andressReports.Value.User,andressReports.Value.Password);
+            auth = new NtlmPasswordAuthentication(null, andressReports.Value.User, andressReports.Value.Password);
         }
 
         public StreamReader GetFileReader()
