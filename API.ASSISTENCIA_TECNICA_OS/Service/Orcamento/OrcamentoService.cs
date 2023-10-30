@@ -48,21 +48,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             foreach (var item in listStausService)
             {
-                var newItem = new StatusOrcamentoModel();
-                /*if (item.Status == "AGUARDANDO ORÇAMENTO")
+                listStatus.Add(new StatusOrcamentoModel
                 {
-                    newItem.DataHoraInicio = DateTime.UtcNow;
-                    newItem.UsuarioApontamentoInicio = new UsuarioApontamentoInicioStatusModel
-                    {
-                        UsuarioApontamentoInicioId = dto.UserId,
-                    };
-
-                }*/
-                newItem.StatusId = item.Id;
-                listStatus.Add(newItem);
-
+                    StatusId = item.Id
+                });
             }
-            orcamento.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
+            orcamento.Status = StatusSituacaoModel.AGUARDANDO_ATRIBUICAO;
             orcamento.StatusOrcamento = listStatus;
 
             _context.Orcamento.Add(orcamento);
@@ -131,5 +122,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             return dto;
         }
+
     }
 }

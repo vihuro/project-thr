@@ -77,7 +77,7 @@
         public double Preco { get; set; }
         public string EnderecoImagem { get; set; }
         public bool Troca { get; set; }
-        public bool Conserto { get; set; }
+        public int Quantidade { get; set; }
     }
     public class DiarioOrcamentoDto
     {

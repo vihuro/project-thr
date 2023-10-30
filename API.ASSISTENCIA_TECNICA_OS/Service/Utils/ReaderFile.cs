@@ -43,7 +43,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Utils
 
             var myString = _andressReports.Andress.Replace("\\", "//").ReplaceAll("//", "/");
 
-            return new StreamReader(myString, Encoding.GetEncoding("UTF-8"), true);
+            return new StreamReader(myString, Encoding.GetEncoding("ISO-8859-1"), true);
 
         }
         private static OSPlatform VerifyPlatform()

@@ -20,7 +20,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
 
             CreateMap<OrcamentoModel, ReturnOrcamentoResumidoDto>()
                 .ForMember(x => x.NumeroOrcamento, map => map.MapFrom(src => src.Id))
-                .ForMember(x => x.Status, map => map.MapFrom(src => src.Status))
+                .ForMember(x => x.Status, map => map.MapFrom(src => VerifyStatus(src.Status)))
                 .ForMember(x => x.ValorOrcamento, map => map.MapFrom(src => src.ValorOrcamento))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo))
                 .ForPath(x => x.Cadastro, map => map.MapFrom(src => new InfoCadastroOuAlteracaoOrcamentoResumido
@@ -101,12 +101,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     Pecas = src.Pecas.Select(c => new PecasMaquinaOrcamentoDto
                     {
                         Troca = c.Troca,
-                        Conserto = c.Conserto,
                         CodigoPeca = c.Peca.CodigoRadar,
                         DescricaoPeca = c.Peca.Descricao,
                         EnderecoImagem = c.Peca.EnderecoImagem,
                         PecaId = c.Peca.Id,
-                        Preco = c.Peca.Preco
+                        Preco = c.Peca.Preco,
+                        Quantidade = c.Quantidade
                     }).ToList()
                     /*Pecas = src.MaquinaCliente.Maquina.Pecas.Select(c => new PecasMaquinaOrcamentoDto
                     {
@@ -141,6 +141,36 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     NumeroApontamento = c.Id,
                     UsuarioApontamento = c.UsuarioApontamento.Nome
                 })));
+        }
+        private static string VerifyStatus(StatusSituacaoModel status)
+        {
+            switch (status)
+            {
+                case StatusSituacaoModel.AGUARDANDO_ATRIBUICAO:
+                    return "AGUARDANDO ATRIBUIÇÃO";
+                case StatusSituacaoModel.AGUARDANDO_ORCAMENTO:
+                    return "AGURDANDO ORCAMENTO";
+                case StatusSituacaoModel.ORCANDO:
+                    return "ORÇANDO";
+                case StatusSituacaoModel.AGUARDANDO_LIBERACAO_ORCAMENTO:
+                    return "AGURDANDO LIBERAÇÃO DO ORÇAMENTO";
+                case StatusSituacaoModel.AGUARDANDO_MANUTENCAO:
+                    return "AGURDANDO MANUTENÇÃO";
+                case StatusSituacaoModel.MANUTENCAO_INICIADA:
+                    return "MANUTENÇÃO INICIADA";
+                case StatusSituacaoModel.AGUARDANDO_PECAS:
+                    return "AGUARDANDO PEÇAS";
+                case StatusSituacaoModel.PECAS_SEPARADAS:
+                    return "PEÇAS SEPARADAS";
+                case StatusSituacaoModel.MANUTENCAO_FINALIZADA:
+                    return "MANUTENÇÃO FINALIZADA";
+                case StatusSituacaoModel.LIMPEZA:
+                    return "REALIZANDO LIMPEZA";
+                case StatusSituacaoModel.FINALIZADO:
+                    return "FINALIZADO";
+                default:
+                    return "STATUS NÃO ENCONTRADO!";
+            }
         }
         private static TecnicoNoOrcamento ValidateTechnicianBudget(TecnicoOrcamentoModel techicianBudget)
         {

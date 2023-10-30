@@ -16,9 +16,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
 
     public enum StatusMaquinaClienteModel
     {
-        LIBERADA,
-        AGUARDANDO_ORCAMENTO,
-        AGUARDANDO_APROVACAO,
-        EM_MANUTENCAO
+        LIBERADA = 0,
+        AGUARDANDO_ORCAMENTO = 1,
+        AGUARDANDO_APROVACAO = 2,
+        EM_MANUTENCAO = 3,
+        LIMPEZA = 4
     }
 }

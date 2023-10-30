@@ -77,10 +77,16 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
             return _mapper.Map<ReturnMaquinaClienteDto>(obj);
 
         }
-        public async Task<ReturnMaquinaClienteDto> UpdateStatusForLiberada(UpdateStatusMaquina dto)
+        private async Task<MaquinaClienteModel> ChangeStatusInMachine(UpdateStatusMaquina dto)
         {
             var obj = await _context.MaquinaCliente.SingleOrDefaultAsync(x => x.MaquinaId == dto.MaquinaId) ??
-                throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+                            throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+
+            return obj;
+        }
+        public async Task<ReturnMaquinaClienteDto> UpdateStatusForLiberada(UpdateStatusMaquina dto)
+        {
+            var obj = await ChangeStatusInMachine(dto);
 
             obj.Status = StatusMaquinaClienteModel.LIBERADA;
             _context.MaquinaCliente.Update(obj);
@@ -90,11 +96,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
         }
         public async Task<ReturnMaquinaClienteDto> UpdateStatusForAguardandoOrcamento(UpdateStatusMaquina dto)
         {
-            var obj = await _context.MaquinaCliente
-                 .Include(x => x.Maquina)
-                .Include(x => x.Cliente)
-                .SingleOrDefaultAsync(x => x.MaquinaId == dto.MaquinaId) ??
-                throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+            var obj = await ChangeStatusInMachine(dto);
 
             obj.Status = StatusMaquinaClienteModel.AGUARDANDO_ORCAMENTO;
             _context.MaquinaCliente.Update(obj);
@@ -104,11 +106,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
         }
         public async Task<ReturnMaquinaClienteDto> UpdateStatusForAguardandoAprovacao(UpdateStatusMaquina dto)
         {
-            var obj = await _context.MaquinaCliente
-                 .Include(x => x.Maquina)
-                .Include(x => x.Cliente)
-                .SingleOrDefaultAsync(x => x.MaquinaId == dto.MaquinaId) ??
-                throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+            var obj = await ChangeStatusInMachine(dto);
 
             obj.Status = StatusMaquinaClienteModel.AGUARDANDO_APROVACAO;
             _context.MaquinaCliente.Update(obj);
@@ -118,11 +116,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
         }
         public async Task<ReturnMaquinaClienteDto> UpdateStatusForEmManutencao(UpdateStatusMaquina dto)
         {
-            var obj = await _context.MaquinaCliente
-                 .Include(x => x.Maquina)
-                .Include(x => x.Cliente)
-                .SingleOrDefaultAsync(x => x.MaquinaId == dto.MaquinaId) ??
-                throw new CustomException("Máquina não encontrada!") { HResult = 404 };
+            var obj = await ChangeStatusInMachine(dto);
 
             obj.Status = StatusMaquinaClienteModel.EM_MANUTENCAO;
             _context.MaquinaCliente.Update(obj);

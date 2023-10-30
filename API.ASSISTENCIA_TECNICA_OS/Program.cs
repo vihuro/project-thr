@@ -46,6 +46,7 @@ builder.Services.AddScoped<ICEPService, CEPService>();
 builder.Services.AddScoped<ITecnicoService, TecnicoService>();
 builder.Services.AddScoped<IPecasRadarService, PecasRadarService>();
 builder.Services.AddScoped<IDiarioService, DiaroService>();
+builder.Services.AddScoped<IPecasNoOrcamentoService, PecaNoOrcamentoService>();
 builder.Services.AddScoped<ReaderFile>();
 //context
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");

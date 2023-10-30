@@ -2,13 +2,12 @@
 {
     public class InsertPecasNoOrcamentoDto
     {
-        public int NumeroOcamento { get; set; }
+        public int NumeroOrcamento { get; set; }
         public Guid UsuarioId { get; set; }
-        public List<PecasResumidaOrcamentoDto> Pecas { get; set; }
-    }
-
-    public class PecasResumidaOrcamentoDto
-    {
         public Guid PecaId { get; set; }
+        public int Quantidade { get; set; }
+        public bool Troca { get; set; }
+        public bool Conserto { get; set; }
+        public bool Reaproveitamento { get; set; }
     }
 }
