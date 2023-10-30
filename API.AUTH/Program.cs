@@ -83,6 +83,18 @@ builder.Services.AddAuthentication(x =>
 });
 
 var app = builder.Build();
+try
+{
+    using var serviceScope = app.Services.CreateScope();
+    var context = serviceScope.ServiceProvider.GetRequiredService<Context>();
+    context.Database.Migrate();
+
+}
+catch (Exception ex)
+{
+
+    Console.WriteLine(ex.Message);
+}
 
 
 // Configure the HTTP request pipeline.

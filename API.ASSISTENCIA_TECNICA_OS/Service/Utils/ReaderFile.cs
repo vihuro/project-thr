@@ -37,9 +37,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Utils
         }
         private static StreamReader ReaderInLinux()
         {
-            string smbPath = $"smb:{_andressReports.Andress.Replace("\\", "//").ReplaceAll("//", "/")}";
+            /*string smbPath = $"smb:{_andressReports.Andress.Replace("\\", "//").ReplaceAll("//", "/")}";
             var smb = new SmbFile(smbPath, auth).GetInputStream();
-            return new StreamReader(smb, Encoding.GetEncoding("ISO-8859-1"), true);
+            return new StreamReader(smb, Encoding.GetEncoding("ISO-8859-1"), true);*/
+
+            var myString = _andressReports.Andress.Replace("\\", "//").ReplaceAll("//", "/");
+
+            return new StreamReader(myString, Encoding.GetEncoding("UTF-8"), true);
 
         }
         private static OSPlatform VerifyPlatform()
