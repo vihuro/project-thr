@@ -21,7 +21,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.ContextBase
         //maquina
         public DbSet<MaquinaClienteModel> MaquinaCliente { get; set; }
         public DbSet<MaquinaModel> Maquina { get; set; }
-        
+
         //orçamento
         public DbSet<OrcamentoModel> Orcamento { get; set; }
         public DbSet<StatusModel> Status { get; set; }

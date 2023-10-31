@@ -63,7 +63,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
             CreateMap<OrcamentoModel, ReturnOrcamentoDto>()
                 .ForMember(x => x.NumeroOrcamento, map => map.MapFrom(src => src.Id))
                 .ForMember(x => x.DescricaoServico, map => map.MapFrom(src => src.DescricaoServico))
-                .ForMember(x => x.Status, map => map.MapFrom(src => src.Status))
+                .ForMember(x => x.Status, map => map.MapFrom(src => VerifyStatus(src.Status)))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo))
                 .ForMember(x => x.TecnicoManutencao, map => map.MapFrom(src => ValidateTechnicianMaintenance(src.TecnicoManutenco)))
                 .ForMember(x => x.TecnicoOrcamento, map => map.MapFrom(src => ValidateTechnicianBudget(src.TecnicoOrcamento)))
@@ -149,13 +149,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 case StatusSituacaoModel.AGUARDANDO_ATRIBUICAO:
                     return "AGUARDANDO ATRIBUIÇÃO";
                 case StatusSituacaoModel.AGUARDANDO_ORCAMENTO:
-                    return "AGURDANDO ORCAMENTO";
+                    return "AGURDANDO ORÇAMENTO";
                 case StatusSituacaoModel.ORCANDO:
                     return "ORÇANDO";
                 case StatusSituacaoModel.AGUARDANDO_LIBERACAO_ORCAMENTO:
-                    return "AGURDANDO LIBERAÇÃO DO ORÇAMENTO";
+                    return "AGUARDANDO LIBERAÇÃO DO ORÇAMENTO";
                 case StatusSituacaoModel.AGUARDANDO_MANUTENCAO:
-                    return "AGURDANDO MANUTENÇÃO";
+                    return "AGUARDANDO MANUTENÇÃO";
                 case StatusSituacaoModel.MANUTENCAO_INICIADA:
                     return "MANUTENÇÃO INICIADA";
                 case StatusSituacaoModel.AGUARDANDO_PECAS:

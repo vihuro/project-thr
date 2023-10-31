@@ -47,6 +47,7 @@ builder.Services.AddScoped<ITecnicoService, TecnicoService>();
 builder.Services.AddScoped<IPecasRadarService, PecasRadarService>();
 builder.Services.AddScoped<IDiarioService, DiaroService>();
 builder.Services.AddScoped<IPecasNoOrcamentoService, PecaNoOrcamentoService>();
+builder.Services.AddScoped<IStatusOrcamentoService, StatusOrcamentoService>();
 builder.Services.AddScoped<ReaderFile>();
 //context
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");
@@ -73,11 +74,7 @@ builder.Services.AddAutoMapper(x =>
 var environment = builder.Environment.EnvironmentName;
 
 builder.Services.Configure<AndressReports>(builder.Configuration.GetSection("AndressReportsRadar"));
-
-
-//filePath.Andress = builder.Configuration.GetSection("AndressReportsRadar");
-//filePath.User = builder.Configuration.GetSection("variables:FileNOTA")[environment];
-//filePath.Password = builder.Configuration.GetSection("variables:FileNOTA")[environment];
+builder.Services.Configure<AndressApiAuth>(builder.Configuration.GetSection("AndressApiAuth"));
 
 var app = builder.Build();
 try

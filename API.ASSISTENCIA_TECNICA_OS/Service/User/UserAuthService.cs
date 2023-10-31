@@ -3,7 +3,9 @@ using API.ASSISTENCIA_TECNICA_OS.DTO.User;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.User;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
+using API.ASSISTENCIA_TECNICA_OS.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.User
@@ -11,10 +13,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
     public class UserAuthService : IUserService
     {
         private readonly Context _context;
+        private readonly IConfiguration _configuration;
+        private static AndressApiAuth _andress;
 
-        public UserAuthService(Context context)
+        public UserAuthService(Context context, IConfiguration configuration, IOptions<AndressApiAuth> andress)
         {
             _context = context;
+            _configuration = configuration;
+            _andress = andress.Value;
         }
 
         public async Task<string> VerifyUsers()
@@ -49,12 +55,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
             return "NENHUM USUÁRIO PARA SER ADICIONADO!";
         }
 
-        private async Task<List<ReturnUserAuthDto>> GetUserAuth()
+        private static async Task<List<ReturnUserAuthDto>> GetUserAuth()
         {
 
             using var cliente = new HttpClient();
 
-            var responseApiAuth = await cliente.GetAsync("http://192.168.1.87:8080/api/v1/auth/login");
+            //var responseApiAuth = await cliente.GetAsync("http://192.168.1.87:8080/api/v1/auth/login");
+
+            var responseApiAuth = await cliente.GetAsync(_andress.Andress);
 
             if (responseApiAuth.IsSuccessStatusCode)
             {

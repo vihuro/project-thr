@@ -1,6 +1,7 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
 using API.ASSISTENCIA_TECNICA_OS.DTO.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Orcamento;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Status;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
@@ -15,16 +16,19 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         private readonly IMapper _mapper;
         private readonly IMaquinaClienteService _maquinaService;
         private readonly IStatusService _statusService;
+        private readonly IStatusOrcamentoService _statusOrcamentoService;
 
         public OrcamentoService(Context context,
                                 IMapper mapper,
                                 IMaquinaClienteService maquinaService,
-                                IStatusService statusService)
+                                IStatusService statusService,
+                                IStatusOrcamentoService statusOrcamentoService)
         {
             _context = context;
             _mapper = mapper;
             _maquinaService = maquinaService;
             _statusService = statusService;
+            _statusOrcamentoService = statusOrcamentoService;
         }
 
         public async Task<ReturnOrcamentoDto> InsertOrcamento(InsertOrcamentoDto dto)
@@ -104,6 +108,141 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             var dto = _mapper.Map<ReturnOrcamentoDto>(obj);
 
             return dto;
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoOrcamento(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
+
+            var infoApontBudget = new ReturnStatusOnBudgetDto
+            {
+                OrcamentoId = dto.NumeroOrcamento,
+                StatusId = dto.StatusId,
+                UsuarioApontamentoId = dto.UsuarioId
+            };
+
+            await _statusOrcamentoService.ApontarAguardandoOrcamento(infoApontBudget);
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.AGUARDANDO_LIBERACAO_ORCAMENTO;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.AGUARDANDO_MANUTENCAO;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForManutencaoIniciada(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.MANUTENCAO_INICIADA;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForManutencaoFinalizada(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.MANUTENCAO_FINALIZADA;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForLimpezaIniciada(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.LIMPEZA;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusOrcamentoFinalizado(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.FINALIZADO;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
         }
         public async Task<List<ReturnOrcamentoResumidoDto>> GetAll()
         {
