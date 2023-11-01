@@ -4,6 +4,7 @@
     {
         public int OrcamentoId { get; set; }
         public int StatusId { get; set; }
+        public string Observacao { get; set; }
         public Guid UsuarioApontamentoId { get; set; }
     }
 }

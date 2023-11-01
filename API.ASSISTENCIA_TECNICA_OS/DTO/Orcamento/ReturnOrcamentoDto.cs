@@ -7,6 +7,8 @@
         public double ValorOrcamento { get; set; }
         public bool Externo { get; set; }
         public string Status { get; set; }
+        public int TempoEstimadoOrcamento { get; set; }
+        public int TempoEstimadoManutencao { get; set; }
         public TecnicoNoOrcamento TecnicoOrcamento { get; set; }
         public TecnicoNoOrcamento TecnicoManutencao { get; set; }
         public List<StatusOrcamentoDto> StatusSituacao { get; set; }

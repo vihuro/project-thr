@@ -3,6 +3,7 @@ using System;
 using API.ASSISTENCIA_TECNICA_OS.ContextBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20231101151629_insertLineLimpezaInTableStatus")]
+    partial class insertLineLimpezaInTableStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,12 +360,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TempoEstimadoManutencao")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TempoEstimadoOrcamento")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("UsuarioAlteracaoId")

@@ -24,6 +24,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public Guid MaquinaId { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
         public Guid MaquinaClienteId { get; set; }
+        public int TempoEstimadoOrcamento { get; set; }
+        public int TempoEstimadoManutencao { get; set; }
         public virtual TecnicoOrcamentoModel TecnicoOrcamento { get; set; }
         public virtual TecnicoManutencaoModel TecnicoManutenco { get; set; }
         public virtual MaquinaClienteModel MaquinaCliente { get; set; }
@@ -36,12 +38,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         AGUARDANDO_ORCAMENTO = 1,
         ORCANDO = 2,
         AGUARDANDO_LIBERACAO_ORCAMENTO = 3,
-        AGUARDANDO_MANUTENCAO = 4,
-        MANUTENCAO_INICIADA = 5,
-        AGUARDANDO_PECAS = 6,
-        PECAS_SEPARADAS = 7,
-        MANUTENCAO_FINALIZADA = 8,
-        LIMPEZA = 9,
-        FINALIZADO = 10
+        ORCAMENTO_RECUSADO = 4,
+        AGUARDANDO_MANUTENCAO = 5,
+        MANUTENCAO_INICIADA = 6,
+        AGUARDANDO_PECAS = 7,
+        PECAS_SEPARADAS = 8,
+        MANUTENCAO_FINALIZADA = 9,
+        LIMPEZA = 10,
+        FINALIZADO = 11
     }
 }

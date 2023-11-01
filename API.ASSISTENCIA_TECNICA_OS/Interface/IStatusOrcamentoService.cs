@@ -4,7 +4,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
 {
     public interface IStatusOrcamentoService
     {
-        Task<object> ApontarAguardandoOrcamento(ReturnStatusOnBudgetDto dto);
-        Task<object> ApontarOrcamentoFinalizado(ReturnStatusOnBudgetDto dto);
+        Task ApontarAguardandoOrcamento(ReturnStatusOnBudgetDto dto);
+        Task ApontarOrcamentoFinalizado(ReturnStatusOnBudgetDto dto);
+        //Task ApontarNegociacaoIniciada(ReturnStatusOnBudgetDto dto);
+        //Task ApontarNegociacaoFinalizada(ReturnStatusOnBudgetDto dto);
+        Task ApontarOrcamentoAprovado(ReturnStatusOnBudgetDto dto);
+        Task ApontarOrcamentoReprovado(ReturnStatusOnBudgetDto dto);
+        Task ApontarManutencaoIniciada(ReturnStatusOnBudgetDto dto);
+        Task ApontarManutencaoFinalizada(ReturnStatusOnBudgetDto dto);
     }
 }

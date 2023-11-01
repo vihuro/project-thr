@@ -86,6 +86,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("orcamento-recusado")]
+        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForOrcamentoRecusado(UpdateStatusOnBudgetDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateStatusForOrcamentoRecusado(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost("aguardando-manutencao")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
         {

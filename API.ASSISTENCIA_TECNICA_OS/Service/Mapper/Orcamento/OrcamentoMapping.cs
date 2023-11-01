@@ -16,6 +16,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.DataHoraAlteracao, map => map.MapFrom(src => DateTime.UtcNow))
                 .ForMember(x => x.UsuarioAlteracaoId, map => map.MapFrom(src => src.UserId))
                 .ForMember(x => x.MaquinaId, map => map.MapFrom(src => src.MaquinaId))
+                .ForMember(x => x.TempoEstimadoManutencao, map => map.MapFrom(src => 0))
+                .ForMember(x => x.TempoEstimadoOrcamento, map => map.MapFrom(src => 0))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo));
 
             CreateMap<OrcamentoModel, ReturnOrcamentoResumidoDto>()
@@ -65,6 +67,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.DescricaoServico, map => map.MapFrom(src => src.DescricaoServico))
                 .ForMember(x => x.Status, map => map.MapFrom(src => VerifyStatus(src.Status)))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo))
+                .ForMember(x => x.TempoEstimadoManutencao, map => map.MapFrom(src => src.TempoEstimadoManutencao))
+                .ForMember(x => x.TempoEstimadoOrcamento, map => map.MapFrom(src => src.TempoEstimadoOrcamento))
                 .ForMember(x => x.TecnicoManutencao, map => map.MapFrom(src => ValidateTechnicianMaintenance(src.TecnicoManutenco)))
                 .ForMember(x => x.TecnicoOrcamento, map => map.MapFrom(src => ValidateTechnicianBudget(src.TecnicoOrcamento)))
                 .ForPath(x => x.Cadastro, map => map.MapFrom(src => new UserOrcamentoDto
@@ -156,6 +160,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     return "AGUARDANDO LIBERAÇÃO DO ORÇAMENTO";
                 case StatusSituacaoModel.AGUARDANDO_MANUTENCAO:
                     return "AGUARDANDO MANUTENÇÃO";
+                case StatusSituacaoModel.ORCAMENTO_RECUSADO:
+                    return "ORÇAMENTO RECUSADO";
                 case StatusSituacaoModel.MANUTENCAO_INICIADA:
                     return "MANUTENÇÃO INICIADA";
                 case StatusSituacaoModel.AGUARDANDO_PECAS:
@@ -222,6 +228,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
 
             return item;
         }
-        
+
     }
 }

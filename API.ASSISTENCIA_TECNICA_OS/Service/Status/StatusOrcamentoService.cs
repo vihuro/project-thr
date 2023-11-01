@@ -17,7 +17,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
             _context = context;
             _mapper = mapper;
         }
-        public async Task<object> ApontarAguardandoOrcamento(ReturnStatusOnBudgetDto dto)
+        public async Task ApontarAguardandoOrcamento(ReturnStatusOnBudgetDto dto)
         {
             var obj = await _context.StatusOrcamento
                 .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId);
@@ -25,27 +25,169 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
             var objApontamento = new UsuarioApontamentoInicioStatusModel()
             {
                 StatusOrcamentoId = obj.Id,
-                UsuarioApontamentoInicioId = dto.UsuarioApontamentoId
+                UsuarioApontamentoInicioId = dto.UsuarioApontamentoId,
             };
+            obj.DataHoraInicio = DateTime.UtcNow;
+            obj.Observacao = dto.Observacao != "" ? $"{dto.Observacao} - Apontado no Inínico! \n":"" ;
             _context.StatusOrcamento.Update(obj);
+            _context.UsuarioApontamentoInicioStatus.Add(objApontamento);
+
             await _context.SaveChangesAsync();
 
-            return new object();
         }
-        public async Task<object> ApontarOrcamentoFinalizado(ReturnStatusOnBudgetDto dto)
+        public async Task ApontarOrcamentoFinalizado(ReturnStatusOnBudgetDto dto)
         {
             var obj = await _context.StatusOrcamento
                 .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId);
 
-            obj.UsuarioApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
+            var objApontamento = new UsuarioApontamentoFimStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoFimId = dto.UsuarioApontamentoId
+            };
+
+            obj.DataHoraFim = DateTime.UtcNow;
+            obj.Observacao = dto.Observacao != "" ? $"{obj.Observacao + dto.Observacao} - Apontado no Fim! \n":"";
+            _context.StatusOrcamento.Update(obj);
+            _context.UsuarioApotamentoFimStatus.Add(objApontamento);
+            await _context.SaveChangesAsync();
+
+            await ApontarNegociacaoIniciada(dto);
+        }
+        private async Task ApontarNegociacaoIniciada(ReturnStatusOnBudgetDto dto)
+        {
+            var obj = await _context.StatusOrcamento
+                     .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 1);
+
+            var objApontamento = new UsuarioApontamentoInicioStatusModel()
             {
                 StatusOrcamentoId = obj.Id,
                 UsuarioApontamentoInicioId = dto.UsuarioApontamentoId
             };
+
+            obj.DataHoraInicio = DateTime.UtcNow;
+            obj.Observacao = dto.Observacao != "" ? $"{dto.Observacao} - Apontado no Inínico! \n" : "";
+            _context.StatusOrcamento.Update(obj);
+            _context.UsuarioApontamentoInicioStatus.Add(objApontamento);
+            await _context.SaveChangesAsync();
+        }
+        private async Task ApontarNegociacaoFinalizada(ReturnStatusOnBudgetDto dto)
+        {
+            var obj = await _context.StatusOrcamento
+                        .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId);
+
+            var objApontamento = new UsuarioApontamentoFimStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoFimId = dto.UsuarioApontamentoId
+            };
+
+            obj.DataHoraFim = DateTime.UtcNow;
+            obj.Observacao = dto.Observacao != "" ? $"{obj.Observacao + dto.Observacao} - Apontado no Fim! \n" : "";
+            _context.StatusOrcamento.Update(obj);
+            _context.UsuarioApotamentoFimStatus.Add(objApontamento);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ApontarOrcamentoAprovado(ReturnStatusOnBudgetDto dto)
+        {
+            await ApontarNegociacaoFinalizada(dto);
+            var obj = await _context.StatusOrcamento
+                            .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 1);
+            var objApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoInicioId = dto.UsuarioApontamentoId
+            };
+            var objApontamentoFim = new UsuarioApontamentoFimStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoFimId = dto.UsuarioApontamentoId
+            };
+
+            obj.DataHoraInicio = DateTime.UtcNow;
+            obj.DataHoraFim = DateTime.UtcNow;
+            obj.Observacao = $"{dto.Observacao}";
+
+            _context.UsuarioApontamentoInicioStatus.Add(objApontamentoInicio);
+            _context.UsuarioApotamentoFimStatus.Add(objApontamentoFim);
+            _context.StatusOrcamento.Update(obj);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ApontarOrcamentoReprovado(ReturnStatusOnBudgetDto dto)
+        {
+            await ApontarNegociacaoFinalizada(dto);
+            var obj = await _context.StatusOrcamento
+                            .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 2);
+            var objApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoInicioId = dto.UsuarioApontamentoId
+            };
+            var objApontamentoFim = new UsuarioApontamentoFimStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoFimId = dto.UsuarioApontamentoId
+            };
+
+            obj.DataHoraInicio = DateTime.UtcNow;
+            obj.DataHoraFim = DateTime.UtcNow;
+            obj.Observacao = $"{dto.Observacao}";
+
+            _context.UsuarioApontamentoInicioStatus.Add(objApontamentoInicio);
+            _context.UsuarioApotamentoFimStatus.Add(objApontamentoFim);
             _context.StatusOrcamento.Update(obj);
             await _context.SaveChangesAsync();
 
-            return new object();
+        }
+        public async Task ApontarManutencaoIniciada(ReturnStatusOnBudgetDto dto)
+        {
+            var obj = await _context.StatusOrcamento
+                            .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 1);
+            var objApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoInicioId = dto.UsuarioApontamentoId
+            };
+            var objApontamentoFim = new UsuarioApontamentoFimStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoFimId = dto.UsuarioApontamentoId
+            };
+
+            obj.DataHoraInicio = DateTime.UtcNow;
+            obj.DataHoraFim = DateTime.UtcNow;
+            obj.Observacao = $"{dto.Observacao}";
+
+            _context.UsuarioApontamentoInicioStatus.Add(objApontamentoInicio);
+            _context.UsuarioApotamentoFimStatus.Add(objApontamentoFim);
+            _context.StatusOrcamento.Update(obj);
+            await _context.SaveChangesAsync();
+        }
+        public async Task ApontarManutencaoFinalizada(ReturnStatusOnBudgetDto dto)
+        {
+            var obj = await _context.StatusOrcamento
+                            .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 1);
+            var objApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoInicioId = dto.UsuarioApontamentoId
+            };
+            var objApontamentoFim = new UsuarioApontamentoFimStatusModel()
+            {
+                StatusOrcamentoId = obj.Id,
+                UsuarioApontamentoFimId = dto.UsuarioApontamentoId
+            };
+
+            obj.DataHoraInicio = DateTime.UtcNow;
+            obj.DataHoraFim = DateTime.UtcNow;
+            obj.Observacao = $"{dto.Observacao}";
+
+            _context.UsuarioApontamentoInicioStatus.Add(objApontamentoInicio);
+            _context.UsuarioApotamentoFimStatus.Add(objApontamentoFim);
+            _context.StatusOrcamento.Update(obj);
+            await _context.SaveChangesAsync();
         }
     }
 }
