@@ -26,7 +26,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Pecas
                 .ForMember(x => x.Preco, map => map.MapFrom(src => src.Preco))
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))
                 .ForMember(x => x.EnderecoImagem, map => map.MapFrom(src => src.EnderecoImagem))
-                .ForPath(x => x.Cadastro, map => map.MapFrom(src => new UsuarioDataHora
+                /*.ForPath(x => x.Cadastro, map => map.MapFrom(src => new UsuarioDataHora
                 {
                     Apelido = src.UsuarioCadastro.Apelido,
                     IdUsuario = src.UsuarioCadastro.Id,
@@ -39,7 +39,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Pecas
                     IdUsuario = src.UsuarioAlteracao.Id,
                     Nome = src.UsuarioAlteracao.Nome,
                     DataHora = src.DataHoraAlteracao
-                }));
+                }))*/;
 
 
         }
