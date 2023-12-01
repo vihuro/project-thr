@@ -20,7 +20,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
         {
             _service = service;
         }
+        [HttpGet]
+        public async Task<ActionResult<ReturnPecasDto>> GetAllWithoutSkip()
+        {
+            try
+            {
+                var result = await _service.GetWithoutSkip();
 
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("{skip}/{take}")]
         public async Task<ActionResult<List<ReturnPecasDto>>> GetAll(int skip = 0, int take = 20)
         {
@@ -102,9 +116,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 string path = caminho;
                 if (!isRunningOnWindows)
                 {
-                    string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; //"smb://192.168.2.24/api_assistencia_tecnica/Imagens/rolamento.jpg"; 
+                    string smbPath = $"smb:{path.Replace("\\", "//").ReplaceAll("//", "/")}"; 
 
-                    //NtlmPasswordAuthentication auth = new(null, "thr", "thr1");
 
                     var sbmFile = await new SmbFile(smbPath, auth).GetInputStreamAsync();
 

@@ -1,5 +1,4 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
-using API.ASSISTENCIA_TECNICA_OS.DTO.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
@@ -51,6 +50,27 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                 QuantityPages = total /= take,
                 CurrentPage = skip / take + 1,
                 Pecas = mapper
+            };
+
+            return dto;
+        }
+        public async Task<ReturnPecasDto> GetWithoutSkip()
+        {
+            var list = await _context.Pecas
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioAlteracao)
+                .AsNoTracking()
+                .OrderBy(c => c.CodigoRadar)
+                .ToListAsync();
+
+            var mapper = _mapper.Map<List<PecasDto>>(list);
+
+            var dto = new ReturnPecasDto
+            {
+                CurrentPage = 0,
+                Pecas = mapper,
+                QuantityPages = 0,
+                Total = 0
             };
 
             return dto;
@@ -197,26 +217,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
         }
 
 
-        /*public async Task<ReturnPecasDto> InsertPecas(InsertPecaDto dto)
-        {
-            if (string.IsNullOrWhiteSpace(dto.Preco.ToString()) ||
-                string.IsNullOrWhiteSpace(dto.Descricao) ||
-                string.IsNullOrWhiteSpace(dto.CodigoRadar))
-
-                throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
-
-            var existis = _context.Pecas
-                .Any(x => x.CodigoRadar == dto.CodigoRadar.ToUpper());
-            if (existis)
-                throw new CustomException("CÓDIGO JÁ CADASTRADO!");
-
-            var obj = _mapper.Map<PecasModel>(dto);
-
-            _context.Pecas.Add(obj);
-            await _context.SaveChangesAsync();
-
-            return await GetById(obj.Id);
-        }*/
         public async Task<ReturnPecasDto> Update(UpdatePecaDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Preco.ToString()) ||
