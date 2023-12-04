@@ -35,6 +35,8 @@ builder.Services.AddEntityFrameworkNpgsql()
         op.UseNpgsql(connectionString);
     });
 
+builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection("RabbitMQConfig"));
+
 //services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICreateTokenService, CreateToken>();

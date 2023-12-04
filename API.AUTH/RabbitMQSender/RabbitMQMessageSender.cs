@@ -1,5 +1,7 @@
 ﻿using API.AUTH.Dto.user;
+using API.AUTH.Utils;
 using AuthUser.MessageBus;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
@@ -12,32 +14,40 @@ namespace API.AUTH.RabbitMQSender
         private readonly string _password;
         private readonly string _username;
         private IConnection _connection;
+        private readonly string _exchangeName = "DirectUserExchange";
+        private readonly string _storageUserQueueName = "UserInStorageQueueName";
+        private readonly string _assitecUserQueueName = "UserInAssistecQueueName";
+        private readonly RabbitMQConfig _rabbitConfig;
 
-        public RabbitMQMessageSender()
+        public RabbitMQMessageSender(IOptions<RabbitMQConfig> rabbitConfig)
         {
-            _hostName = "some-rabbit";
-            _password = "guest";
-            _username = "guest";
+            _rabbitConfig = rabbitConfig.Value;
         }
 
         public void SendMessage(BaseMessage baseMessage, string queueName)
         {
             var factoty = new ConnectionFactory()
             {
-                HostName = _hostName,
-                UserName = _username,
-                Password = _password,
-                Port = 5672
+                HostName = _rabbitConfig.HostName,
+                UserName = _rabbitConfig.UserName,
+                Password = _rabbitConfig.Password,
+                Port = _rabbitConfig.Port
             };
             _connection = factoty.CreateConnection();
             using var channel = _connection.CreateModel();
-            channel.QueueDeclare(queue: queueName, false, false, false, arguments: null);
 
+
+            channel.ExchangeDeclare(_rabbitConfig.ExchangeName, ExchangeType.Direct, false);
             byte[] body = GetMessageAsByteArray(baseMessage);
 
-            channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
+            foreach (var item in _rabbitConfig.Queues)
+            {
+                channel.QueueDeclare(item.QueueName, false, false, false, null);
+                channel.QueueBind(item.QueueName, _rabbitConfig.ExchangeName, item.RoutingKey);
 
- 
+                channel.BasicPublish(_rabbitConfig.ExchangeName, item.RoutingKey, null, body);
+            }
+
         }
 
         private static byte[] GetMessageAsByteArray(BaseMessage baseMessage)
@@ -46,7 +56,7 @@ namespace API.AUTH.RabbitMQSender
             {
                 WriteIndented = true,
             };
-            var json = JsonSerializer.Serialize((ReturnUserDto)baseMessage,option);
+            var json = JsonSerializer.Serialize((ReturnUserDto)baseMessage, option);
 
             var body = Encoding.UTF8.GetBytes(json);
 
