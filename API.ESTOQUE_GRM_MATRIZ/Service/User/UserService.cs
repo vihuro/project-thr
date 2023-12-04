@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.ESTOQUE_GRM_MATRIZ.Service.User
 {
-    public class UserService 
+    public class UserService : IUserService
     {
         private readonly DbContextOptions<Context> _context;
 

@@ -1,3 +1,4 @@
+using API.ESTOQUE_GRM_MATRIZ;
 using API.ESTOQUE_GRM_MATRIZ.ContextBase;
 using API.ESTOQUE_GRM_MATRIZ.Interface;
 using API.ESTOQUE_GRM_MATRIZ.MessageConsumer;
@@ -42,11 +43,14 @@ var postgres = new DbContextOptionsBuilder<Context>().UseNpgsql(connectionString
 
 //service
 
+builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection("RabbitMQConfig"));
+
 builder.Services.AddScoped<ILocaleService, LocaleService>();
 builder.Services.AddScoped<IEstoqueService, EstoqueService>();
 builder.Services.AddScoped<ITipoService, TipoService>();
 builder.Services.AddScoped<ISubstitutosService, SubstitutosService>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 //mapping
 builder.Services.AddAutoMapper(x =>
@@ -61,10 +65,9 @@ builder.Services.AddAutoMapper(x =>
 //
 
 builder.Services.AddHostedService<RabbitMQMessageConsumerTeste>();
-//builder.Services.AddHostedService<RabbitMQMessageConsumerInsertUser>();
-//builder.Services.AddHostedService<RabbitMQMessageConsumerUpdateUser>();
 
 builder.Services.AddSingleton(new UserService(postgres.Options));
+
 
 //JWT
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");

@@ -4,6 +4,6 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
 {
     public interface IUserService
     {
-        Task Inset(UserDto dto);
+        Task<bool> Inset(UserDto dto);
     }
 }
