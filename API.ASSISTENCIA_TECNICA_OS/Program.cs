@@ -1,5 +1,6 @@
 using API.ASSISTENCIA_TECNICA_OS.ContextBase;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
+using API.ASSISTENCIA_TECNICA_OS.MessageConsumer;
 using API.ASSISTENCIA_TECNICA_OS.Service.CEP;
 using API.ASSISTENCIA_TECNICA_OS.Service.Client;
 using API.ASSISTENCIA_TECNICA_OS.Service.Mapper.CEP;
@@ -49,8 +50,17 @@ builder.Services.AddScoped<IDiarioService, DiaroService>();
 builder.Services.AddScoped<IPecasNoOrcamentoService, PecaNoOrcamentoService>();
 builder.Services.AddScoped<IStatusOrcamentoService, StatusOrcamentoService>();
 builder.Services.AddScoped<ReaderFile>();
-//context
+
+
 var connectionString = builder.Configuration.GetConnectionString("assistencia-tecnica-os");
+
+builder.Services.AddSingleton<IMessageConsumer, MessageConsumer>();
+
+builder.Services.AddHostedService<ConsumerHostedService>();
+
+
+//context
+
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<Context>(op =>
     {
@@ -75,6 +85,7 @@ var environment = builder.Environment.EnvironmentName;
 
 builder.Services.Configure<AndressReports>(builder.Configuration.GetSection("AndressReportsRadar"));
 builder.Services.Configure<AndressApiAuth>(builder.Configuration.GetSection("AndressApiAuth"));
+builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection("RabbitMQConfig"));
 
 var app = builder.Build();
 try

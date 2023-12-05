@@ -1,4 +1,5 @@
 ﻿using API.ASSISTENCIA_TECNICA_OS.ContextBase;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Maquina;
 using API.ASSISTENCIA_TECNICA_OS.DTO.User;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.User;
@@ -72,6 +73,25 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
                 return objResponse.DataUsers;
             }
             throw new CustomException("ERRO AO BUSCAR USUÁRIOS");
+        }
+
+        public async Task Insert(UserDto user)
+        {
+            var obj = await _context.User
+                            .SingleOrDefaultAsync(x => 
+                             x.Id == user.UserId);
+            if(obj == null)
+            {
+                obj = new UserModel
+                {
+                    Id = user.UserId,
+                    Apelido = user.Apelido,
+                    Nome = user.Nome
+                };
+            }
+            obj.Ativo = user.Ativo;
+            _context.User.Update(obj);
+            await _context.SaveChangesAsync();
         }
     }
 }

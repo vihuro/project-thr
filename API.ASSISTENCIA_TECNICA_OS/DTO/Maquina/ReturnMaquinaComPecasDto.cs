@@ -25,6 +25,7 @@
         public Guid UserId { get; set; }
         public string Apelido { get; set; }
         public string Nome { get; set; }
+        public bool Ativo { get; set; }
         public DateTime DataHora { get; set; }
     }
 }
