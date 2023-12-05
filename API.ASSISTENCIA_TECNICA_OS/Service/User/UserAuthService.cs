@@ -79,12 +79,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
         {
             var obj = await _context.User
                             .SingleOrDefaultAsync(x => 
-                             x.Id == user.UserId);
+                             x.Id == user.UsuarioId);
             if(obj == null)
             {
                 obj = new UserModel
                 {
-                    Id = user.UserId,
+                    Id = user.UsuarioId,
                     Apelido = user.Apelido,
                     Nome = user.Nome
                 };

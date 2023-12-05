@@ -37,14 +37,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Maquina
                 {
                     Apelido = src.UsuarioCadastro.Apelido,
                     Nome = src.UsuarioCadastro.Nome,
-                    UserId = src.UsuarioCadastro.Id,
+                    UsuarioId = src.UsuarioCadastro.Id,
                     DataHora = src.DataHoraCadastro
                 }))
                 .ForPath(x => x.Alteracao, map => map.MapFrom(src => new UserDto
                 {
                     Apelido = src.UsuarioAlteracao.Apelido,
                     Nome = src.UsuarioAlteracao.Nome,
-                    UserId = src.UsuarioAlteracao.Id,
+                    UsuarioId = src.UsuarioAlteracao.Id,
                     DataHora = src.DataHoraAlteracao
                 }))
                 .ForPath(x => x.Pecas, map => map.MapFrom(src => src.Pecas.Select(c => new PecaMaquinaDto

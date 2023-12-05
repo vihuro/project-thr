@@ -22,7 +22,7 @@
     }
     public class UserDto
     {
-        public Guid UserId { get; set; }
+        public Guid UsuarioId { get; set; }
         public string Apelido { get; set; }
         public string Nome { get; set; }
         public bool Ativo { get; set; }
