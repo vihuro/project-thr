@@ -11,12 +11,13 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("AuthUser.MessageBus")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("9d154fe7-47f6-4f73-9f38-bbceeec17780")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("API.MANUTENCAO_FAB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d1389ee417b0b6ab40c0ad1fd99b4d10b63093c")]
-[assembly: System.Reflection.AssemblyProductAttribute("AuthUser.MessageBus")]
-[assembly: System.Reflection.AssemblyTitleAttribute("AuthUser.MessageBus")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyProductAttribute("API.MANUTENCAO_FAB")]
+[assembly: System.Reflection.AssemblyTitleAttribute("API.MANUTENCAO_FAB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.

@@ -4,7 +4,11 @@ using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
 {
@@ -135,13 +139,39 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
         {
             var listRadar = await _radarPecasService.GetPecas();
 
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var dbContextOptionsBuilder = new DbContextOptionsBuilder<Context>();
+            using var dbContext = new Context(dbContextOptionsBuilder.Options);
+            dbContext.Database.LogTo(Console.WriteLine);
+
+
+
+
             var listObj = await _context.Pecas.ToListAsync();
 
             var verify = listRadar
                 .Where(x => !listObj.Any(c => c.CodigoRadar == x.Codigo))
                 .ToList();
 
-            var newList = new List<PecasModel>();
+            var items = verify.Select(x => new PecasModel
+            {
+                Id = Guid.NewGuid(),
+                CodigoRadar = x.Codigo,
+                Descricao = x.Descricao,
+                Familia = x.Familia,
+                Unidade = x.Unidade,
+                Preco = 0,
+                DataHoraAlteracao = DateTime.UtcNow,
+                DataHoraCadastro = DateTime.UtcNow,
+                UsuarioAlteracaoId = idUsuario,
+                UsuarioCadastroId = idUsuario
+            });
+
+            await _context.BulkInsertAsync(items);
+            return new ReturnPecasDto();
+
+            /*var newList = new List<PecasModel>();
 
             foreach (var item in verify)
             {
@@ -158,6 +188,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                     UsuarioAlteracaoId = idUsuario
                 });
             }
+
+
             _context.Pecas.AddRange(newList);
             await _context.SaveChangesAsync();
 
@@ -171,7 +203,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
                 Total = newList.Count
             };
 
-            return dto;
+            return dto;*/
         }
         public async Task<ReturnPecasDto> GetRadar()
         {

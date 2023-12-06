@@ -26,6 +26,7 @@ builder.Services.AddCors(x => x.AddPolicy("corsPolicy", build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
+Console.WriteLine("hahaah");
 
 //context
 var connectionString = builder.Configuration.GetConnectionString("auth");

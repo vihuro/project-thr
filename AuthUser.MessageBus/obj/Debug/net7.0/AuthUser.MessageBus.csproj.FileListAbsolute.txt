@@ -33,3 +33,4 @@ C:\Users\thr\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthU
 C:\Users\thr\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\refint\AuthUser.MessageBus.dll
 C:\Users\thr\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.pdb
 C:\Users\thr\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\ref\AuthUser.MessageBus.dll
+C:\Users\thr\Desktop\.NET\project-thr\AuthUser.MessageBus\obj\Debug\net7.0\AuthUser.MessageBus.sourcelink.json

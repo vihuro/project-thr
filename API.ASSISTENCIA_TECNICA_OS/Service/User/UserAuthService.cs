@@ -90,7 +90,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.User
                 };
             }
             obj.Ativo = user.Ativo;
-            _context.User.Update(obj);
+            _context.User.Add(obj);
             await _context.SaveChangesAsync();
         }
     }
