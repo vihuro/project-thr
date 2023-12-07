@@ -6,9 +6,6 @@ using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Data.Entity;
-using System.Data.Entity.Core.EntityClient;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
 {
@@ -61,6 +58,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
         public async Task<ReturnPecasDto> GetWithoutSkip()
         {
             var list = await _context.Pecas
+                .Include(u => u.UsuarioAlteracao)
                 .Include(u => u.UsuarioAlteracao)
                 .Include(u => u.UsuarioAlteracao)
                 .AsNoTracking()
@@ -140,19 +138,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
             var listRadar = await _radarPecasService.GetPecas();
 
 
-            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-            var dbContextOptionsBuilder = new DbContextOptionsBuilder<Context>();
-            using var dbContext = new Context(dbContextOptionsBuilder.Options);
-            dbContext.Database.LogTo(Console.WriteLine);
-
-
-
-
             var listObj = await _context.Pecas.ToListAsync();
 
             var verify = listRadar
                 .Where(x => !listObj.Any(c => c.CodigoRadar == x.Codigo))
                 .ToList();
+
 
             var items = verify.Select(x => new PecasModel
             {
@@ -169,41 +160,22 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
             });
 
             await _context.BulkInsertAsync(items);
-            return new ReturnPecasDto();
-
-            /*var newList = new List<PecasModel>();
-
-            foreach (var item in verify)
-            {
-                newList.Add(new PecasModel
-                {
-                    Descricao = item.Descricao,
-                    CodigoRadar = item.Codigo,
-                    Familia = item.Familia,
-                    Preco = 0,
-                    Unidade = item.Unidade,
-                    DataHoraCadastro = DateTime.UtcNow,
-                    DataHoraAlteracao = DateTime.UtcNow,
-                    UsuarioCadastroId = idUsuario,
-                    UsuarioAlteracaoId = idUsuario
-                });
-            }
 
 
-            _context.Pecas.AddRange(newList);
             await _context.SaveChangesAsync();
 
-            var mapper = _mapper.Map<List<PecasDto>>(newList);
+            var mapper = _mapper.Map<List<PecasDto>>(items);
 
             var dto = new ReturnPecasDto
             {
                 CurrentPage = 0,
                 QuantityPages = 1,
                 Pecas = mapper,
-                Total = newList.Count
+                Total = items.Count()
             };
 
-            return dto;*/
+            return dto;
+
         }
         public async Task<ReturnPecasDto> GetRadar()
         {

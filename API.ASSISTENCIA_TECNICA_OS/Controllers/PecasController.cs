@@ -185,7 +185,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             {
                 var restult = await _service.InsertPecas(idUsuario);
 
-                var obj = new
+                /*var obj = new
                 {
                     total = restult.Pecas.Count,
                     data = restult
@@ -193,9 +193,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 if(restult.Pecas.Count == 0)
                 {
                     return Ok("Não há novos códigos para serem adicionados!");
-                }
+                }*/
 
-                return Created("", obj);
+                return Created("", restult);
             }
             catch (Exception ex)
             {
