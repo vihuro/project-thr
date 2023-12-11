@@ -20,6 +20,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
             _mapper = mapper;
             _orcamentoService = orcamentoService;
         }
+
+        public async Task<bool> DeletePecaNoOrcamento(DeletePecaNoOrcamentoDto dto)
+        {
+            var pecaNoOrcamentoId = await _context.PecasPorOrdemServico
+                                        .SingleOrDefaultAsync(x => x.PecaId == dto.PecaNoOrcamentoId) ??
+
+                throw new CustomException("Peça não encontrada") { HResult = 404 };
+            _context.PecasPorOrdemServico.Remove(pecaNoOrcamentoId);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<ReturnPecasOrcamentoDto> InsertPecasNoOrcamento(InsertPecasNoOrcamentoDto dto)
         {
             var orcamento = await _orcamentoService.GetById(dto.NumeroOrcamento);

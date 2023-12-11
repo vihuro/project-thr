@@ -28,5 +28,19 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpDelete]
+        public async Task<ActionResult<bool>> DeletePecasNoOrcamento(DeletePecaNoOrcamentoDto dto)
+        {
+            try
+            {
+                var result = await _service.DeletePecaNoOrcamento(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
