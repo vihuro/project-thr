@@ -30,6 +30,22 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("insert-tecnico")]
+        public async Task<ActionResult>UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateTecnicoNoOrcamento(dto);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet]
         public async Task<ActionResult<List<ReturnOrcamentoResumidoDto>>> GetAll()
         {

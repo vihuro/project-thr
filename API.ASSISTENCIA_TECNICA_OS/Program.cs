@@ -49,6 +49,7 @@ builder.Services.AddScoped<IPecasRadarService, PecasRadarService>();
 builder.Services.AddScoped<IDiarioService, DiaroService>();
 builder.Services.AddScoped<IPecasNoOrcamentoService, PecaNoOrcamentoService>();
 builder.Services.AddScoped<IStatusOrcamentoService, StatusOrcamentoService>();
+builder.Services.AddScoped<ITecnicoNoOrcamentoService, TecnicoNoOrcamentoService>();
 builder.Services.AddScoped<ReaderFile>();
 
 

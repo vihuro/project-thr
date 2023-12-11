@@ -2,6 +2,7 @@
 using API.ASSISTENCIA_TECNICA_OS.DTO.MaquinaCliente;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Status;
+using API.ASSISTENCIA_TECNICA_OS.DTO.Tecnico;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
 using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
@@ -17,18 +18,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         private readonly IMaquinaClienteService _maquinaService;
         private readonly IStatusService _statusService;
         private readonly IStatusOrcamentoService _statusOrcamentoService;
+        private readonly ITecnicoNoOrcamentoService _tecnicoNoOrcamentoService;
 
         public OrcamentoService(Context context,
                                 IMapper mapper,
                                 IMaquinaClienteService maquinaService,
                                 IStatusService statusService,
-                                IStatusOrcamentoService statusOrcamentoService)
+                                IStatusOrcamentoService statusOrcamentoService,
+                                ITecnicoNoOrcamentoService tecnicoNoOrcamentoService)
         {
             _context = context;
             _mapper = mapper;
             _maquinaService = maquinaService;
             _statusService = statusService;
             _statusOrcamentoService = statusOrcamentoService;
+            _tecnicoNoOrcamentoService = tecnicoNoOrcamentoService;
         }
 
         public async Task<ReturnOrcamentoDto> InsertOrcamento(InsertOrcamentoDto dto)
@@ -326,5 +330,36 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             return dto;
         }
 
+        public async Task<ReturnOrcamentoDto> UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.OrcamentoId.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.TempoEstimadoOrcamento.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.TecnicoId.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.UsuarioAlteracaoId.ToString()))
+                throw new Exception("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
+
+            var verify = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.OrcamentoId);
+
+            if (verify == null)
+                throw new Exception("Orçamento não encontrado!") { HResult = 404 };
+            var tecnicoNoOrcamento = new InsertTecnicoNoOrcamentoDto
+            {
+                OrcamentoId = dto.OrcamentoId,
+                TecnicoId = dto.TecnicoId
+            };
+
+            await _tecnicoNoOrcamentoService.InsertTecnicoNoOrcamento(tecnicoNoOrcamento);
+
+            verify.DataHoraAlteracao = DateTime.UtcNow;
+            verify.UsuarioAlteracaoId = dto.UsuarioAlteracaoId;
+            verify.TempoEstimadoOrcamento = dto.TempoEstimadoOrcamento;
+
+            _context.Orcamento.Update(verify);
+
+            await _context.SaveChangesAsync();
+
+            return await GetById(dto.OrcamentoId);
+
+        }
     }
 }
