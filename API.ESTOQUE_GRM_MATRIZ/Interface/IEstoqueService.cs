@@ -7,6 +7,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Interface
     {
         Task<ReturnEstoqueDto> Insert(InsertEstoqueDto dto);
         Task<List<ReturnEstoqueDto>> GetAll();
+        Task<List<ReturnEstoqueDto>> GetAllForBI();
         Task<ReturnEstoqueDto> GetById(int id);
         Task<bool> DeleteAll();
         Task<ReturnEstoqueDto> UpdateQuantidade(UpdateQuantidadeDto dto);

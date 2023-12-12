@@ -60,8 +60,23 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("bi")]
+        public async Task<ActionResult<List<ReturnOrcamentoDto>>> GetByBI()
+        {
+            try
+            {
+                var result = await _service.GetByBI();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<ReturnOrcamentoResumidoDto>>> GetById(int id)
+        public async Task<ActionResult<List<ReturnOrcamentoDto>>> GetById(int id)
         {
             try
             {

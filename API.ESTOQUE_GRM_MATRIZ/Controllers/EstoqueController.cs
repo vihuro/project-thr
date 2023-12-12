@@ -50,6 +50,22 @@ namespace API.ESTOQUE_GRM_MATRIZ.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO,COMUNICADOR - LEITURA,BI")]
+        [HttpGet("bi")]
+        public async Task<ActionResult<List<ReturnEstoqueDto>>> GetAllByBI()
+        {
+            try
+            {
+                var result = await _service.GetAllForBI();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+        }
         [HttpPut]
         [ClaimsAuthorizeAttribute("ESTOQUE - GRM - MATRIZ", "TI,DIRETORIA,EXPEDIÇÃO - ALTERAÇÃO")]
         public async Task<ActionResult<ReturnEstoqueDto>> UpdateUnidadeOrTipo(UpdateQuantidadeOrUnidadeDto dto)

@@ -57,6 +57,27 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
 
             return dto;
         }
+        public async Task<List<ReturnEstoqueDto>> GetAllForBI()
+        {
+            var list = await _context.Estoque
+                .Where(x => x.Ativo == true)
+                .Include(u => u.UsuarioCadastro)
+                .Include(u => u.UsuarioAlteracao)
+                .Include(s => s.Substituos)
+                    .ThenInclude(s => s.Substituto)
+                    .ThenInclude(l => l.LocalArmazenagem)
+                .Include(t => t.Substituos)
+                .ThenInclude(s => s.Substituto)
+                .ThenInclude(t => t.TipoMaterial)
+
+                .Include(l => l.LocalArmazenagem)
+                .Include(t => t.TipoMaterial)
+                .AsNoTracking()
+                .ToListAsync();
+            var dto = _mapper.Map<List<ReturnEstoqueDto>>(list);
+
+            return dto;
+        }
 
         public async Task<ReturnEstoqueDto> GetById(int id)
         {
@@ -90,7 +111,7 @@ namespace API.ESTOQUE_GRM_MATRIZ.Service.Estoque
                 string.IsNullOrWhiteSpace(dto.Quantidade.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.LocalEstoqueId.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.UsuarioId.ToString()) ||
-                string.IsNullOrWhiteSpace(dto.TipoMaterialId.ToString()) || 
+                string.IsNullOrWhiteSpace(dto.TipoMaterialId.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.DataFabricacao.ToString()) ||
                 string.IsNullOrWhiteSpace(dto.Preco.ToString()))
 
