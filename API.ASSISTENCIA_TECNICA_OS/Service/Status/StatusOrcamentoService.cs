@@ -28,7 +28,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
                 UsuarioApontamentoInicioId = dto.UsuarioApontamentoId,
             };
             obj.DataHoraInicio = DateTime.UtcNow;
-            obj.Observacao = dto.Observacao != "" ? $"{dto.Observacao} - Apontado no Inínico! \n":"" ;
+            obj.Observacao = dto.Observacao != "" ? $"{dto.Observacao} - Apontado no Início! \n":"" ;
             _context.StatusOrcamento.Update(obj);
             _context.UsuarioApontamentoInicioStatus.Add(objApontamento);
 

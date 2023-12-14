@@ -30,7 +30,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public virtual TecnicoManutencaoModel TecnicoManutenco { get; set; }
         public virtual MaquinaClienteModel MaquinaCliente { get; set; }
         public virtual List<PecasMaquinaOrcamentoModel> Pecas { get; set; }
-        public virtual List<DiarioOrcamentoModel> Diario { get; set; }
+        public virtual List<DiarioOrcamentoModel> Diario { ge; set; }
     }
     public enum StatusSituacaoModel
     {
