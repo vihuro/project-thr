@@ -119,7 +119,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
         {
             await ApontarNegociacaoFinalizada(dto);
             var obj = await _context.StatusOrcamento
-                            .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 2);
+                            .SingleOrDefaultAsync(x => 
+                            x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 2);
+
             var objApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
             {
                 StatusOrcamentoId = obj.Id,
@@ -144,7 +146,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
         public async Task ApontarManutencaoIniciada(ReturnStatusOnBudgetDto dto)
         {
             var obj = await _context.StatusOrcamento
-                            .SingleOrDefaultAsync(x => x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 1);
+                            .SingleOrDefaultAsync(x =>
+                            x.OrcamentoId == dto.OrcamentoId && x.StatusId == dto.StatusId + 1);
             var objApontamentoInicio = new UsuarioApontamentoInicioStatusModel()
             {
                 StatusOrcamentoId = obj.Id,
