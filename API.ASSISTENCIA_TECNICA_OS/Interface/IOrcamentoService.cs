@@ -12,6 +12,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
         Task<ReturnOrcamentoDto> UpdateStatusForAguardandoOrcamento(UpdateStatusOnBudgetDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForOrcamentoRecusado(UpdateStatusOnBudgetDto dto);
+        Task<ReturnOrcamentoDto> UpdateStatusForAguardandoSeparacaoPecas(UpdateStatusOnBudgetDto dto);
+        Task<ReturnOrcamentoDto> UpdateStatusForSeparacaoPecasFinalizada(UpdateStatusOnBudgetDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForManutencaoIniciada(UpdateStatusOnBudgetDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForManutencaoFinalizada(UpdateStatusOnBudgetDto dto);

@@ -131,6 +131,34 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("aguardando-separacao-pecas")]
+        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoSeparacaoPecas(UpdateStatusOnBudgetDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateStatusForAguardandoSeparacaoPecas(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("separacao-pecas-finalizada")]
+        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForSeparacaoPecasFinalizada(UpdateStatusOnBudgetDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateStatusForSeparacaoPecasFinalizada(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost("aguardando-manutencao")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
         {

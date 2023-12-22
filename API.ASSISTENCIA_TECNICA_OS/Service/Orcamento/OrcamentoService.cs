@@ -156,7 +156,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             obj.DataHoraAlteracao = DateTime.UtcNow;
             obj.UsuarioAlteracaoId = dto.UsuarioId;
 
-            obj.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
+            obj.Status = StatusSituacaoModel.ORCANDO;
 
             var infoApontBudget = new ReturnStatusOnBudgetDto
             {
@@ -198,6 +198,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             };
             await _statusOrcamentoService.ApontarOrcamentoFinalizado(infoApontBudget);
 
+
             transiction.Commit();
 
             return await GetById(dto.NumeroOrcamento);
@@ -223,13 +224,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 UsuarioApontamentoId = dto.UsuarioId,
                 Observacao = dto.Observacao
             };
-            await _statusOrcamentoService.ApontarOrcamentoReprovado(infoApontBudget);
+            await _statusOrcamentoService.ApontarNegociacaoFinalizada(infoApontBudget);
 
             transiction.Commit();
 
             return await GetById(dto.NumeroOrcamento);
         }
-        public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
+        public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoSeparacaoPecas(UpdateStatusOnBudgetDto dto)
         {
             var transiction = _context.Database.BeginTransaction();
 
@@ -238,7 +239,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             obj.DataHoraAlteracao = DateTime.UtcNow;
             obj.UsuarioAlteracaoId = dto.UsuarioId;
 
-            obj.Status = StatusSituacaoModel.AGUARDANDO_MANUTENCAO;
+            obj.Status = StatusSituacaoModel.AGUARDANDO_PECAS;
 
             _context.Orcamento.Update(obj);
             await _context.SaveChangesAsync();
@@ -250,7 +251,35 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 UsuarioApontamentoId = dto.UsuarioId,
                 Observacao = dto.Observacao
             };
-            await _statusOrcamentoService.ApontarOrcamentoAprovado(infoApontBudget);
+            await _statusOrcamentoService.ApontarNegociacaoFinalizada(infoApontBudget);
+            await _statusOrcamentoService.ApontarAguardandoSeparacaoPecas(infoApontBudget);
+
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
+        public async Task<ReturnOrcamentoDto> UpdateStatusForSeparacaoPecasFinalizada(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.AGUARDANDO_MANUTENCAO;
+
+            _context.Orcamento.Update(obj);
+
+            await _context.SaveChangesAsync();
+
+            var infoApontBudget = new ReturnStatusOnBudgetDto
+            {
+                OrcamentoId = dto.NumeroOrcamento,
+                StatusId = dto.StatusId,
+                UsuarioApontamentoId = dto.UsuarioId,
+                Observacao = dto.Observacao
+            };
+            await _statusOrcamentoService.ApontarSeparacaoPecasFinalizada(infoApontBudget);
 
             transiction.Commit();
 
@@ -388,6 +417,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             verify.UsuarioAlteracaoId = dto.UsuarioAlteracaoId;
             verify.TempoEstimadoOrcamento = dto.TempoEstimadoOrcamento;
 
+            verify.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
+
             _context.Orcamento.Update(verify);
 
             await _context.SaveChangesAsync();
@@ -395,5 +426,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             return await GetById(dto.OrcamentoId);
 
         }
+
+        public Task<ReturnOrcamentoDto> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

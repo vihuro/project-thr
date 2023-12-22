@@ -153,7 +153,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 case StatusSituacaoModel.AGUARDANDO_ATRIBUICAO:
                     return "AGUARDANDO ATRIBUIÇÃO";
                 case StatusSituacaoModel.AGUARDANDO_ORCAMENTO:
-                    return "AGURDANDO ORÇAMENTO";
+                    return "AGUARDANDO ORÇAMENTO";
                 case StatusSituacaoModel.ORCANDO:
                     return "ORÇANDO";
                 case StatusSituacaoModel.AGUARDANDO_LIBERACAO_ORCAMENTO:
