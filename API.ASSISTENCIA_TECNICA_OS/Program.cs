@@ -50,6 +50,7 @@ builder.Services.AddScoped<IDiarioService, DiaroService>();
 builder.Services.AddScoped<IPecasNoOrcamentoService, PecaNoOrcamentoService>();
 builder.Services.AddScoped<IStatusOrcamentoService, StatusOrcamentoService>();
 builder.Services.AddScoped<ITecnicoNoOrcamentoService, TecnicoNoOrcamentoService>();
+builder.Services.AddScoped<ISugestaoService, SugestacaoService>();
 builder.Services.AddScoped<ReaderFile>();
 
 
@@ -78,6 +79,7 @@ builder.Services.AddAutoMapper(x =>
     x.AddProfile(typeof(PecasMapping));
     x.AddProfile(typeof(TecnicoMapping));
     x.AddProfile(typeof(DiarioOrcamentoMapping));
+    x.AddProfile(typeof(SugestaoMapping));
 });
 
 

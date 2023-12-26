@@ -432,6 +432,19 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             throw new NotImplementedException();
         }
 
+        public async Task<ReturnOrcamentoDto> InsertObservacao(InsertObservacaoDto dto)
+        {
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.OrcamentoId);
 
+            obj.Observacao = dto.Observacao;
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            _context.Orcamento.Update(obj);
+
+            await _context.SaveChangesAsync();
+
+            return await GetById(obj.Id);
+        }
     }
 }

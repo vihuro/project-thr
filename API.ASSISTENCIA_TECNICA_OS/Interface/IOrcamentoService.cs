@@ -8,6 +8,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
         Task<ReturnOrcamentoDto> GetById(int numeroOrcamento);
         Task<List<ReturnOrcamentoResumidoDto>> GetAll();
         Task<List<ReturnOrcamentoDto>> GetByBI();
+        Task<ReturnOrcamentoDto> InsertObservacao(InsertObservacaoDto dto);
         Task<ReturnOrcamentoDto> UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForAguardandoOrcamento(UpdateStatusOnBudgetDto dto);
         Task<ReturnOrcamentoDto> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto);

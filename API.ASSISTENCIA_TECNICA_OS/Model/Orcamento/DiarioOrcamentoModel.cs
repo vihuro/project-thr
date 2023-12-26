@@ -10,6 +10,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public int OrcamentoId { get; set; }
         public string Informacao { get; set; }
         public string Tag { get; set; }
+        public bool Privado { get; set; }
         public virtual OrcamentoModel Orcamento { get; set; }
         public Guid UsuarioApontamentoId { get; set; }
         public UserModel UsuarioApontamento { get; set; }

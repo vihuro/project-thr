@@ -25,6 +25,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.Status, map => map.MapFrom(src => VerifyStatus(src.Status)))
                 .ForMember(x => x.ValorOrcamento, map => map.MapFrom(src => src.ValorOrcamento))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo))
+                .ForMember(x => x.Observacao, map => map.MapFrom(src => src.Observacao))
                 .ForPath(x => x.Cadastro, map => map.MapFrom(src => new InfoCadastroOuAlteracaoOrcamentoResumido
                 {
                     Apelido = src.UsuarioCadastro.Apelido,
@@ -67,6 +68,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.DescricaoServico, map => map.MapFrom(src => src.DescricaoServico))
                 .ForMember(x => x.Status, map => map.MapFrom(src => VerifyStatus(src.Status)))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo))
+                .ForMember(x => x.Observacao, map => map.MapFrom(src => src.Observacao))
                 .ForMember(x => x.TempoEstimadoManutencao, map => map.MapFrom(src => src.TempoEstimadoManutencao))
                 .ForMember(x => x.TempoEstimadoOrcamento, map => map.MapFrom(src => src.TempoEstimadoOrcamento))
                 .ForMember(x => x.TecnicoManutencao, map => map.MapFrom(src => ValidateTechnicianMaintenance(src.TecnicoManutenco)))

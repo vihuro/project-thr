@@ -26,6 +26,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
         public Guid MaquinaClienteId { get; set; }
         public int TempoEstimadoOrcamento { get; set; }
         public int TempoEstimadoManutencao { get; set; }
+        public string Observacao { get; set; }
         public virtual TecnicoOrcamentoModel TecnicoOrcamento { get; set; }
         public virtual TecnicoManutencaoModel TecnicoManutenco { get; set; }
         public virtual MaquinaClienteModel MaquinaCliente { get; set; }
