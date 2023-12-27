@@ -42,6 +42,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 }))
                 .ForPath(x => x.Cliente, map => map.MapFrom(src => new InfoClienteOrcamentoResumidoDto
                 {
+                    ClienteId = src.MaquinaCliente.ClienteId,
                     CEP = src.MaquinaCliente.Cliente.CEP,
                     Cidade = src.MaquinaCliente.Cliente.Cidade,
                     Cnpj = src.MaquinaCliente.Cliente.Cnpj,
@@ -56,6 +57,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 }))
                 .ForPath(x => x.Maquina, map => map.MapFrom(src => new MaquinaOrcamentoResumidoDto
                 {
+                    MaquinaClienteId = src.MaquinaClienteId,
                     CodigoMaquina = src.MaquinaCliente.Maquina.CodigoMaquina,
                     DescricaoMaquina = src.MaquinaCliente.Maquina.DescricaoMaquina,
                     MaquinaId = src.MaquinaCliente.Maquina.Id,
@@ -104,6 +106,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     DescricaoMaquina = src.MaquinaCliente.Maquina.DescricaoMaquina,
                     MaquinaId = src.MaquinaCliente.Maquina.Id,
                     NumeroSerie = src.MaquinaCliente.Maquina.NumeroSerie,
+                    MaquinaClienteId = src.MaquinaClienteId,
+                    
                     Pecas = src.Pecas.Select(c => new PecasMaquinaOrcamentoDto
                     {
                         Troca = c.Troca,
@@ -125,6 +129,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 }))
                 .ForPath(x => x.Cliente, map => map.MapFrom(src => new ClienteOrcamentoDto
                 {
+                    ClienteId = src.MaquinaCliente.ClienteId,
                     CEP = src.MaquinaCliente.Cliente.CEP,
                     Cidade = src.MaquinaCliente.Cliente.Cidade,
                     Cnpj = src.MaquinaCliente.Cliente.Cnpj,

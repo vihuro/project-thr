@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231031122752_testePopularBanco")]
-    partial class testePopularBanco
+    [Migration("20231227194557_FirstMigrations")]
+    partial class FirstMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -318,6 +318,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<int>("OrcamentoId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("Privado")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Tag")
                         .HasColumnType("text");
 
@@ -359,7 +362,16 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<Guid>("MaquinaId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Observacao")
+                        .HasColumnType("text");
+
                     b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TempoEstimadoManutencao")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TempoEstimadoOrcamento")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("UsuarioAlteracaoId")
@@ -439,22 +451,33 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataHoraSugestacao")
+                    b.Property<DateTime>("DataCobranca")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("StatusSugestacao")
+                    b.Property<DateTime>("DataHoraSugestao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MaquinaClienteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
                         .HasColumnType("text");
+
+                    b.Property<int>("StatusSugestao")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SugestacaoManutencao")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<Guid>("UsuarioSugestacaoId")
+                    b.Property<Guid>("UsuarioSugestaoId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioSugestacaoId");
+                    b.HasIndex("MaquinaClienteId");
+
+                    b.HasIndex("UsuarioSugestaoId");
 
                     b.ToTable("tab_sugestao");
                 });
@@ -799,13 +822,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.SugestacaoManutencaoModel", b =>
                 {
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioSugestacao")
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", "MaquinaCliente")
                         .WithMany()
-                        .HasForeignKey("UsuarioSugestacaoId")
+                        .HasForeignKey("MaquinaClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UsuarioSugestacao");
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioSugestao")
+                        .WithMany()
+                        .HasForeignKey("UsuarioSugestaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaquinaCliente");
+
+                    b.Navigation("UsuarioSugestao");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoManutencaoModel", b =>

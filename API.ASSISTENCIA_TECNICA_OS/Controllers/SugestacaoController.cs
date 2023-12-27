@@ -58,7 +58,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{maquinaId}")]
+        [HttpGet("maquina/{maquinaId}")]
         public async Task<ActionResult<List<ReturnSugestaoDto>>> GetByMaquinaId(Guid maquinaId)
         {
             try

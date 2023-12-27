@@ -451,13 +451,13 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.Property<DateTime>("DataCobranca")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DataHoraSugestacao")
+                    b.Property<DateTime>("DataHoraSugestao")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("MaquinaId")
+                    b.Property<Guid>("MaquinaClienteId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("StatusSugestacao")
+                    b.Property<string>("Status")
                         .HasColumnType("text");
 
                     b.Property<int>("StatusSugestao")
@@ -467,14 +467,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<Guid>("UsuarioSugestacaoId")
+                    b.Property<Guid>("UsuarioSugestaoId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaquinaId");
+                    b.HasIndex("MaquinaClienteId");
 
-                    b.HasIndex("UsuarioSugestacaoId");
+                    b.HasIndex("UsuarioSugestaoId");
 
                     b.ToTable("tab_sugestao");
                 });
@@ -819,21 +819,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.SugestacaoManutencaoModel", b =>
                 {
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", "Maquina")
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", "MaquinaCliente")
                         .WithMany()
-                        .HasForeignKey("MaquinaId")
+                        .HasForeignKey("MaquinaClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioSugestacao")
+                    b.HasOne("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", "UsuarioSugestao")
                         .WithMany()
-                        .HasForeignKey("UsuarioSugestacaoId")
+                        .HasForeignKey("UsuarioSugestaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Maquina");
+                    b.Navigation("MaquinaCliente");
 
-                    b.Navigation("UsuarioSugestacao");
+                    b.Navigation("UsuarioSugestao");
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoManutencaoModel", b =>

@@ -6,6 +6,7 @@
         public string SugestaoManutencao { get; set; }
         public string Status { get; set; }
         public CriacaoSugestacaoManutencao UsuarioSugestao { get;set; }
+        public DateTime DataCobranca { get; set; }
         public MaquinaSugerida MaquinaSugerida { get; set; }
         
     }
@@ -21,7 +22,7 @@
     {
         public Guid MaquinaId { get; set; }
         public string CodigoMaquina { get; set; }
-        public string NumerSerie { get; set; }
+        public string NumeroSerie { get; set; }
         public string DescricaoMaquina { get; set; }
     }
 

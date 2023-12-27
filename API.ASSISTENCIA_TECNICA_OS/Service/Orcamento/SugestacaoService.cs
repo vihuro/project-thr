@@ -28,8 +28,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         public async Task<List<ReturnSugestaoDto>> GetAll()
         {
             var entityList = await _context.Sugestao
-                                    .Include(m => m.Maquina)
-                                    .Include(u => u.UsuarioSugestacao)
+                                    .Include(m => m.MaquinaCliente)
+                                        .ThenInclude(m => m.Maquina)
+                                    .Include(u => u.UsuarioSugestao)
                                     .ToListAsync();
 
             return _mapper.Map<List<ReturnSugestaoDto>>(entityList);
@@ -38,7 +39,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         public async Task<ReturnSugestaoDto> GetById(int Id)
         {
             var entity = await _context.Sugestao
-                                .Include(m => m.Maquina)
+                                .Include(m => m.MaquinaCliente)
+                                    .ThenInclude(m => m.Maquina)
+                                .Include(u => u.UsuarioSugestao)
                                 .SingleOrDefaultAsync(x => x.Id == Id);
 
 
@@ -49,10 +52,16 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         {
             var entityList = await _context.Sugestao
                                             .Where(x =>
-                                            x.MaquinaId == id)
+                                            x.MaquinaClienteId == id)
+                                            .Include(m => m.MaquinaCliente)
+                                                .ThenInclude(m => m.Maquina)
+                                            .Include(u => u.UsuarioSugestao)
+                                            .OrderBy(x => x.DataCobranca)
                                             .ToListAsync();
 
-            return _mapper.Map<List<ReturnSugestaoDto>>(entityList);
+            return _mapper.Map<List<ReturnSugestaoDto>>(entityList)
+                                                        .OrderBy(s => s.Status)
+                                                        .ToList();
         }
 
         public async Task<ReturnSugestaoDto> InsertSugestacao(InsertSugestaoDto dto)
