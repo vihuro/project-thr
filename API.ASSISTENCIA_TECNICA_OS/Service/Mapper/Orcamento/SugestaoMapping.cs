@@ -16,13 +16,20 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
 
             CreateMap<SugestacaoManutencaoModel, ReturnSugestaoDto>()
                 .ForMember(x => x.SugestaoManutencao, map => map.MapFrom(src => src.SugestacaoManutencao))
+                .ForMember(x => x.MaquinaSugerida, map => map.MapFrom(src => new MaquinaSugerida
+                {
+                    NumerSerie = src.Maquina.NumeroSerie,
+                    CodigoMaquina = src.Maquina.CodigoMaquina,
+                    DescricaoMaquina = src.Maquina.DescricaoMaquina,
+                    MaquinaId = src.Maquina.Id
+                }))
                 .ForMember(x => x.Status, map => map.MapFrom(src => ValidateStatus(src)));
         }
 
         private static string ValidateStatus(SugestacaoManutencaoModel src)
         {
-            if(src.StatusSugestacao != "")
-                return src.StatusSugestacao;
+            /*if(src.StatusSugestacao != "")
+                return src.StatusSugestacao;*/
 
             var dateTimeNow = DateTime.UtcNow;
             var diferenca = src.DataCobranca - dateTimeNow;

@@ -27,7 +27,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
         public async Task<List<ReturnSugestaoDto>> GetAll()
         {
-            var entityList = await _context.Sugestao.ToListAsync();
+            var entityList = await _context.Sugestao
+                                    .Include(m => m.Maquina)
+                                    .Include(u => u.UsuarioSugestacao)
+                                    .ToListAsync();
 
             return _mapper.Map<List<ReturnSugestaoDto>>(entityList);
         }
@@ -45,7 +48,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         public async Task<List<ReturnSugestaoDto>> GetByMaquinaId(Guid id)
         {
             var entityList = await _context.Sugestao
-                                            .Where(x => 
+                                            .Where(x =>
                                             x.MaquinaId == id)
                                             .ToListAsync();
 

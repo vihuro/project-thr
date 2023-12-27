@@ -19,7 +19,7 @@
     }
     public class MaquinaSugerida
     {
-        public int MaquinaId { get; set; }
+        public Guid MaquinaId { get; set; }
         public string CodigoMaquina { get; set; }
         public string NumerSerie { get; set; }
         public string DescricaoMaquina { get; set; }
