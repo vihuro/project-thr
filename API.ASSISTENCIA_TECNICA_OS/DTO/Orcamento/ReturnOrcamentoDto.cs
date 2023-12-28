@@ -13,7 +13,7 @@
         public TecnicoNoOrcamento TecnicoOrcamento { get; set; }
         public TecnicoNoOrcamento TecnicoManutencao { get; set; }
         public List<StatusOrcamentoDto> StatusSituacao { get; set; }
-        public UserOrcamentoDto Cadastro {get;set;}
+        public UserOrcamentoDto Cadastro { get; set; }
         public UserOrcamentoDto Alteracao { get; set; }
         public MaquinaOrcamentoDto Maquina { get; set; }
         public ClienteOrcamentoDto Cliente { get; set; }
@@ -31,9 +31,9 @@
         public string CodigoRadar { get; set; }
         public string NomeCliente { get; set; }
         public string CEP { get; set; }
-        public string Estado { get;set; }
+        public string Estado { get; set; }
         public string Cidade { get; set; }
-        public string Regiao{ get; set; }
+        public string Regiao { get; set; }
         public string Rua { get; set; }
         public string NumeroEstabelecimento { get; set; }
         public string Cnpj { get; set; }
@@ -42,10 +42,10 @@
     }
     public class StatusOrcamentoDto
     {
-        public int StatusId {  get; set; }
+        public int StatusId { get; set; }
         public string Status { get; set; }
         public string Observacao { get; set; }
-        
+
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
         public UsuarioApontamentoOrcamentoDto UsuarioApontamentoInicio { get; set; }
@@ -57,7 +57,7 @@
         public string UsuarioApotamentoNome { get; set; }
         public string UsuarioApontamentoApelido { get; set; }
     }
-    public class UserOrcamentoDto 
+    public class UserOrcamentoDto
     {
         public Guid UserId { get; set; }
         public string Apelido { get; set; }
@@ -75,6 +75,7 @@
     }
     public class PecasMaquinaOrcamentoDto
     {
+        public Guid Id { get; set; }
         public Guid PecaId { get; set; }
         public string CodigoPeca { get; set; }
         public string DescricaoPeca { get; set; }

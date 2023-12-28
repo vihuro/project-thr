@@ -110,6 +110,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                     
                     Pecas = src.Pecas.Select(c => new PecasMaquinaOrcamentoDto
                     {
+                        Id = c.Id,
                         Troca = c.Troca,
                         CodigoPeca = c.Peca.CodigoRadar,
                         DescricaoPeca = c.Peca.Descricao,

@@ -24,9 +24,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Peca
         public async Task<bool> DeletePecaNoOrcamento(DeletePecaNoOrcamentoDto dto)
         {
             var pecaNoOrcamentoId = await _context.PecasPorOrdemServico
-                                        .SingleOrDefaultAsync(x => x.PecaId == dto.PecaNoOrcamentoId) ??
+                                        .SingleOrDefaultAsync(x => x.Id == dto.PecaNoOrcamentoId);
 
+            if (pecaNoOrcamentoId == null)
                 throw new CustomException("Peça não encontrada") { HResult = 404 };
+
+
             _context.PecasPorOrdemServico.Remove(pecaNoOrcamentoId);
 
             await _context.SaveChangesAsync();
