@@ -147,34 +147,40 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             return dto;
         }
-        public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoOrcamento(UpdateStatusOnBudgetDto dto)
+        public async Task<ReturnOrcamentoDto> UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
         {
-            var transiction = _context.Database.BeginTransaction();
+            if (string.IsNullOrWhiteSpace(dto.OrcamentoId.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.TempoEstimadoOrcamento.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.TecnicoId.ToString()) ||
+                string.IsNullOrWhiteSpace(dto.UsuarioAlteracaoId.ToString()))
+                throw new Exception("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
 
-            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+            var verify = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.OrcamentoId);
 
-            obj.DataHoraAlteracao = DateTime.UtcNow;
-            obj.UsuarioAlteracaoId = dto.UsuarioId;
-
-            obj.Status = StatusSituacaoModel.ORCANDO;
-
-            var infoApontBudget = new ReturnStatusOnBudgetDto
+            if (verify == null)
+                throw new Exception("Orçamento não encontrado!") { HResult = 404 };
+            var tecnicoNoOrcamento = new InsertTecnicoNoOrcamentoDto
             {
-                OrcamentoId = dto.NumeroOrcamento,
-                StatusId = dto.StatusId,
-                UsuarioApontamentoId = dto.UsuarioId,
-                Observacao = dto.Observacao
+                OrcamentoId = dto.OrcamentoId,
+                TecnicoId = dto.TecnicoId
             };
 
-            await _statusOrcamentoService.ApontarAguardandoOrcamento(infoApontBudget);
+            await _tecnicoNoOrcamentoService.InsertTecnicoNoOrcamento(tecnicoNoOrcamento);
 
-            _context.Orcamento.Update(obj);
+            verify.DataHoraAlteracao = DateTime.UtcNow;
+            verify.UsuarioAlteracaoId = dto.UsuarioAlteracaoId;
+            verify.TempoEstimadoOrcamento = dto.TempoEstimadoOrcamento;
+
+            verify.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
+
+            _context.Orcamento.Update(verify);
+
             await _context.SaveChangesAsync();
 
-            transiction.Commit();
+            return await GetById(dto.OrcamentoId);
 
-            return await GetById(dto.NumeroOrcamento);
         }
+
         public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto)
         {
             var transiction = _context.Database.BeginTransaction();
@@ -391,45 +397,6 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             var dto = _mapper.Map<List<ReturnOrcamentoResumidoDto>>(list);
 
             return dto;
-        }
-
-        public async Task<ReturnOrcamentoDto> UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
-        {
-            if (string.IsNullOrWhiteSpace(dto.OrcamentoId.ToString()) ||
-                string.IsNullOrWhiteSpace(dto.TempoEstimadoOrcamento.ToString()) ||
-                string.IsNullOrWhiteSpace(dto.TecnicoId.ToString()) ||
-                string.IsNullOrWhiteSpace(dto.UsuarioAlteracaoId.ToString()))
-                throw new Exception("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
-
-            var verify = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.OrcamentoId);
-
-            if (verify == null)
-                throw new Exception("Orçamento não encontrado!") { HResult = 404 };
-            var tecnicoNoOrcamento = new InsertTecnicoNoOrcamentoDto
-            {
-                OrcamentoId = dto.OrcamentoId,
-                TecnicoId = dto.TecnicoId
-            };
-
-            await _tecnicoNoOrcamentoService.InsertTecnicoNoOrcamento(tecnicoNoOrcamento);
-
-            verify.DataHoraAlteracao = DateTime.UtcNow;
-            verify.UsuarioAlteracaoId = dto.UsuarioAlteracaoId;
-            verify.TempoEstimadoOrcamento = dto.TempoEstimadoOrcamento;
-
-            verify.Status = StatusSituacaoModel.AGUARDANDO_ORCAMENTO;
-
-            _context.Orcamento.Update(verify);
-
-            await _context.SaveChangesAsync();
-
-            return await GetById(dto.OrcamentoId);
-
-        }
-
-        public Task<ReturnOrcamentoDto> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<ReturnOrcamentoDto> InsertObservacao(InsertObservacaoDto dto)

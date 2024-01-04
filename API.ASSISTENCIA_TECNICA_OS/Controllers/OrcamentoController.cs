@@ -89,20 +89,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("aguardando-orcamento")]
-        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoOrcamento(UpdateStatusOnBudgetDto dto)
-        {
-            try
-            {
-                var result = await _service.UpdateStatusForAguardandoOrcamento(dto);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex.HResult == 404) return NotFound(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
+
         [HttpPost("aguardando-liberacao-orcamento")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto)
         {
@@ -159,20 +146,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("aguardando-manutencao")]
-        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoManutencao(UpdateStatusOnBudgetDto dto)
-        {
-            try
-            {
-                var result = await _service.UpdateStatusForAguardandoManutencao(dto);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex.HResult == 404) return NotFound(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
+
         [HttpPost("manutencao-iniciada")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForManutencaoIniciada(UpdateStatusOnBudgetDto dto)
         {
