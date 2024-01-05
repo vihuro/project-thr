@@ -180,6 +180,34 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             return await GetById(dto.OrcamentoId);
 
         }
+        public async Task<ReturnOrcamentoDto> UpdatestatusForOrcando(UpdateStatusOnBudgetDto dto)
+        {
+            var transiction = _context.Database.BeginTransaction();
+
+            var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
+
+            obj.DataHoraAlteracao = DateTime.UtcNow;
+            obj.UsuarioAlteracaoId = dto.UsuarioId;
+
+            obj.Status = StatusSituacaoModel.ORCANDO;
+
+            _context.Orcamento.Update(obj);
+            await _context.SaveChangesAsync();
+
+            var infoApontBudget = new ReturnStatusOnBudgetDto
+            {
+                OrcamentoId = dto.NumeroOrcamento,
+                StatusId = dto.StatusId,
+                UsuarioApontamentoId = dto.UsuarioId,
+                Observacao = dto.Observacao
+            };
+            await _statusOrcamentoService.ApontarAguardandoOrcamento(infoApontBudget);
+
+            await _context.SaveChangesAsync();
+            transiction.Commit();
+
+            return await GetById(dto.NumeroOrcamento);
+        }
 
         public async Task<ReturnOrcamentoDto> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto)
         {
@@ -203,6 +231,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 Observacao = dto.Observacao
             };
             await _statusOrcamentoService.ApontarOrcamentoFinalizado(infoApontBudget);
+            var status = new UpdateStatusMaquina
+            {
+                MaquinaId = dto.MaquinaId
+            };
+            await _maquinaService.UpdateStatusForAguardandoAprovacao(status);
 
 
             transiction.Commit();
@@ -231,6 +264,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 Observacao = dto.Observacao
             };
             await _statusOrcamentoService.ApontarNegociacaoFinalizada(infoApontBudget);
+            var status = new UpdateStatusMaquina
+            {
+                MaquinaId = dto.MaquinaId
+            };
+            await _maquinaService.UpdateStatusForLiberada(status);
 
             transiction.Commit();
 
@@ -259,6 +297,12 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             };
             await _statusOrcamentoService.ApontarNegociacaoFinalizada(infoApontBudget);
             await _statusOrcamentoService.ApontarAguardandoSeparacaoPecas(infoApontBudget);
+
+            var status = new UpdateStatusMaquina
+            {
+                MaquinaId = dto.MaquinaId
+            };
+            await _maquinaService.UpdateStatusForEmManutencao(status);
 
             transiction.Commit();
 
@@ -340,6 +384,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 Observacao = dto.Observacao
             };
             await _statusOrcamentoService.ApontarManutencaoFinalizada(infoApontBudget);
+            var status = new UpdateStatusMaquina
+            {
+                MaquinaId = dto.MaquinaId
+            };
+            await _maquinaService.UpdateStatusForLiberada(status);
 
             transiction.Commit();
 

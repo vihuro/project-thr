@@ -3,6 +3,7 @@
     public class UpdateStatusOnBudgetDto
     {
         public Guid UsuarioId { get; set; }
+        public Guid MaquinaId { get; set; }
         public int NumeroOrcamento { get; set; }
         public string Observacao { get; set; }
         public int TempoEstimadoOrcamento { get; set; }

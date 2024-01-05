@@ -62,6 +62,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 }))
                 .ForPath(x => x.MaquinaCliente, map => map.MapFrom(src => src.Maquinas.Select(c => new MaquinaClienteDto
                 {
+                    Id = c.Id,
                     MaquinaId = c.MaquinaId,
                     CodigoMaquina = c.Maquina.CodigoMaquina,
                     NumeroSerie = c.Maquina.NumeroSerie,

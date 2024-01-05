@@ -89,8 +89,24 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("orcamento-iniciado")]
+        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForOrcando(UpdateStatusOnBudgetDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdatestatusForOrcando(dto);
 
-        [HttpPost("aguardando-liberacao-orcamento")]
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("aguardando-liberacao-orcamento")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoLiberacaoOrcamento(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -104,7 +120,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("orcamento-recusado")]
+        [HttpPut("orcamento-recusado")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForOrcamentoRecusado(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -118,7 +134,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("aguardando-separacao-pecas")]
+        [HttpPut("aguardando-separacao-pecas")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForAguardandoSeparacaoPecas(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -132,7 +148,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("separacao-pecas-finalizada")]
+        [HttpPut("separacao-pecas-finalizada")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForSeparacaoPecasFinalizada(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -147,7 +163,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
         }
 
-        [HttpPost("manutencao-iniciada")]
+        [HttpPut("manutencao-iniciada")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForManutencaoIniciada(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -161,7 +177,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("manutencao-finalizada")]
+        [HttpPut("manutencao-finalizada")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForManutencaoFinalizada(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -175,7 +191,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("limpeza-iniciada")]
+        [HttpPut("limpeza-iniciada")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForLimpezaIniciada(UpdateStatusOnBudgetDto dto)
         {
             try
@@ -189,7 +205,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("finalizado")]
+        [HttpPut("finalizado")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusOrcamentoFinalizado(UpdateStatusOnBudgetDto dto)
         {
             try
