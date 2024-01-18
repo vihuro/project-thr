@@ -10,6 +10,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         public Guid MaquinaId { get; set; }
         public Guid ClienteId { get; set; }
         public StatusMaquinaClienteModel Status { get; set; }
+        public ETipoAquisicao TipoAquisicao { get; set; }
+        public DateTime? DataRetorno { get; set; }
+        public DateTime? DataSugestaoRetorno { get; set; }
         public virtual MaquinaModel Maquina { get; set; }
         public virtual ClientModel Cliente { get; set; }
     }
@@ -21,5 +24,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
         AGUARDANDO_APROVACAO = 2,
         EM_MANUTENCAO = 3,
         LIMPEZA = 4
+    }
+    public enum ETipoAquisicao
+    {
+        ESTOQUE = 0,
+        VENDA = 1,
+        EMPRESTIMO = 2,
     }
 }

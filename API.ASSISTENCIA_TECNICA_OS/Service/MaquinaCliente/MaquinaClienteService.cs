@@ -59,6 +59,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
                 string.IsNullOrWhiteSpace(dto.ClienteId.ToString()))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
 
+            var validaDataRetorno = DateTime.Now < dto.DataSugeridaRetorno;
+
+            if (dto.TipoAquisicao == ETipoAquisicaoDto.EMPRESTIMO &&
+                string.IsNullOrEmpty(dto.DataSugeridaRetorno.ToString()) ||
+                validaDataRetorno)
+                throw new Exception("Não é possível lançar uma máquina como empréstimo sem colocar uma data sugerida para retorno!");
+
+
             var verify = await _context.MaquinaCliente.AnyAsync(x => x.MaquinaId == dto.MaquinaId);
             if (verify)
                 throw new CustomException("Essa máquina já está em uso!");
