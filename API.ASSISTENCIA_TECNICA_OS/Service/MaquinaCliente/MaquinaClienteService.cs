@@ -79,7 +79,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
         }
         private async Task<MaquinaClienteModel> ChangeStatusInMachine(UpdateStatusMaquina dto)
         {
-            var obj = await _context.MaquinaCliente.SingleOrDefaultAsync(x => x.MaquinaId == dto.MaquinaId) ??
+            var obj = await _context.MaquinaCliente
+                                    .Include(m => m.Maquina)
+                                    .Include(c => c.Cliente)
+                                    .SingleOrDefaultAsync(x => x.MaquinaId == dto.MaquinaId) ??
                             throw new CustomException("Máquina não encontrada!") { HResult = 404 };
 
             return obj;
