@@ -27,8 +27,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Maquinas
     }
     public enum ETipoAquisicao
     {
-        ESTOQUE = 0,
-        VENDA = 1,
-        EMPRESTIMO = 2,
+        VENDA = 0,
+        EMPRESTIMO = 1,
     }
 }

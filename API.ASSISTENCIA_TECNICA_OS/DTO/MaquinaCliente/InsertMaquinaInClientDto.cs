@@ -9,11 +9,10 @@
         public DateTime DataSugeridaRetorno { get; set; }
         public ETipoAquisicaoDto TipoAquisicao { get; set; }
     }
-    public enum ETipoAquisicaoDto 
+    public enum ETipoAquisicaoDto
     {
-        ESTOQUE = 0,
-        VENDA = 1,
-        EMPRESTIMO = 2,
+        VENDA = 0,
+        EMPRESTIMO = 1,
     }
 
 }
