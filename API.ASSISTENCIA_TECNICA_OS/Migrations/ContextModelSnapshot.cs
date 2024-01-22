@@ -100,7 +100,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioCadastroId");
 
-                    b.ToTable("tab_client");
+                    b.ToTable("tab_client", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaClienteModel", b =>
@@ -134,7 +134,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
                     b.HasIndex("MaquinaId")
                         .IsUnique();
 
-                    b.ToTable("tab_maquina_cliente");
+                    b.ToTable("tab_maquina_cliente", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.MaquinaModel", b =>
@@ -184,7 +184,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioCadastroId");
 
-                    b.ToTable("tab_maquina");
+                    b.ToTable("tab_maquina", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasMaquinaOrcamentoModel", b =>
@@ -238,7 +238,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioCadastroId");
 
-                    b.ToTable("tab_pecasMaquinaEOrcamento");
+                    b.ToTable("tab_pecasMaquinaEOrcamento", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasModel", b =>
@@ -283,7 +283,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioCadastroId");
 
-                    b.ToTable("tab_pecas");
+                    b.ToTable("tab_pecas", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas.PecasPorMaquinaModel", b =>
@@ -304,7 +304,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("PecaId");
 
-                    b.ToTable("tab_pecaPorMaquina");
+                    b.ToTable("tab_pecaPorMaquina", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.DiarioOrcamentoModel", b =>
@@ -339,7 +339,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioApontamentoId");
 
-                    b.ToTable("tab_diarioOrcamento");
+                    b.ToTable("tab_diarioOrcamento", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.OrcamentoModel", b =>
@@ -405,7 +405,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioCadastroId");
 
-                    b.ToTable("tab_orcamento");
+                    b.ToTable("tab_orcamento", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusModel", b =>
@@ -421,7 +421,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tab_status");
+                    b.ToTable("tab_status", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.StatusOrcamentoModel", b =>
@@ -452,7 +452,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("tab_statusOrcamento");
+                    b.ToTable("tab_statusOrcamento", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.SugestacaoManutencaoModel", b =>
@@ -491,7 +491,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioSugestaoId");
 
-                    b.ToTable("tab_sugestao");
+                    b.ToTable("tab_sugestao", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoManutencaoModel", b =>
@@ -513,7 +513,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("TecnicoId");
 
-                    b.ToTable("tab_tecnicoManutencao");
+                    b.ToTable("tab_tecnicoManutencao", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.TecnicoOrcamentoModel", b =>
@@ -535,7 +535,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("TecnicoId");
 
-                    b.ToTable("tab_tecnicoOrcamento");
+                    b.ToTable("tab_tecnicoOrcamento", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoFimStatusModel", b =>
@@ -557,7 +557,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioApontamentoFimId");
 
-                    b.ToTable("tab_usuarioApontamentoStatusFim");
+                    b.ToTable("tab_usuarioApontamentoStatusFim", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Orcamento.UsuarioApontamentoInicioStatusModel", b =>
@@ -579,7 +579,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioApontamentoInicioId");
 
-                    b.ToTable("tab_usuarioApontamentoStatusInicio");
+                    b.ToTable("tab_usuarioApontamentoStatusInicio", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Tecnico.TecnicoModel", b =>
@@ -598,7 +598,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("tab_tecnico");
+                    b.ToTable("tab_tecnico", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.User.UserModel", b =>
@@ -618,7 +618,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tab_user_auth");
+                    b.ToTable("tab_user_auth", (string)null);
                 });
 
             modelBuilder.Entity("API.ASSISTENCIA_TECNICA_OS.Model.Client.ClientModel", b =>

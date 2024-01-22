@@ -11,7 +11,7 @@
         public string Regiao { get; set; }
         public string Rua { get; set; }
         public string NumeroEstabelecimento { get; set; }
-        public Guid UserId { get;set; }
+        public Guid UserId { get; set; }
 #nullable enable
         public string? Complemento { get; set; }
         public string? NomeContatoCliente { get; set; }
@@ -21,6 +21,8 @@
     public class Maquina
     {
         public Guid MaquinaId { get; set; }
+        public int TipoAquisicao { get; set; }
+        public string? DataSugestaoRetorno { get; set; }
     }
 
 }

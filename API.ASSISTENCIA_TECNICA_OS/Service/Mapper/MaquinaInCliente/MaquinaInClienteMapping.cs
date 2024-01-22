@@ -11,6 +11,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
             CreateMap<InsertMaquinaInClientDto, MaquinaClienteModel>()
                 .ForMember(x => x.ClienteId, map => map.MapFrom(src => src.ClienteId))
                 .ForMember(x => x.MaquinaId, map => map.MapFrom(src => src.MaquinaId))
+                .ForMember(x => x.DataSugestaoRetorno, map => map.MapFrom(src => src.DataSugeridaRetorno))
+                .ForMember(x => x.TipoAquisicao, map => map.MapFrom(src => src.TipoAquisicao))
                 .ForMember(x => x.Status, map => map.MapFrom(src => 0));
 
             CreateMap<MaquinaClienteModel, ReturnMaquinaClienteDto>()
@@ -43,7 +45,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
                         PecaId = c.Peca.Id,
                         Preco = c.Peca.Preco
                     }).ToList()
-                    
+
                 }));
         }
 

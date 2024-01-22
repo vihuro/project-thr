@@ -11,6 +11,8 @@
         public Guid MaquinaId { get; set; }
         public string CodigoMaquina { get; set; }
         public string DescricaoMaquina { get; set; }
+        public DateTime DataSugestaoRetorno { get; set; }
+        public string TipoAquisicao { get; set; }
         public List<ReturnPecasInMaquinaInClienteDto> Pecas { get; set; }
     }
     public class ReturnPecasInMaquinaInClienteDto

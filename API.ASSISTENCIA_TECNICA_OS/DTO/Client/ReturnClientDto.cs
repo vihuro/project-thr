@@ -32,9 +32,11 @@
         public Guid Id { get; set; }
         public Guid MaquinaId { get; set; }
         public string CodigoMaquina { get; set; }
-        public string TipoMaquina { get; set; }
+        public string DescricaoMaquina { get; set; }
         public string NumeroSerie { get; set; }
         public string Status { get; set; }
+        public string TipoAquisicao { get; set; }
+        public DateTime? DataSugestaoRetorno { get; set; }
     }
 
 }

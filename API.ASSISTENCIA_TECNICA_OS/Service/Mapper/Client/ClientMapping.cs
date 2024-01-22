@@ -29,7 +29,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                 .ForMember(x => x.Maquinas, map => map.MapFrom(src => src.Maquinas.Select(c => new MaquinaClienteModel
                 {
                     MaquinaId = c.MaquinaId,
-                    Status = StatusMaquinaClienteModel.LIBERADA
+                    Status = StatusMaquinaClienteModel.LIBERADA,
+                    DataSugestaoRetorno = Convert.ToDateTime(c.DataSugestaoRetorno).ToUniversalTime(),
+                    TipoAquisicao = TipoAquisicao(c.TipoAquisicao)
                 })));
 
             CreateMap<ClientModel, ReturnClientDto>()
@@ -66,12 +68,14 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                     MaquinaId = c.MaquinaId,
                     CodigoMaquina = c.Maquina.CodigoMaquina,
                     NumeroSerie = c.Maquina.NumeroSerie,
-                    TipoMaquina = c.Maquina.DescricaoMaquina,
+                    DescricaoMaquina = c.Maquina.DescricaoMaquina,
                     Status = GetFormattedStatus(c.Status),
+                    DataSugestaoRetorno = c.DataSugestaoRetorno,
+                    TipoAquisicao = TipoAquisicaoString(c.TipoAquisicao)
                 })));
 
         }
-        public string GetFormattedStatus(StatusMaquinaClienteModel status)
+        public static string GetFormattedStatus(StatusMaquinaClienteModel status)
         {
             switch (status)
             {
@@ -85,6 +89,27 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Client
                     return "Em Manutenção";
                 default:
                     return "Status Desconhecido";
+            }
+        }
+
+        private static string TipoAquisicaoString(ETipoAquisicao tipoAquisicao)
+        {
+            switch (tipoAquisicao)
+            {
+                case ETipoAquisicao.EMPRESTIMO:
+                    return "EMPRÉSTIMO";
+                default:
+                    return "VENDA";
+            }
+        }
+        private static ETipoAquisicao TipoAquisicao(int tipoAquisicaoDto)
+        {
+            switch (tipoAquisicaoDto)
+            {
+                case 1:
+                    return ETipoAquisicao.EMPRESTIMO;
+                default:
+                    return ETipoAquisicao.VENDA;
             }
         }
     }

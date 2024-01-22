@@ -3,7 +3,7 @@
     public class ReturnMaquinaComPecasDto
     {
         public  Guid Id { get; set; }
-        public string Codigo { get; set; }
+        public string CodigoMaquina { get; set; }
         public string DescricaoMaquina { get; set; }
         public string NumeroSerie { get; set; }
         public string Unidade { get; set; }

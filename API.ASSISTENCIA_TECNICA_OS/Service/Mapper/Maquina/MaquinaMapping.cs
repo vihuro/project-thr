@@ -28,7 +28,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Maquina
 
             CreateMap<MaquinaModel, ReturnMaquinaComPecasDto>()
                 .ForMember(x => x.Id, map => map.MapFrom(src => src.Id))
-                .ForMember(x => x.Codigo, map => map.MapFrom(src => src.CodigoMaquina))
+                .ForMember(x => x.CodigoMaquina, map => map.MapFrom(src => src.CodigoMaquina))
                 .ForMember(x => x.DescricaoMaquina, map => map.MapFrom(src => src.DescricaoMaquina))
                 .ForMember(x => x.Ativo, map => map.MapFrom(src => src.Ativo))
                 .ForMember(x => x.NumeroSerie, map => map.MapFrom(src => src.NumeroSerie))

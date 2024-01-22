@@ -42,6 +42,10 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
             await _context.SaveChangesAsync();
             for (var i = 0; i < obj.Maquinas.Count; i++)
             {
+                if (obj.Maquinas[i].TipoAquisicao == ETipoAquisicao.EMPRESTIMO &&
+                    obj.Maquinas[i].DataSugestaoRetorno.ToString() == string.Empty)
+                    throw new Exception("É necessário ter um data de sugestão para o retorno do empréstimo!");
+
                 var atribuicao = new AtribuicaoMaquinaDto
                 {
                     MaquinaId = obj.Maquinas[i].MaquinaId,

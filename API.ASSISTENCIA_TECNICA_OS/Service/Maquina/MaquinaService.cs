@@ -152,7 +152,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Maquina
 
             var dto = new ReturnMaquinaComPecasDto
             {
-                Codigo = maquina.Codigo,
+                CodigoMaquina = maquina.Codigo,
                 DescricaoMaquina = maquina.Descricao,
                 Unidade = maquina.Unidade
             };
