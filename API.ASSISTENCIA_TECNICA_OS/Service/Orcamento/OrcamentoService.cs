@@ -147,6 +147,41 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             return dto;
         }
+        public async Task<List<ReturnOrcamentoDto>> GetByNumeroSerieMaquina(string numeroSerie)
+        {
+            var entity = await _context.Orcamento
+                .Include(u => u.UsuarioAlteracao)
+                .Include(u => u.UsuarioCadastro)
+                .Include(m => m.MaquinaCliente)
+                    .ThenInclude(m => m.Maquina)
+                .Include(c => c.MaquinaCliente)
+                    .ThenInclude(c => c.Cliente)
+                .Include(t => t.TecnicoManutenco)
+                    .ThenInclude(u => u.Tecnico)
+                        .ThenInclude(u => u.Usuario)
+                .Include(t => t.TecnicoOrcamento)
+                    .ThenInclude(u => u.Tecnico)
+                        .ThenInclude(u => u.Usuario)
+                .Include(p => p.Pecas)
+                    .ThenInclude(p => p.Peca)
+                .Include(s => s.StatusOrcamento.OrderBy(x => x.StatusId))
+                    .ThenInclude(s => s.Status)
+                 .Include(s => s.StatusOrcamento)
+                    .ThenInclude(u => u.UsuarioApontamentoInicio)
+                        .ThenInclude(u => u.UsuarioApontamentoInicio)
+                 .Include(s => s.StatusOrcamento)
+                    .ThenInclude(u => u.UsuarioApontamentFim)
+                        .ThenInclude(u => u.UsuarioApontamentoFim)
+                .Include(d => d.Diario)
+                    .ThenInclude(u => u.UsuarioApontamento)
+                .AsNoTracking()
+                .Where(x => x.Maquina.NumeroSerie == numeroSerie)
+                .ToListAsync();
+
+            var dto = _mapper.Map<List<ReturnOrcamentoDto>>(entity);
+
+            return dto;
+        }
         public async Task<ReturnOrcamentoDto> UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.OrcamentoId.ToString()) ||

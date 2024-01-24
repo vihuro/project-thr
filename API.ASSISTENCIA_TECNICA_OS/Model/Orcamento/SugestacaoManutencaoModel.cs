@@ -23,6 +23,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Model.Orcamento
     public enum EStatusSugestacao
     {
         EM_DIA,
+        HOJE,
         ATRASADO,
         FINALIZADO
     }

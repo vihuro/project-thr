@@ -89,6 +89,22 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("numero-serie/{numeroSerie}")]
+        public async Task<ActionResult<List<ReturnOrcamentoDto>>> GetByNumeroSerieMaquina(string numeroSerie) 
+        {
+            try
+            {
+                var result = await _service.GetByNumeroSerieMaquina(numeroSerie);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("orcamento-iniciado")]
         public async Task<ActionResult<ReturnOrcamentoDto>> UpdateStatusForOrcando(UpdateStatusOnBudgetDto dto)
         {

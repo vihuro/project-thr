@@ -44,11 +44,15 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
             var dateTimeNow = DateTime.UtcNow;
             var diferenca = src.DataCobranca - dateTimeNow;
 
+            if (DateTime.UtcNow.Day == src.DataCobranca.Day) return "HOJE";
+
             switch (diferenca.TotalDays)
             {
                 case >= 1:
                     return "EM DIA";
-                case <= 0:
+                case 0:
+                    return "HOJE";
+                case < 0:
                     return "ATRASADO";
                 default:
                     return "EM DIA";

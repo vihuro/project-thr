@@ -60,7 +60,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                                             .ToListAsync();
 
             return _mapper.Map<List<ReturnSugestaoDto>>(entityList)
-                                                        .OrderBy(s => s.Status)
+
                                                         .ToList();
         }
 
