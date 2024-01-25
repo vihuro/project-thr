@@ -175,7 +175,9 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 .Include(d => d.Diario)
                     .ThenInclude(u => u.UsuarioApontamento)
                 .AsNoTracking()
-                .Where(x => x.Maquina.NumeroSerie == numeroSerie)
+                .OrderByDescending(x => x.Id)
+                .Where(x => x.Maquina.NumeroSerie == numeroSerie && 
+                            x.Status == StatusSituacaoModel.MANUTENCAO_FINALIZADA)
                 .ToListAsync();
 
             var dto = _mapper.Map<List<ReturnOrcamentoDto>>(entity);
@@ -475,7 +477,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 .Include(c => c.MaquinaCliente)
                     .ThenInclude(c => c.Cliente)
                 .AsNoTracking()
-                .OrderBy(o => o.Id)
+                .OrderByDescending(o => o.Id)
                 .ToListAsync();
 
             var dto = _mapper.Map<List<ReturnOrcamentoResumidoDto>>(list);

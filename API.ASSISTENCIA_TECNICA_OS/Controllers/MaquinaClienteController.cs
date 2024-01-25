@@ -28,6 +28,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("emprestimos")]
+        public async Task<ActionResult<List<ReturnMaquinaClienteDto>>> GetMaquinasEmEmprestimos()
+        {
+            try
+            {
+                var result = await _service.GetMaquinasEmEmprestimo();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
 
 
     }

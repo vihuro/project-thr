@@ -38,6 +38,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
                     MaquinaId = src.MaquinaId,
                     CodigoMaquina = src.Maquina.CodigoMaquina,
                     DescricaoMaquina = src.Maquina.DescricaoMaquina,
+                    DataSugestaoRetorno = src.DataSugestaoRetorno,
+                    TipoAquisicao = ValidateTypeAquisicao(src.TipoAquisicao),
                     Pecas = src.Maquina.Pecas.Select(c => new ReturnPecasInMaquinaInClienteDto
                     {
                         CodigoPeca = c.Peca.CodigoRadar,
@@ -47,6 +49,18 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.MaquinaInCliente
                     }).ToList()
 
                 }));
+        }
+        private static string ValidateTypeAquisicao(ETipoAquisicao tipoAquisicao)
+        {
+            switch (tipoAquisicao)
+            {
+                case ETipoAquisicao.VENDA:
+                    return "VENDA";
+                case ETipoAquisicao.EMPRESTIMO:
+                    return "EMPRÉSTIMO";
+                default:
+                    return "VENDA";
+            }
         }
 
     }

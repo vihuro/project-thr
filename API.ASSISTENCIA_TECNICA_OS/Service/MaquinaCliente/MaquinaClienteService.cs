@@ -52,6 +52,18 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.MaquinaCliente
 
             return false;
         }
+        public async Task<List<ReturnMaquinaClienteDto>> GetMaquinasEmEmprestimo()
+        {
+            var listEntity = await _context.MaquinaCliente
+                                            .Include(m => m.Maquina)
+                                                .ThenInclude(p => p.Pecas)
+                                            .Include(c => c.Cliente)
+                                            .Where(x => x.TipoAquisicao == ETipoAquisicao.EMPRESTIMO)
+
+                                            .ToListAsync();
+
+            return _mapper.Map<List<ReturnMaquinaClienteDto>>(listEntity);
+        }
 
         public async Task<ReturnMaquinaClienteDto> UpdateMaquinaInCliente(InsertMaquinaInClientDto dto)
         {

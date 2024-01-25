@@ -4,6 +4,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Interface
 {
     public interface IMaquinaClienteService
     {
+        Task<List<ReturnMaquinaClienteDto>> GetMaquinasEmEmprestimo();
         Task<ReturnMaquinaClienteDto> UpdateMaquinaInCliente(InsertMaquinaInClientDto dto);
         Task<ReturnMaquinaClienteDto> GetByMaquinaIndCliente(Guid id);
         Task<bool> DeleteMaquinaInCliente(Guid id);
