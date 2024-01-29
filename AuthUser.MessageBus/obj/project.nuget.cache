@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4uA7pQ5i0Yv+Avl1TOHHIi+A7kJzWzPFz8Ja3UUaR/00TwO00baaNSsiT9x7TnhV9kfosy7pOq+4F5JLUmo5Ug==",
+  "dgSpecHash": "Y9on0fWdPpZhwvn3iSCVJh+OszSoh71Nt3TU2ACuqJNChXM/Q3iFjg5do/wnlPQ3sDqGTKXfk1+fYJc4yPH+5w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
+  "projectFilePath": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
