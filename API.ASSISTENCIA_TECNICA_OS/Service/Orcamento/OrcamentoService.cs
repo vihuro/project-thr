@@ -176,7 +176,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                     .ThenInclude(u => u.UsuarioApontamento)
                 .AsNoTracking()
                 .OrderByDescending(x => x.Id)
-                .Where(x => x.Maquina.NumeroSerie == numeroSerie && 
+                .Where(x => x.Maquina.NumeroSerie == numeroSerie &&
                             x.Status == StatusSituacaoModel.MANUTENCAO_FINALIZADA)
                 .ToListAsync();
 
@@ -192,7 +192,11 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 string.IsNullOrWhiteSpace(dto.UsuarioAlteracaoId.ToString()))
                 throw new Exception("Campo(s) obrigatório(s) vazio(s)!") { HResult = 400 };
 
-            var verify = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.OrcamentoId);
+            var transiction = _context.Database.BeginTransaction();
+
+            var verify = await _context.Orcamento.Include(s => s.StatusOrcamento
+                                                               .OrderBy(x => x.StatusId))
+                                                .SingleOrDefaultAsync(x => x.Id == dto.OrcamentoId);
 
             if (verify == null)
                 throw new Exception("Orçamento não encontrado!") { HResult = 404 };
@@ -214,12 +218,24 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             await _context.SaveChangesAsync();
 
-            return await GetById(dto.OrcamentoId);
+            var updateBudget = new UpdateStatusOnBudgetDto()
+            {
+                NumeroOrcamento = verify.Id,
+                StatusId = verify.StatusOrcamento[0].StatusId,
+                UsuarioId = dto.UsuarioAlteracaoId,
+                Observacao = dto.Observacao,
+            };
+
+            var result = await UpdatestatusForOrcando(updateBudget);
+
+            transiction.Commit();
+
+            return result;
 
         }
         public async Task<ReturnOrcamentoDto> UpdatestatusForOrcando(UpdateStatusOnBudgetDto dto)
         {
-            var transiction = _context.Database.BeginTransaction();
+
 
             var obj = await _context.Orcamento.SingleOrDefaultAsync(x => x.Id == dto.NumeroOrcamento);
 
@@ -241,7 +257,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             await _statusOrcamentoService.ApontarAguardandoOrcamento(infoApontBudget);
 
             await _context.SaveChangesAsync();
-            transiction.Commit();
+
 
             return await GetById(dto.NumeroOrcamento);
         }

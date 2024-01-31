@@ -47,7 +47,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Status
             };
 
             obj.DataHoraFim = DateTime.UtcNow;
-            obj.Observacao = dto.Observacao != "" ? $"{obj.Observacao + dto.Observacao} - Apontado no Fim! \n" : "";
+            obj.Observacao = dto.Observacao != "" ? $"{obj.Observacao + dto.Observacao} - Apontado no Fim! \n" : obj.Observacao;
             _context.StatusOrcamento.Update(obj);
             _context.UsuarioApotamentoFimStatus.Add(objApontamento);
             await _context.SaveChangesAsync();
