@@ -8,19 +8,24 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\vitor\\.nuget\\packages\\": {}
+    "C:\\Users\\thr\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
+      "projectUniqueName": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
       "projectName": "AuthUser.MessageBus",
-      "projectPath": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
-      "packagesPath": "C:\\Users\\vitor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vitor\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\obj\\",
+      "projectPath": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
+      "packagesPath": "C:\\Users\\thr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\vitor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\thr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -61,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
