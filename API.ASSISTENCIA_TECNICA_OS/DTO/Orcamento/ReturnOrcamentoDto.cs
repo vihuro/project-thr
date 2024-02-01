@@ -88,6 +88,7 @@
     {
         public int NumeroApontamento { get; set; }
         public string Observacao { get; set; }
+        public bool Privado { get; set; }
         public string Tag { get; set; }
         public string UsuarioApontamento { get; set; }
         public string ApelidoUsuario { get; set; }

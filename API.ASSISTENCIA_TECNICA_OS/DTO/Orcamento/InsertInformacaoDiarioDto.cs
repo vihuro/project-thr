@@ -6,5 +6,6 @@
         public string Observacao { get; set; }
         public Guid UsuarioId { get; set; }
         public string Tag { get; set; }
+        public bool Privado { get; set; }
     }
 }

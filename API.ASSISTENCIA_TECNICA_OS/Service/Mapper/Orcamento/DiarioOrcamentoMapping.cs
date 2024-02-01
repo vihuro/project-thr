@@ -21,6 +21,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.NumeroOrcamento, map => map.MapFrom(src => src.OrcamentoId))
                 .ForMember(x => x.Tag, map => map.MapFrom(src => src.Tag))
                 .ForMember(x => x.DataHoraApontamento, map => map.MapFrom(src => src.DataHoraApontamento))
+                .ForMember(x => x.Privado, map => map.MapFrom(src => src.Privado))
                 .ForMember(x => x.UsuarioApontamentoApelido, map => map.MapFrom(src => src.UsuarioApontamento.Apelido))
                 .ForMember(x => x.UsuarioApontamentoNome, map => map.MapFrom(src => src.UsuarioApontamento.Nome))
                 .ForMember(x => x.UsuarioApontamentoId, map => map.MapFrom(src => src.UsuarioApontamento.Id));

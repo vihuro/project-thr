@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string NumeroOrcamento { get; set; }
         public string Informacao { get; set; }
+        public bool Privado { get; set; }
         public string Tag { get; set; }
         public string UsuarioApontamentoId { get; set; }
         public string UsuarioApontamentoNome { get; set; }

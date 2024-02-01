@@ -42,6 +42,18 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                 string.IsNullOrWhiteSpace(dto.UserId.ToString()))
                 throw new CustomException("Campo(s) obrigatório(s) vazio(s)!");
 
+            var teste = new List<string>
+            {
+                new("teste"),
+                new("teste"),
+                new("teste"),
+                new("teste"),
+                new("teste"),
+                new("teste"),
+            };
+
+            teste.Where(x => x == "teste").ToList();
+
             var maquinaInCliente = await _maquinaService.GetByMaquinaIndCliente(dto.MaquinaId);
 
             var transiction = _context.Database.BeginTransaction();
