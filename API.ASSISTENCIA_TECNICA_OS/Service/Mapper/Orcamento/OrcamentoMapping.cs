@@ -147,6 +147,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 {
                     ApelidoUsuario = c.UsuarioApontamento.Apelido,
                     Observacao = c.Informacao,
+                    Privado = c.Privado,
                     DataHoraApontamento = c.DataHoraApontamento,
                     UsuarioId = c.UsuarioApontamentoId,
                     Tag = c.Tag,

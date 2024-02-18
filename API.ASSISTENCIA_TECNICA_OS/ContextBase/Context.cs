@@ -34,6 +34,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.ContextBase
         public DbSet<DiarioOrcamentoModel> Diario { get; set; }
         //tecnico
         public DbSet<TecnicoModel> Tecnico { get; set; }
+        public DbSet<AvaliacaoModel> Avaliacoes { get; set; }
         //user
         public DbSet<UserModel> User { get; set; }
 

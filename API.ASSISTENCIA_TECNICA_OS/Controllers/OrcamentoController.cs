@@ -30,7 +30,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("insert-tecnico")]
+        [HttpPut("insert-tecnico-orcamento")]
         public async Task<ActionResult>UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
         {
             try
@@ -46,6 +46,23 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("insert-tecnico-manutencao")]
+        public async Task<ActionResult<ReturnOrcamentoDto>>UpdateTecnicoNaManutencao(UpdateTecnicoNaManutencaoDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateTecnicoNaManutencao(dto);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<ReturnOrcamentoResumidoDto>>> GetAll()
         {

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API.MANUTENCAO_FAB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0a2ef6d5e6744e9fc9bfdc5d324a717fffd255a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20738493c7ae08cd97bbee7453e6a480c1764436")]
 [assembly: System.Reflection.AssemblyProductAttribute("API.MANUTENCAO_FAB")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API.MANUTENCAO_FAB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

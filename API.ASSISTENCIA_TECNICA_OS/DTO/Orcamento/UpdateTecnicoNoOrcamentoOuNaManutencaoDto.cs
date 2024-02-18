@@ -4,6 +4,7 @@
     {
         public int OrcamentoId { get; set; }
         public int TempoEstimadoOrcamento { get; set; }
+#nullable enable
         public string? Observacao { get; set; }
         public Guid TecnicoId { get; set; }
         public Guid UsuarioAlteracaoId { get; set; }

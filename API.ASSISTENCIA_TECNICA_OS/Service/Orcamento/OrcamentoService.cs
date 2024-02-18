@@ -8,6 +8,7 @@ using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Algorithm.Distance;
 
 namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 {
@@ -19,13 +20,15 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
         private readonly IStatusService _statusService;
         private readonly IStatusOrcamentoService _statusOrcamentoService;
         private readonly ITecnicoNoOrcamentoService _tecnicoNoOrcamentoService;
+        private readonly ITecnicoNaManutencaoService _tecnicoNaManutencaoService;
 
         public OrcamentoService(Context context,
                                 IMapper mapper,
                                 IMaquinaClienteService maquinaService,
                                 IStatusService statusService,
                                 IStatusOrcamentoService statusOrcamentoService,
-                                ITecnicoNoOrcamentoService tecnicoNoOrcamentoService)
+                                ITecnicoNoOrcamentoService tecnicoNoOrcamentoService,
+                                ITecnicoNaManutencaoService tecnicoNaManutencaoService)
         {
             _context = context;
             _mapper = mapper;
@@ -33,6 +36,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             _statusService = statusService;
             _statusOrcamentoService = statusOrcamentoService;
             _tecnicoNoOrcamentoService = tecnicoNoOrcamentoService;
+            _tecnicoNaManutencaoService = tecnicoNaManutencaoService;
         }
 
         public async Task<ReturnOrcamentoDto> InsertOrcamento(InsertOrcamentoDto dto)
@@ -245,6 +249,36 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
             return result;
 
         }
+        public async Task<ReturnOrcamentoDto> UpdateTecnicoNaManutencao(UpdateTecnicoNaManutencaoDto dto)
+        {
+            var transaction = _context.Database.BeginTransaction();
+
+            var orcamento = await _context.Orcamento
+                                          .SingleOrDefaultAsync(x =>
+                                                x.Id == dto.OrcamentoId) ??
+                                                throw new Exception("Orçamento não encontrado")
+                                                { HResult = 404 };
+
+            orcamento.TempoEstimadoManutencao = dto.TempoEstimado;
+
+            var tecnico = new InsertTecnicoNoOrcamentoDto
+            {
+                OrcamentoId = dto.OrcamentoId,
+                TecnicoId = dto.TecnicoId
+            };
+
+            await _tecnicoNaManutencaoService.InsertTecnicoNaManutencao(tecnico);
+
+            _context.Orcamento.Update(orcamento);
+
+            await _context.SaveChangesAsync();
+
+            transaction.Commit();
+
+            return await GetById(dto.OrcamentoId);
+        }
+
+
         public async Task<ReturnOrcamentoDto> UpdatestatusForOrcando(UpdateStatusOnBudgetDto dto)
         {
 

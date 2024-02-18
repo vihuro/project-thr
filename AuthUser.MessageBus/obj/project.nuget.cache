@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "4uA7pQ5i0Yv+Avl1TOHHIi+A7kJzWzPFz8Ja3UUaR/00TwO00baaNSsiT9x7TnhV9kfosy7pOq+4F5JLUmo5Ug==",
+  "dgSpecHash": "qwJljHLQe5FclxO+eEW5kBLdZUDpCbNE7WMpHDbEsOVWTnjH10Nl7Cj9QG3yeuEbEB7XxJPpDUpqyeKjMsQOMQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thr\\Desktop\\.NET\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Vitor Hugo\\Desktop\\.net\\project-thr\\AuthUser.MessageBus\\AuthUser.MessageBus.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vitor Hugo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.15\\microsoft.windowsdesktop.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\Vitor Hugo\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.15\\microsoft.netcore.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\Vitor Hugo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.15\\microsoft.aspnetcore.app.ref.7.0.15.nupkg.sha512"
+  ],
   "logs": []
 }
