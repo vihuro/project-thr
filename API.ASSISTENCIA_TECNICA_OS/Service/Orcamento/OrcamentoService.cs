@@ -277,8 +277,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
 
             return await GetById(dto.OrcamentoId);
         }
+        public async Task<ReturnOrcamentoDto> InsertNumeroNotaRadar(InsertNumeroNotaRadarDto dto)
+        {
+            var orcamento = await _context.Orcamento
+                                          .SingleOrDefaultAsync(x =>
+                                                x.Id == dto.OrcamentoId) ??
+                                            throw new Exception("Orçamento não encontrado!") { HResult = 404 };
 
+            orcamento.NumeroNotaOrcamentoRadar = dto.NumeroNotaRadar.ToString();
 
+            _context.Orcamento.Update(orcamento);
+
+            await _context.SaveChangesAsync();
+
+            return await GetById(dto.OrcamentoId);
+        }
         public async Task<ReturnOrcamentoDto> UpdatestatusForOrcando(UpdateStatusOnBudgetDto dto)
         {
 

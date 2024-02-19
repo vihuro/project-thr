@@ -31,7 +31,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
         }
         [HttpPut("insert-tecnico-orcamento")]
-        public async Task<ActionResult>UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
+        public async Task<ActionResult> UpdateTecnicoNoOrcamento(UpdateTecnicoNoOrcamentoOuNaManutencaoDto dto)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
         }
         [HttpPut("insert-tecnico-manutencao")]
-        public async Task<ActionResult<ReturnOrcamentoDto>>UpdateTecnicoNaManutencao(UpdateTecnicoNaManutencaoDto dto)
+        public async Task<ActionResult<ReturnOrcamentoDto>> UpdateTecnicoNaManutencao(UpdateTecnicoNaManutencaoDto dto)
         {
             try
             {
@@ -59,6 +59,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             {
 
                 if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("insert-nota-radar")]
+        public async Task<ActionResult<ReturnOrcamentoDto>> InsertNotaRadarNoOrcamento(InsertNumeroNotaRadarDto dto)
+        {
+            try
+            {
+                var result = await _service.InsertNumeroNotaRadar(dto);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
                 return BadRequest(ex.Message);
             }
         }
@@ -107,7 +122,7 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
             }
         }
         [HttpGet("numero-serie/{numeroSerie}")]
-        public async Task<ActionResult<List<ReturnOrcamentoDto>>> GetByNumeroSerieMaquina(string numeroSerie) 
+        public async Task<ActionResult<List<ReturnOrcamentoDto>>> GetByNumeroSerieMaquina(string numeroSerie)
         {
             try
             {

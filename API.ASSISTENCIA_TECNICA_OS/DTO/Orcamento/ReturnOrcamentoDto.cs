@@ -10,6 +10,8 @@
         public string Observacao { get; set; }
         public int TempoEstimadoOrcamento { get; set; }
         public int TempoEstimadoManutencao { get; set; }
+        public string NumeroNotaRadar { get; set; }
+        public string NumeroOrcamentoRadar { get; set; }
         public TecnicoNoOrcamento TecnicoOrcamento { get; set; }
         public TecnicoNoOrcamento TecnicoManutencao { get; set; }
         public List<StatusOrcamentoDto> StatusSituacao { get; set; }

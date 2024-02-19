@@ -71,6 +71,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Mapper.Orcamento
                 .ForMember(x => x.Status, map => map.MapFrom(src => VerifyStatus(src.Status)))
                 .ForMember(x => x.Externo, map => map.MapFrom(src => src.Externo))
                 .ForMember(x => x.Observacao, map => map.MapFrom(src => src.Observacao))
+                .ForMember(x => x.NumeroNotaRadar, map => map.MapFrom(src => src.NumeroNotaOrcamentoRadar))
+                .ForMember(x => x.NumeroOrcamentoRadar, map => map.MapFrom(src => src.NumeroOrcamentoRadar))
                 .ForMember(x => x.TempoEstimadoManutencao, map => map.MapFrom(src => src.TempoEstimadoManutencao))
                 .ForMember(x => x.TempoEstimadoOrcamento, map => map.MapFrom(src => src.TempoEstimadoOrcamento))
                 .ForMember(x => x.TecnicoManutencao, map => map.MapFrom(src => ValidateTechnicianMaintenance(src.TecnicoManutenco)))
