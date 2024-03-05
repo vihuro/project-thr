@@ -4,6 +4,8 @@ using API.ASSISTENCIA_TECNICA_OS.DTO.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Status;
 using API.ASSISTENCIA_TECNICA_OS.DTO.Tecnico;
 using API.ASSISTENCIA_TECNICA_OS.Interface;
+using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas;
+using API.ASSISTENCIA_TECNICA_OS.Model.Maquinas.Pecas;
 using API.ASSISTENCIA_TECNICA_OS.Model.Orcamento;
 using API.ASSISTENCIA_TECNICA_OS.Service.ExceptionService;
 using AutoMapper;
@@ -285,6 +287,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Orcamento
                                             throw new Exception("Orçamento não encontrado!") { HResult = 404 };
 
             orcamento.NumeroNotaOrcamentoRadar = dto.NumeroNotaRadar.ToString();
+
+            _context.Orcamento.Update(orcamento);
+
+            await _context.SaveChangesAsync();
+
+            return await GetById(dto.OrcamentoId);
+        }
+        public async Task<ReturnOrcamentoDto> InsertNumeroOrcamentoRadar(InsertNumeroOrcamentoDto dto)
+        {
+            var orcamento = await _context.Orcamento
+                              .SingleOrDefaultAsync(x =>
+                                    x.Id == dto.OrcamentoId) ??
+                                throw new Exception("Orçamento não encontrado!") { HResult = 404 };
+
+            orcamento.NumeroNotaOrcamentoRadar = dto.NumeroOrcamentoRadar;
 
             _context.Orcamento.Update(orcamento);
 

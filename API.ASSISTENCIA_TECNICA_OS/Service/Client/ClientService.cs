@@ -94,8 +94,8 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
             };
             var maquina = new List<MaquinaClienteModel>();
 
-            var maquinaParaAtribuir = dto.MaquinaCliente.Select(m => m.MaquinaId).ToList();
-            var maquinaParaDesatribuir = obj.Maquinas.Select(m => m.MaquinaId).Except(maquinaParaAtribuir).ToList();
+            var maquinaParaAtribuir = dto.MaquinaCliente.ToList();
+            var maquinaParaDesatribuir = obj.Maquinas.Select(m => m.MaquinaId).Except(maquinaParaAtribuir.Select(x => x.MaquinaId)).ToList();
 
             foreach (var maquinaIdParaDesatribuir in maquinaParaDesatribuir)
             {
@@ -106,14 +106,16 @@ namespace API.ASSISTENCIA_TECNICA_OS.Service.Client
             }
             foreach (var maquinaIdParaAtribuir in maquinaParaAtribuir)
             {
-                if (!obj.Maquinas.Any(m => m.MaquinaId == maquinaIdParaAtribuir))
+                if (!obj.Maquinas.Any(m => m.MaquinaId == maquinaIdParaAtribuir.MaquinaId))
                 {
-                    atribuicao.MaquinaId = maquinaIdParaAtribuir;
+                    atribuicao.MaquinaId = maquinaIdParaAtribuir.MaquinaId;
                     await _maquinaService.AtribuirMaquina(atribuicao);
 
                     obj.Maquinas.Add(new MaquinaClienteModel
                     {
-                        MaquinaId = maquinaIdParaAtribuir
+                        MaquinaId = maquinaIdParaAtribuir.MaquinaId,
+                        TipoAquisicao = maquinaIdParaAtribuir.TipoAquisicao == 0 ? ETipoAquisicao.VENDA : ETipoAquisicao.EMPRESTIMO,
+                        DataSugestaoRetorno = Convert.ToDateTime(maquinaIdParaAtribuir.DataSugestaoRetorno).ToUniversalTime(),
                     });
                 }
             }

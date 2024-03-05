@@ -77,6 +77,21 @@ namespace API.ASSISTENCIA_TECNICA_OS.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("insert-orcamento-radar")]
+        public async Task<ActionResult<ReturnOrcamentoDto>> InsertNumeroOrcamentoDoRadar(InsertNumeroOrcamentoDto dto)
+        {
+            try
+            {
+                var result = await _service.InsertNumeroOrcamentoRadar(dto);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == 404) return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<ReturnOrcamentoResumidoDto>>> GetAll()
